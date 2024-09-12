@@ -1,0 +1,163 @@
+.mobile-logo {
+    display: none;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #f8f9fa;
+    min-height: 100vh; /* Full height */
+}
+
+.content {
+    flex: 1;
+}
+
+.text_white {
+    color: white !important;
+}
+
+.navbar-custom {
+    height: 73px; /* Set the height for the navbar */
+}
+
+.logo {
+    height: 73px; /* Set the logo height if necessary */
+}
+
+.phone-icon {
+    height: 24px; /* Adjust size if needed */
+}
+
+.phone-number {
+    border-right: 1px solid gray;
+    padding-right: 10px; /* Adjust spacing as needed */
+}
+
+.language_button {
+    padding: 0 0 0 15px; /* Padding as per your requirement */
+    border: none !important; /* Remove border */
+    box-shadow: none !important; /* Remove box shadow if necessary */
+
+}
+
+.language_button .btn-group {
+    padding: 0; /* Adjust padding for the button group */
+}
+
+.language_button .dropdown-toggle {
+    border: none !important; /* Remove border from the dropdown toggle */
+    color: white!important;
+}
+
+.language_button .dropdown-toggle :hover {
+    background-color: #0A4D1E;
+}
+
+.language_button .dropdown-item:hover {
+    background-color: lightgray; /* Green background color on hover */
+    color: #fff; /* White text color on hover */
+}
+
+.language_button .dropdown-menu {
+    /*width: 90px; !* Set the width of the dropdown menu *!*/
+    min-width: 90px; /* Ensure the menu does not shrink below this width */
+}
+
+.language_button .dropdown-item {
+    padding: 10px; /* Adjust padding inside dropdown items */
+}
+
+.social-icons {
+    display: flex;
+    gap: 10px;  /* Adjust spacing between icons */
+    margin-left: 15px; /* Add space before icons */
+}
+
+.social-icon {
+    height: 24px;  /* Adjust as needed */
+}
+
+.pad_desk_18 {
+    padding: 18px;
+}
+
+.navbar-toggler {
+    border: none; /* Remove border by default */
+    outline: none; /* Remove outline */
+    box-shadow: none; /* Remove any box shadow */
+}
+
+.navbar-toggler:hover {
+    border: none; /* Ensure no border on hover */
+    outline: none; /* Ensure no outline on hover */
+    box-shadow: none; /* Ensure no shadow on hover */
+}
+
+.z2 {
+    background-size: cover;
+    background: url('/main_banner.png') no-repeat center;
+}
+
+.btn_by {
+    width: 200px;
+    margin-right: 50px;
+    padding: 10px 0;
+}
+
+.nav-link-active {
+    color: darkgreen !important;
+    font-weight: bold;
+}
+
+.show-desktop {
+    display: block; /* Default to block for desktop */
+}
+
+.show_mobile {
+    display: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 991px) { /* Adjust for tablets and mobile */
+    .navbar-custom {
+        height: auto; /* Allow height to adjust for mobile */
+    }
+
+    .show-desktop {
+        display: none;
+    }
+
+    .show_mobile {
+        display: block;
+    }
+
+    .text_white {
+        color: white;
+    }
+
+    .d-none.d-md-flex {
+        display: none !important; /* Hide for mobile */
+    }
+
+    .navbar-toggler {
+        margin-left: auto; /* Align the toggle button to the right */
+    }
+
+    .pad_desk_18 {
+        padding: 1px;
+    }
+
+    .btn_by {
+        width: 200px;
+        padding: 10px 0;
+        margin: 10px 0;
+
+    }
+}
+
+@media (min-width: 992px) { /* Adjust for larger screens */
+    .navbar-toggler {
+        display: none; /* Hide toggle button on larger screens */
+    }
+}
+
