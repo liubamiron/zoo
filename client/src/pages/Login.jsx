@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import {useState} from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import axios from "axios";
 import Cookies from 'js-cookie';
@@ -20,7 +20,7 @@ const Login = () => {
         setError('');
 
         try {
-            const response = await axios.post('http://localhost:5000/api/user/login', {
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/user/login`, {
                 email,
                 password
             });

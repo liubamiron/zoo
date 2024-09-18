@@ -7,42 +7,26 @@ class TenderController {
     async create(req, res, next) {
         try {
             const {
-                title_ru,
-                title_ro,
-                title_en,
-                description_ru,
-                description_ro,
-                description_en,
+                title_ru, title_ro, title_en,
+                description_ru, description_ro, description_en,
                 typeTenderId
             } = req.body;
 
-            const file = req.files?.file; // Use optional chaining to safely access file
+            const { pdf_file } = req.files;
 
-            if (!file) {
-                return res.status(400).json({ message: 'No file uploaded' });
-            }
+            let fileName = uuid.v4() + ".pdf";
 
-            const newTender = await Tender.create({
-                title_ru,
-                title_ro,
-                title_en,
-                description_ru,
-                description_ro,
-                description_en,
-                typeTenderId
-            });
-            const fileName = uuid.v4() + ".pdf";
+            pdf_file.mv(path.resolve(__dirname, '..', 'static', fileName));
 
-            // Move pdf to the static folder
-            file.mv(path.resolve(__dirname, '..', 'static', fileName), (err) => {
-                if (err) {
-                    return next(ApiError.internal('Failed to move file'));
-                }
+            const tender = await Tender.create({
+                title_ru, title_ro, title_en,
+                description_ru, description_ro, description_en,
+                typeTenderId, pdf_file: fileName
             });
 
-            return res.json(newTender);
-        } catch (error) {
-            next(ApiError.internal('Failed to create Tender'));
+            return res.json(tender);
+        } catch (e) {
+            next(ApiError.badRequest('Failed to create Tender', e.message));
         }
     }
 
@@ -70,28 +54,23 @@ class TenderController {
     async edit(req, res, next) {
         try {
             const { id } = req.params; // Get the ID from the request parameters
-            const { title_ru,
-                title_ro,
-                title_en,
-                description_ru,
-                description_ro,
-                description_en,
+            const { title_ru, title_ro, title_en,
+                description_ru, description_ro, description_en,
                 typeTenderId
             } = req.body; // Get the new values from the request body
 
-            const { file } = req.files || {};
+            const { pdf_file } = req.files || {};
 
             const tender = await Tender.findOne({ where: { id } });
 
             if (!tender) {
                 return res.status(404).json({ message: 'tender not found' });
             }
-
             // Update images if provided
-            if (file) {
-                let fileName1 = uuid.v4() + ".pdf";
-                file.mv(path.resolve(__dirname, '..', 'static', fileName1));
-                tender.pdf = fileName1;
+            if (pdf_file) {
+                let fileName = uuid.v4() + ".pdf";
+                pdf_file.mv(path.resolve(__dirname, '..', 'static', fileName));
+                tender.pdf_file = fileName;
             }
 
             // Update other fields only if they are provided in the request

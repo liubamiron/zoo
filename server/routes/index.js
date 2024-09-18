@@ -28,6 +28,7 @@ const homePageRouter = require('./homePageRouter')
 const eventRouter = require('./eventRouter')
 const animalRouter = require('./animalRouter')
 const faqRouter = require('./faqRouter')
+const reviewRouter = require('./reviewRouter')
 const activitiesItemRouter = require('./activitiesItemRouter')
 
 router.use('/user', userRouter)
@@ -42,6 +43,7 @@ router.use('/event', eventRouter)
 router.use('/animal', animalRouter)
 router.use('/activities_item', activitiesItemRouter)
 router.use('/faq', faqRouter)
+router.use('/review', reviewRouter)
 
 module.exports = router
 

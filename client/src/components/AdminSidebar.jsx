@@ -1,5 +1,4 @@
-import React from 'react';
-import {Button, Nav} from 'react-bootstrap';
+import {Accordion, Nav} from 'react-bootstrap';
 import {Link, useLocation, useNavigate} from 'react-router-dom';
 import Cookies from "js-cookie";
 
@@ -11,58 +10,104 @@ function AdminSidebar() {
     const getLinkClass = (path) => location.pathname === path ? 'nav-link-active' : '';
 
     const handleLogout = () => {
-        // Remove JWT token from cookies
         Cookies.remove('jwtToken');
         // Redirect to login page
         navigate('/login');
     };
 
+    const renderNavLinks = () => (
+        <Nav className="flex-column">
+            <Nav.Item>
+                <Nav.Link as={Link} to="/admin/main_page/1" className={getLinkClass('/admin/main_page')}>
+                    Main Page
+                </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+                <Nav.Link as={Link} to="/admin/events" className={getLinkClass('/admin/events')}>
+                    Events
+                </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+                <Nav.Link as={Link} to="/admin/news" className={getLinkClass('/admin/news')}>
+                    News
+                </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+                <Nav.Link as={Link} to="/admin/activities" className={getLinkClass('/admin/activities')}>
+                    Activities
+                </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+                <Nav.Link as={Link} to="/admin/reviews" className={getLinkClass('/admin/reviews')}>
+                    Reviews
+                </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+                <Nav.Link as={Link} to="/admin/tenders" className={getLinkClass('/admin/tenders')}>
+                    Tenders
+                </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+                <Nav.Link as={Link} to="/admin/faq" className={getLinkClass('/admin/faq')}>
+                    FAQ
+                </Nav.Link>
+            </Nav.Item>
+            <Nav.Item className={"mt-4"}>
+                <Accordion>
+                    <Accordion.Item eventKey="0">
+                        <Accordion.Header >
+                            Blog Posts
+                        </Accordion.Header>
+                        <Accordion.Collapse eventKey="0" >
+                            <Accordion.Body >
+                                <Nav.Item>
+                                    <Nav.Link as={Link} to="/admin/posts" className={getLinkClass('/admin/posts')}>
+                                        Posts List
+                                    </Nav.Link>
+                                </Nav.Item>
+                                <Nav.Item>
+                                    <Nav.Link as={Link} to="/admin/tags"
+                                              className={getLinkClass('/admin/tags')}>
+                                        Post Tags
+                                    </Nav.Link>
+                                </Nav.Item>
+                            </Accordion.Body>
+                        </Accordion.Collapse>
+                    </Accordion.Item>
+                </Accordion>
+            </Nav.Item>
+            <Nav.Item className={"mt-4"}>
+                <Accordion>
+                    <Accordion.Item eventKey="0">
+                        <Accordion.Header >
+                            Animals
+                        </Accordion.Header>
+                        <Accordion.Collapse eventKey="0" >
+                            <Accordion.Body >
+                                <Nav.Item>
+                                    <Nav.Link as={Link} to="/admin/animals" className={getLinkClass('/admin/animals')}>
+                                        Animals
+                                    </Nav.Link>
+                                </Nav.Item>
+                                <Nav.Item>
+                                    <Nav.Link as={Link} to="/admin/type_animals"
+                                              className={getLinkClass('/admin/type_animals')}>
+                                        Type Animals
+                                    </Nav.Link>
+                                </Nav.Item>
+                            </Accordion.Body>
+                        </Accordion.Collapse>
+                    </Accordion.Item>
+                </Accordion>
+            </Nav.Item>
+        </Nav>
+    )
+
     return (
         <>
         <div className="sidebar p-4 show-desktop">
             <h4>Categories</h4>
-            <Nav className="flex-column">
-                <Nav.Item>
-                    <Nav.Link as={Link} to="/admin/animals" className={getLinkClass('/admin/animals')}>
-                        Animals
-                    </Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                    <Nav.Link as={Link} to="/admin/main_page/1" className={getLinkClass('/admin/main_page')}>
-                        Main Page
-                    </Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                    <Nav.Link as={Link} to="/admin/events" className={getLinkClass('/admin/events')}>
-                        Events
-                    </Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                    <Nav.Link as={Link} to="/admin/news" className={getLinkClass('/admin/news')}>
-                        News
-                    </Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                    <Nav.Link as={Link} to="/admin/activities" className={getLinkClass('/admin/activities')}>
-                        Activities
-                    </Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                    <Nav.Link as={Link} to="/admin/posts" className={getLinkClass('/admin/posts')}>
-                        Posts
-                    </Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                    <Nav.Link as={Link} to="/admin/reviews" className={getLinkClass('/admin/reviews')}>
-                        Reviews
-                    </Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                    <Nav.Link as={Link} to="/admin/tenders" className={getLinkClass('/admin/tenders')}>
-                        Tenders
-                    </Nav.Link>
-                </Nav.Item>
-            </Nav>
+            {renderNavLinks()}
         </div>
             <br/>
             <div className={'show_mobile'}>
@@ -85,33 +130,7 @@ function AdminSidebar() {
                                         aria-label="Close"></button>
                             </div>
                             <div className="offcanvas-body">
-                                <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
-                                    <li className="nav-item">
-                                        <a className="nav-link active" aria-current="page" href="#">Home</a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a className="nav-link" href="#">Link</a>
-                                    </li>
-                                    <li className="nav-item dropdown">
-                                        <a className="nav-link dropdown-toggle" href="#" role="button"
-                                           data-bs-toggle="dropdown" aria-expanded="false">
-                                            Dropdown
-                                        </a>
-                                        <ul className="dropdown-menu">
-                                            <li><a className="dropdown-item" href="#">Action</a></li>
-                                            <li><a className="dropdown-item" href="#">Another action</a></li>
-                                            <li>
-                                                <hr className="dropdown-divider"/>
-                                            </li>
-                                            <li><a className="dropdown-item" href="#">Something else here</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                                <form className="d-flex mt-3" role="search">
-                                    <input className="form-control me-2" type="search" placeholder="Search"
-                                           aria-label="Search"/>
-                                        <button className="btn btn-outline-success" type="submit">Search</button>
-                                </form>
+                                {renderNavLinks()}
                             </div>
                         </div>
                     </div>

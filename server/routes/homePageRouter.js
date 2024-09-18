@@ -10,6 +10,6 @@ router.get('/:id', homePageController.getOne);
 router.put('/:id', checkRole('ADMIN'), homePageController.edit);
 
 
-router.delete('/',homePageController.delete)
+router.delete('/:id',homePageController.delete)
 
 module.exports = router

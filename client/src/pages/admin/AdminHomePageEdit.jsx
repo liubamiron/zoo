@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import  {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 import { Col, Container, Form, Row, Button } from "react-bootstrap";
 import {
@@ -25,11 +25,9 @@ const AdminHomePageEdit = () => {
     const [longDescriptionRO, setLongDescriptionRO] = useState('');
     const [longDescriptionRU, setLongDescriptionRU] = useState('');
     const [longDescriptionEN, setLongDescriptionEN] = useState('');
-    const [img1, setImg1] = useState(null);
     const [img2, setImg2] = useState(null);
     const [img3, setImg3] = useState(null);
     const [fileImg, setFileImg] = useState(null);
-    const [error, setError] = useState(null);
 
     useEffect(() => {
         const getHomePageData = async () => {
@@ -62,8 +60,8 @@ const AdminHomePageEdit = () => {
                 setImg2(data?.img_2)
                 setImg3(data?.img_3)
 
-            } catch (err) {
-                setError('Failed to fetch animal data');
+            } catch (error) {
+                console.error('Error fetching page data:', error);
             }
         };
 
@@ -73,7 +71,6 @@ const AdminHomePageEdit = () => {
     const handleChange = (e) => {
         const file = e.target.files[0];
         console.log(file.name, file.size, file.type); // Log file details
-        setImg1(file);
         setFileImg(file)
     };
 
@@ -137,7 +134,7 @@ const AdminHomePageEdit = () => {
 
     return (
         <Container>
-            <h1>Create Home Page</h1>
+            <h4>Edit Home Page</h4>
             <Form onSubmit={handleSubmit} className={'mt-4'}>
                 <Row>
                     <Col>
@@ -324,7 +321,7 @@ const AdminHomePageEdit = () => {
                         <h5>Img 1</h5>
                         {homePageData?.img_1 && (
                             <img
-                                src={`http://localhost:5000/${homePageData.img_1}`}
+                                src={`${import.meta.env.VITE_URL}/${homePageData.img_1}`}
                                 alt="Animal Image 1"
                                 className="img-fluid"
                             />
@@ -334,7 +331,7 @@ const AdminHomePageEdit = () => {
                         <h5>Img 2</h5>
                         {homePageData?.img_2 && (
                             <img
-                                src={`http://localhost:5000/${homePageData.img_2}`}
+                                src={`${import.meta.env.VITE_URL}/${homePageData.img_2}`}
                                 alt="Animal Image 2"
                                 className="img-fluid"
                             />
@@ -344,7 +341,7 @@ const AdminHomePageEdit = () => {
                         <h5>Img 3</h5>
                         {homePageData?.img_3 && (
                             <img
-                                src={`http://localhost:5000/${homePageData.img_3}`}
+                                src={`${import.meta.env.VITE_URL}/${homePageData.img_3}`}
                                 alt="Animal Image 2"
                                 className="img-fluid"
                             />
@@ -355,7 +352,6 @@ const AdminHomePageEdit = () => {
 
                 <Row className={'mt-4'}>
                     <Col>
-
                         <Form.Group controlId="img1">
                             <Form.Label>Image 3 URL</Form.Label>
                             <Form.Control

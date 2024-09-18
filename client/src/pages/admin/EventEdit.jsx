@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 import {Button, Col, Form, Row} from "react-bootstrap";
 import { fetchEventsById, updateEventData} from "../../utils/apiCalls";
@@ -36,8 +36,8 @@ const Events = () => {
                 setTitleRO(data?.title_ro);
                 setTitleEN(data?.title_en);
                 setTimeEvent(data?.time_event)
-                setDateStartEvent(data?.start_date_event)
-                setDateEndEvent(data?.end_date_event)
+                setDateStartEvent(data?.start_date_event ? new Date(data?.start_date_event) : '');
+                setDateEndEvent(data?.end_date_event ? new Date(data?.end_date_event) : '');
                 setShortDescriptionRU(data?.short_description_ru)
                 setShortDescriptionRO(data?.short_description_ro)
                 setShortDescriptionEN(data?.short_description_en)
@@ -87,7 +87,7 @@ const Events = () => {
     console.log(eventData, 'eventData');
     return (
         <div>
-            <h1>Edit Event id = {id}</h1>
+            Edit event : <strong>{titleRO || ''}</strong>
 
             <Form onSubmit={handleEventUpdate}>
                 <Row className={'mt-4'}>
@@ -127,35 +127,38 @@ const Events = () => {
                 </Row>
                 <Row className={'mt-4'}>
                     <Col>
-                        <Form.Group controlId="time_event">
-                            <Form.Label>time Event</Form.Label>
+                        <Form.Group controlId="time_event_ru">
+                            <Form.Label>Time Event </Form.Label>
                             <Form.Control
                                 type="text"
-                                value={timeEvent || ''}
+                                value={timeEvent}
                                 onChange={(event) => setTimeEvent(event.target.value)}
-                                placeholder="Enter time event"
+                                placeholder="Enter time event ru"
                             />
                         </Form.Group>
                     </Col>
                     <Col>
-                        <Form.Group controlId="start_date_event">
-                            <Form.Label>Start date event</Form.Label>
+                        <Form.Group controlId="time_event_ro">
+                            <Form.Label>Start Date  Event</Form.Label>
                             <Form.Control
-                                type="text"
-                                value={dateStartEvent || ''}
+                                type="date"
+                                // value={dateStartEvent.toISOString().slice(0, 10)}
+                                value={dateStartEvent ? dateStartEvent.toISOString().slice(0, 10) : ''}
                                 onChange={(event) => setDateStartEvent(event.target.value)}
-                                placeholder="Enter date start event"
+                                placeholder="Enter start date for event"
+                                min={new Date().toISOString().split("T")[0]}  // Today or future dates only
                             />
                         </Form.Group>
                     </Col>
                     <Col>
-                        <Form.Group controlId="end_date_event">
-                            <Form.Label>End date event</Form.Label>
+                        <Form.Group controlId="time_event_en">
+                            <Form.Label>End Time Event</Form.Label>
                             <Form.Control
-                                type="text"
-                                value={dateEndEvent || ''}
+                                type="date"
+                                value={dateEndEvent ? dateEndEvent.toISOString().slice(0, 10) : ''}
                                 onChange={(event) => setDateEndEvent(event.target.value)}
-                                placeholder="Enter end event date"
+                                placeholder="Enter end date of event"
+                                min={dateStartEvent}  // End date should be the same or after the start date
                             />
                         </Form.Group>
                     </Col>

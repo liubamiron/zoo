@@ -50,7 +50,6 @@ class ActivitiesItemController {
         const activitiesItem = await ActivitiesItem.findAll()
         return res.json(activitiesItem)
     }
-
     async getOne(req, res, next) {
         try {
             const {id} = req.params; // Get the id from the request parameters
@@ -66,20 +65,13 @@ class ActivitiesItemController {
             next(ApiError.internal('Failed to fetch ActivitiesItem'));
         }
     }
-
     async edit(req, res, next) {
         try {
             const { id } = req.params; // Get the ID from the request parameters
             const {
-                title_ru,
-                title_ro,
-                title_en,
-                short_description_ru,
-                short_description_ro,
-                short_description_en,
-                long_description_ru,
-                long_description_ro,
-                long_description_en } = req.body; // Get the new values from the request body
+                title_ru, title_ro, title_en,
+                short_description_ru, short_description_ro, short_description_en,
+                long_description_ru, long_description_ro, long_description_en } = req.body; // Get the new values from the request body
 
             const { img_1, img_2 } = req.files || {};
 
@@ -88,7 +80,6 @@ class ActivitiesItemController {
             if (!activitiesItem) {
                 return res.status(404).json({ message: 'activitiesItem not found' });
             }
-
             // Update images if provided
             if (img_1) {
                 let fileName1 = uuid.v4() + ".jpg";
@@ -116,10 +107,8 @@ class ActivitiesItemController {
                 long_description_ro : long_description_ro || activitiesItem.long_description_ro,
                 long_description_en : long_description_en || activitiesItem.long_description_en,
             });
-
             // Save the updated record
             await activitiesItem.save();
-
             return res.json({ message: 'activitiesItem updated successfully', activitiesItem });
         } catch (error) {
             next(ApiError.internal('Failed to update activitiesItem'));

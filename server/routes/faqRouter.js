@@ -9,6 +9,6 @@ router.get('/', faqController.getAll)
 router.get('/:id', faqController.getOne);
 router.put('/:id', checkRole('ADMIN'), faqController.edit);
 
-router.delete('/',faqController.delete)
+router.delete('/:id',faqController.delete)
 
 module.exports = router

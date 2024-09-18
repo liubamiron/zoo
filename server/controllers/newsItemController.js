@@ -1,5 +1,5 @@
 const ApiError = require("../error/ApiError");
-const {NewsItem} = require("../models/models");
+const {NewsItem, TypeAnimal} = require("../models/models");
 const uuid = require('uuid');
 const path = require('path');
 
@@ -138,7 +138,7 @@ class NewsItemController {
     async delete(req, res, next) {
         try {
             const {id} = req.params; // Get the id from the request parameters
-            const deletedCount = await NewsItem.destroy({where: {id}}); // Use the destroy method
+            const deletedCount = await NewsItem.destroy({where: { id }}); // Use the destroy method
 
             if (deletedCount === 0) {
                 // If no record was deleted, the id wasn't found

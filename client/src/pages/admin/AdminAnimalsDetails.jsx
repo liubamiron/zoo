@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
 import { fetchAnimalDataById, fetchTypeAnimals, updateAnimalData } from "../../utils/apiCalls";
 import { Col, Form, Row, Button } from "react-bootstrap";
@@ -63,18 +63,19 @@ function AdminAnimalsDetails() {
     const [factsRU, setFactsRU] = useState('');
     const [factsEN, setFactsEN] = useState('');
 
-    const [protectionRO, setProtectionRO] = useState(false);
-    const [protectionRU, setProtectionRU] = useState(false);
-    const [protectionEN, setProtectionEN] = useState(false);
+    const [protectionRO, setProtectionRO] = useState('');
+    const [protectionRU, setProtectionRU] = useState('');
+    const [protectionEN, setProtectionEN] = useState('');
+
+    const [newAnimal, setNewAnimal] = useState('');
+    const [disappearingAnimal, setDisappearingAnimal] = useState('');
 
     const [img1, setImg1] = useState(null);
     const [img2, setImg2] = useState(null);
 
     const [typeAnimal, setTypeAnimal] = useState(4);
 
-
     const [typeAnimals, setTypeAnimals] = useState([]);
-    const [error, setError] = useState(null);
 
     useEffect(() => {
         const getAnimalData = async () => {
@@ -152,16 +153,18 @@ function AdminAnimalsDetails() {
                 setProtectionRU(data?.protection_ru || '');
                 setProtectionEN(data?.protection_en || '' );
 
+                setNewAnimal(data?.new_animal);
+                setDisappearingAnimal(data?.disappearing);
+
                 setImg1(data?.img_1)
                 setImg2(data?.img_2)
 
                 setTypeAnimal(data?.typeAnimalId || '');
 
-            } catch (err) {
-                setError('Failed to fetch animal data');
+            } catch (error) {
+                console.error('Error while creating animal:', error);
             }
         };
-
         getAnimalData();
     }, [id]);
 
@@ -241,6 +244,8 @@ function AdminAnimalsDetails() {
         formData.append('protection_ro', protectionRO);
         formData.append('protection_ru', protectionRU);
         formData.append('protection_en', protectionEN);
+        formData.append('new_animal', newAnimal);
+        formData.append('disappearing', disappearingAnimal);
         formData.append('typeAnimalId', typeAnimal);
         formData.append('img_1', img1);
         formData.append('img_2', img2);
@@ -251,10 +256,10 @@ function AdminAnimalsDetails() {
 
     return (
         <div>
-            <h1>{animalData?.name_ro}</h1>
+            <h4>{animalData?.name_ro}</h4>
             <Form onSubmit={handleSubmit}>
                 <Row className={'mt-4'}>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="nameRO">
                             <Form.Label>NameRO</Form.Label>
                             <Form.Control
@@ -265,7 +270,7 @@ function AdminAnimalsDetails() {
                             />
                         </Form.Group>
                     </Col>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="nameRU">
                             <Form.Label>NameRU</Form.Label>
                             <Form.Control
@@ -276,7 +281,7 @@ function AdminAnimalsDetails() {
                             />
                         </Form.Group>
                     </Col>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="nameEN">
                             <Form.Label>NameEN</Form.Label>
                             <Form.Control
@@ -289,7 +294,7 @@ function AdminAnimalsDetails() {
                     </Col>
                 </Row>
                 <Row className={'mt-4'}>
-                    <Col >
+                    <Col sx={12} md={4} >
                         <Form.Group controlId="descrShortRO" className="mb-4">
                             <Form.Label>Short Description (RO)</Form.Label>
                             <Form.Control
@@ -301,7 +306,7 @@ function AdminAnimalsDetails() {
                             />
                         </Form.Group>
                     </Col>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="descrShortRU" className="mb-4">
                             <Form.Label>Short Description (RU)</Form.Label>
                             <Form.Control
@@ -313,7 +318,7 @@ function AdminAnimalsDetails() {
                             />
                         </Form.Group>
                     </Col>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="descrShortEN" className="mb-4">
                             <Form.Label>Short Description (EN) </Form.Label>
                             <Form.Control
@@ -327,7 +332,7 @@ function AdminAnimalsDetails() {
                     </Col>
                 </Row>
                 <Row>
-                    <Col>
+                    <Col sx={12} md={4}>
                     <Form.Group controlId="descr_long_ro" className="mb-4">
                         <Form.Label>Long Description (RO)</Form.Label>
                         <Form.Control
@@ -336,10 +341,11 @@ function AdminAnimalsDetails() {
                             name="descr_long_ro"
                             value={descrLongRO}
                             onChange={(event) => setDescrLongRO(event.target.value)}
-                            placeholder="Enter Description (RO)"                        />
+                            placeholder="Enter Description (RO)"
+                        />
                     </Form.Group>
                     </Col>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="descr_long_ro" className="mb-4">
                             <Form.Label>Long Description (RU)</Form.Label>
                             <Form.Control
@@ -348,10 +354,11 @@ function AdminAnimalsDetails() {
                                 name="descr_long_ru"
                                 value={descrLongRU}
                                 onChange={(event) => setDescrLongRU(event.target.value)}
-                                placeholder="Enter Description (RU)"                        />
+                                placeholder="Enter Description (RU)"
+                            />
                         </Form.Group>
                     </Col>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="descr_long_ro" className="mb-4">
                             <Form.Label>Long Description (EN)</Form.Label>
                             <Form.Control
@@ -360,12 +367,13 @@ function AdminAnimalsDetails() {
                                 name="descr_long_en"
                                 value={descrLongEN}
                                 onChange={(event) => setDescrLongEN(event.target.value)}
-                                placeholder="Enter Description (EN)"                        />
+                                placeholder="Enter Description (EN)"
+                            />
                         </Form.Group>
                     </Col>
                 </Row>
                 <Row>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="descr_long_ro" className="mb-4">
                             <Form.Label>Habitat (RO)</Form.Label>
                             <Form.Control
@@ -374,10 +382,11 @@ function AdminAnimalsDetails() {
                                 name="habitat_ro"
                                 value={habitatRO}
                                 onChange={(event) => setHabitatRO(event.target.value)}
-                                placeholder="Enter Habitat (RO)"                        />
+                                placeholder="Enter Habitat (RO)"
+                            />
                         </Form.Group>
                     </Col>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="descr_long_ro" className="mb-4">
                             <Form.Label>Habitat (RU)</Form.Label>
                             <Form.Control
@@ -386,10 +395,11 @@ function AdminAnimalsDetails() {
                                 name="habitat_ru"
                                 value={habitatRU}
                                 onChange={(event) => setDescrLongRU(event.target.value)}
-                                placeholder="Enter habitat (RU)"                        />
+                                placeholder="Enter habitat (RU)"
+                            />
                         </Form.Group>
                     </Col>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="habitat_en" className="mb-4">
                             <Form.Label>habitat (EN)</Form.Label>
                             <Form.Control
@@ -398,12 +408,13 @@ function AdminAnimalsDetails() {
                                 name="habitat_en"
                                 value={habitatEN}
                                 onChange={(event) => setHabitatEN(event.target.value)}
-                                placeholder="habitat description (EN)"                        />
+                                placeholder="habitat description (EN)"
+                            />
                         </Form.Group>
                     </Col>
                 </Row>
                 <Row>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="habitat_long_ro" className="mb-4">
                             <Form.Label>Habitat Long(RO)</Form.Label>
                             <Form.Control
@@ -412,10 +423,11 @@ function AdminAnimalsDetails() {
                                 name="habitat_long_ro"
                                 value={habitatLongRO}
                                 onChange={(event) => setHabitatLongRO(event.target.value)}
-                                placeholder="Enter Habitat Long (RO)"                        />
+                                placeholder="Enter Habitat Long (RO)"
+                            />
                         </Form.Group>
                     </Col>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="habitat_long_ru" className="mb-4">
                             <Form.Label>Habitat Long (RU)</Form.Label>
                             <Form.Control
@@ -424,10 +436,11 @@ function AdminAnimalsDetails() {
                                 name="habitat_long_ru"
                                 value={habitatLongRU}
                                 onChange={(event) => setHabitatLongRU(event.target.value)}
-                                placeholder="Enter habitat (RU)"                        />
+                                placeholder="Enter habitat long (RU)"
+                            />
                         </Form.Group>
                     </Col>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="habitat_en" className="mb-4">
                             <Form.Label>habitat Long (EN)</Form.Label>
                             <Form.Control
@@ -435,13 +448,14 @@ function AdminAnimalsDetails() {
                                 rows={4}
                                 name="habitat_long_en"
                                 value={habitatLongEN}
-                                onChange={(event) => setHabitatLongEn(event.target.value)}
-                                placeholder="habitat description (EN)"                        />
+                                onChange={(event) => setHabitatLongEN(event.target.value)}
+                                placeholder="habitat habitat Long (EN)"
+                            />
                         </Form.Group>
                     </Col>
                 </Row>
                 <Row>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="family_ro" className="mb-4">
                             <Form.Label>Family (RO)</Form.Label>
                             <Form.Control
@@ -450,10 +464,11 @@ function AdminAnimalsDetails() {
                                 name="family_ro"
                                 value={familyRO}
                                 onChange={(event) => setFamilyRO(event.target.value)}
-                                placeholder="Family (RO)"                        />
+                                placeholder="Family (RO)"
+                            />
                         </Form.Group>
                     </Col>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="family_ru" className="mb-4">
                             <Form.Label>Family (RU)</Form.Label>
                             <Form.Control
@@ -462,10 +477,11 @@ function AdminAnimalsDetails() {
                                 name="family_ru"
                                 value={familyRU}
                                 onChange={(event) => setFamilyRU(event.target.value)}
-                                placeholder="Family (RU)"                        />
+                                placeholder="Family (RU)"
+                            />
                         </Form.Group>
                     </Col>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="family_en" className="mb-4">
                             <Form.Label>Family (EN)</Form.Label>
                             <Form.Control
@@ -474,12 +490,13 @@ function AdminAnimalsDetails() {
                                 name="family_en"
                                 value={familyEN}
                                 onChange={(event) => setFamilyEN(event.target.value)}
-                                placeholder="family (EN)"                        />
+                                placeholder="family (EN)"
+                            />
                         </Form.Group>
                     </Col>
                 </Row>
                 <Row>
-                <Col>
+                <Col sx={12} md={4}>
                     <Form.Group controlId="genus_ro" className="mb-4">
                         <Form.Label>Genus (RO)</Form.Label>
                         <Form.Control
@@ -488,10 +505,11 @@ function AdminAnimalsDetails() {
                             name="genus_ro"
                             value={genusRO}
                             onChange={(event) => setGenusRO(event.target.value)}
-                            placeholder="Genus (RO)"                        />
+                            placeholder="Genus (RO)"
+                        />
                     </Form.Group>
                 </Col>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="genus_ru" className="mb-4">
                             <Form.Label>Genus (RU)</Form.Label>
                             <Form.Control
@@ -500,10 +518,11 @@ function AdminAnimalsDetails() {
                                 name="genus_ru"
                                 value={genusRU}
                                 onChange={(event) => setGenusRU(event.target.value)}
-                                placeholder="Genus (RU)"                        />
+                                placeholder="Genus (RU)"
+                            />
                         </Form.Group>
                     </Col>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="genus_en" className="mb-4">
                             <Form.Label>Genus (EN)</Form.Label>
                             <Form.Control
@@ -512,12 +531,13 @@ function AdminAnimalsDetails() {
                                 name="genus_en"
                                 value={genusEN}
                                 onChange={(event) => setGenusEN(event.target.value)}
-                                placeholder="Genus (EN)"                        />
+                                placeholder="Genus (EN)"
+                            />
                         </Form.Group>
                     </Col>
                 </Row>
                 <Row>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="phylum_ro" className="mb-4">
                             <Form.Label>phylum (RO)</Form.Label>
                             <Form.Control
@@ -526,10 +546,11 @@ function AdminAnimalsDetails() {
                                 name="phylum_ro"
                                 value={phylumRO}
                                 onChange={(event) => setPhylumRO(event.target.value)}
-                                placeholder="phylum (RO)"                        />
+                                placeholder="phylum (RO)"
+                            />
                         </Form.Group>
                     </Col>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="phylum_ru" className="mb-4">
                             <Form.Label>phylum (RU)</Form.Label>
                             <Form.Control
@@ -538,10 +559,11 @@ function AdminAnimalsDetails() {
                                 name="phylum_ru"
                                 value={phylumRU}
                                 onChange={(event) => setPhylumRU(event.target.value)}
-                                placeholder="phylum (RU)"                        />
+                                placeholder="phylum (RU)"
+                            />
                         </Form.Group>
                     </Col>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="phylum_en" className="mb-4">
                             <Form.Label>phylum (EN)</Form.Label>
                             <Form.Control
@@ -550,12 +572,13 @@ function AdminAnimalsDetails() {
                                 name="phylum_en"
                                 value={phylumEN}
                                 onChange={(event) => setPhylumEN(event.target.value)}
-                                placeholder="phylum (EN)"                        />
+                                placeholder="phylum (EN)"
+                            />
                         </Form.Group>
                     </Col>
                 </Row>
                 <Row>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="clas_ro" className="mb-4">
                             <Form.Label>Class (RO)</Form.Label>
                             <Form.Control
@@ -564,10 +587,11 @@ function AdminAnimalsDetails() {
                                 name="clas_ro"
                                 value={classRO}
                                 onChange={(event) => setClassRO(event.target.value)}
-                                placeholder="class (RO)"                        />
+                                placeholder="class (RO)"
+                            />
                         </Form.Group>
                     </Col>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="clas_ru" className="mb-4">
                             <Form.Label>Class (RO)</Form.Label>
                             <Form.Control
@@ -576,10 +600,11 @@ function AdminAnimalsDetails() {
                                 name="clas_ru"
                                 value={classRU}
                                 onChange={(event) => setClassRU(event.target.value)}
-                                placeholder="class (RU)"                        />
+                                placeholder="class (RU)"
+                            />
                         </Form.Group>
                     </Col>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="clas_en" className="mb-4">
                             <Form.Label>Class (EN)</Form.Label>
                             <Form.Control
@@ -588,12 +613,13 @@ function AdminAnimalsDetails() {
                                 name="clas_en"
                                 value={classEN}
                                 onChange={(event) => setClassEN(event.target.value)}
-                                placeholder="class (EN)"                        />
+                                placeholder="class (EN)"
+                            />
                         </Form.Group>
                     </Col>
                 </Row>
                 <Row>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="domain_ro" className="mb-4">
                             <Form.Label>Domain (RO)</Form.Label>
                             <Form.Control
@@ -602,10 +628,11 @@ function AdminAnimalsDetails() {
                                 name="domain_ro"
                                 value={domainRO}
                                 onChange={(event) => setDomainRO(event.target.value)}
-                                placeholder="domain (RO)"                        />
+                                placeholder="domain (RO)"
+                            />
                         </Form.Group>
                     </Col>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="domain_ru" className="mb-4">
                             <Form.Label>Domain (RU)</Form.Label>
                             <Form.Control
@@ -614,10 +641,11 @@ function AdminAnimalsDetails() {
                                 name="domain_ru"
                                 value={domainRU}
                                 onChange={(event) => setDomainRU(event.target.value)}
-                                placeholder="domain (RU)"                        />
+                                placeholder="domain (RU)"
+                            />
                         </Form.Group>
                     </Col>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="domain_en" className="mb-4">
                             <Form.Label>Domain (EN)</Form.Label>
                             <Form.Control
@@ -626,12 +654,13 @@ function AdminAnimalsDetails() {
                                 name="domain_en"
                                 value={domainEN}
                                 onChange={(event) => setDomainEN(event.target.value)}
-                                placeholder="domain (EN)"                        />
+                                placeholder="domain (EN)"
+                            />
                         </Form.Group>
                     </Col>
                 </Row>
                 <Row>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="karyotype_ro" className="mb-4">
                             <Form.Label>Karyotype (RO)</Form.Label>
                             <Form.Control
@@ -640,10 +669,11 @@ function AdminAnimalsDetails() {
                                 name="karyotype_ro"
                                 value={karyotypeRO}
                                 onChange={(event) => setKaryotypeRO(event.target.value)}
-                                placeholder="karyotype (RO)"                        />
+                                placeholder="karyotype (RO)"
+                            />
                         </Form.Group>
                     </Col>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="karyotype_ru" className="mb-4">
                             <Form.Label>Karyotype (RU)</Form.Label>
                             <Form.Control
@@ -652,10 +682,11 @@ function AdminAnimalsDetails() {
                                 name="karyotype_ru"
                                 value={karyotypeRU}
                                 onChange={(event) => setKaryotypeRU(event.target.value)}
-                                placeholder="karyotype (RU)"                        />
+                                placeholder="karyotype (RU)"
+                            />
                         </Form.Group>
                     </Col>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="karyotype_en" className="mb-4">
                             <Form.Label>Karyotype (EN)</Form.Label>
                             <Form.Control
@@ -664,12 +695,13 @@ function AdminAnimalsDetails() {
                                 name="karyotype_en"
                                 value={karyotypeEN}
                                 onChange={(event) => setKaryotypeEN(event.target.value)}
-                                placeholder="karyotype (EN)"                        />
+                                placeholder="karyotype (EN)"
+                            />
                         </Form.Group>
                     </Col>
                 </Row>
                 <Row>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="general_info_ro" className="mb-4">
                             <Form.Label>general info (RO)</Form.Label>
                             <Form.Control
@@ -678,10 +710,11 @@ function AdminAnimalsDetails() {
                                 name="general_info_ro"
                                 value={generalInfoRO}
                                 onChange={(event) => setGeneralInfoRO(event.target.value)}
-                                placeholder="general info (RO)"                        />
+                                placeholder="general info (RO)"
+                            />
                         </Form.Group>
                     </Col>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="general_info_ru" className="mb-4">
                             <Form.Label>general info (RU)</Form.Label>
                             <Form.Control
@@ -690,10 +723,11 @@ function AdminAnimalsDetails() {
                                 name="general_info_ru"
                                 value={generalInfoRU}
                                 onChange={(event) => setGeneralInfoRU(event.target.value)}
-                                placeholder="general info (RU)"                        />
+                                placeholder="general info (RU)"
+                            />
                         </Form.Group>
                     </Col>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="general_info_en" className="mb-4">
                             <Form.Label>general info (EN)</Form.Label>
                             <Form.Control
@@ -702,12 +736,13 @@ function AdminAnimalsDetails() {
                                 name="general_info_en"
                                 value={generalInfoEN}
                                 onChange={(event) => setGeneralInfoEN(event.target.value)}
-                                placeholder="general info (EN)"                        />
+                                placeholder="general info (EN)"
+                            />
                         </Form.Group>
                     </Col>
                 </Row>
                 <Row>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="nutrition_ro" className="mb-4">
                             <Form.Label>nutrition (RO)</Form.Label>
                             <Form.Control
@@ -716,10 +751,11 @@ function AdminAnimalsDetails() {
                                 name="nutrition_ro"
                                 value={nutritionRO}
                                 onChange={(event) => setNutritionRO(event.target.value)}
-                                placeholder="Nutrition (RO)"                        />
+                                placeholder="Nutrition (RO)"
+                            />
                         </Form.Group>
                     </Col>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="nutrition_ru" className="mb-4">
                             <Form.Label>nutrition (RU)</Form.Label>
                             <Form.Control
@@ -728,10 +764,11 @@ function AdminAnimalsDetails() {
                                 name="nutrition_ru"
                                 value={nutritionRU}
                                 onChange={(event) => setNutritionRU(event.target.value)}
-                                placeholder="Nutrition (RU)"                        />
+                                placeholder="Nutrition (RU)"
+                            />
                         </Form.Group>
                     </Col>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="nutrition_en" className="mb-4">
                             <Form.Label>nutrition (EN)</Form.Label>
                             <Form.Control
@@ -740,12 +777,13 @@ function AdminAnimalsDetails() {
                                 name="nutrition_en"
                                 value={nutritionEN}
                                 onChange={(event) => setNutritionEN(event.target.value)}
-                                placeholder="Nutrition (EN)"                        />
+                                placeholder="Nutrition (EN)"
+                            />
                         </Form.Group>
                     </Col>
                 </Row>
                 <Row>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="facts_ro" className="mb-4">
                             <Form.Label>facts (RO)</Form.Label>
                             <Form.Control
@@ -754,10 +792,11 @@ function AdminAnimalsDetails() {
                                 name="facts_ro"
                                 value={factsRO}
                                 onChange={(event) => setFactsRO(event.target.value)}
-                                placeholder="facts (RO)"                        />
+                                placeholder="facts (RO)"
+                            />
                         </Form.Group>
                     </Col>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="facts_ru" className="mb-4">
                             <Form.Label>facts (RU)</Form.Label>
                             <Form.Control
@@ -766,10 +805,11 @@ function AdminAnimalsDetails() {
                                 name="facts_ru"
                                 value={factsRU}
                                 onChange={(event) => setFactsRU(event.target.value)}
-                                placeholder="facts (RU)"                        />
+                                placeholder="facts (RU)"
+                            />
                         </Form.Group>
                     </Col>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="facts_ro" className="mb-4">
                             <Form.Label>facts (EN)</Form.Label>
                             <Form.Control
@@ -778,12 +818,13 @@ function AdminAnimalsDetails() {
                                 name="facts_en"
                                 value={factsEN}
                                 onChange={(event) => setFactsEN(event.target.value)}
-                                placeholder="facts (EN)"                        />
+                                placeholder="facts (EN)"
+                            />
                         </Form.Group>
                     </Col>
                 </Row>
                 <Row>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="type_ro" className="mb-4">
                             <Form.Label>select type (RO)</Form.Label>
                             <Form.Control
@@ -800,7 +841,7 @@ function AdminAnimalsDetails() {
                             </Form.Control>
                         </Form.Group>
                     </Col>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="type_ru" className="mb-4">
                             <Form.Label>select type (RU)</Form.Label>
                             <Form.Control
@@ -817,7 +858,7 @@ function AdminAnimalsDetails() {
                             </Form.Control>
                         </Form.Group>
                     </Col>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="type_en" className="mb-4">
                             <Form.Label>select type (EN)</Form.Label>
                             <Form.Control
@@ -836,11 +877,11 @@ function AdminAnimalsDetails() {
                     </Col>
                 </Row>
                 <Row>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="protection_ro" className="mb-4">
                             <Form.Label>Protection</Form.Label>
                             <Form.Control
-                                as="select"
+                                type='text'
                                 name="protection"
                                 value={protectionRO}
                                 placeholder="protection RO"
@@ -848,11 +889,11 @@ function AdminAnimalsDetails() {
                             />
                         </Form.Group>
                     </Col>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="protection_ru" className="mb-4">
                             <Form.Label>Protection RU</Form.Label>
                             <Form.Control
-                                as="select"
+                                type='text'
                                 name="protection_ru"
                                 value={protectionRU}
                                 placeholder="protection RU"
@@ -860,11 +901,11 @@ function AdminAnimalsDetails() {
                             />
                         </Form.Group>
                     </Col>
-                    <Col>
+                    <Col sx={12} md={4}>
                         <Form.Group controlId="protection_en" className="mb-4">
                             <Form.Label>Protection EN</Form.Label>
                             <Form.Control
-                                as="select"
+                                type='text'
                                 name="protection"
                                 value={protectionEN}
                                 placeholder="protection EN"
@@ -874,21 +915,53 @@ function AdminAnimalsDetails() {
                     </Col>
                 </Row>
                 <Row>
-                    <Col className={'text-center'}>
+                    <Col sx={12} md={4}>
+                        <Form.Group controlId="new_animal" className="mb-4">
+                            <Form.Label>New Animal</Form.Label>
+                            <Form.Control
+                                as="select"
+                                name="new_animal"
+                                value={newAnimal}
+                                onChange={(event) => setNewAnimal(event.target.value)}
+                            >
+                                <option value="">Select True or False</option>
+                                <option value="true">True</option>
+                                <option value="false">False</option>
+                            </Form.Control>
+                        </Form.Group>
+                    </Col>
+                    <Col sx={12} md={4}>
+                        <Form.Group controlId="new_animal" className="mb-4">
+                            <Form.Label>Disappearing Animal</Form.Label>
+                            <Form.Control
+                                as="select"
+                                name="new_animal"
+                                value={disappearingAnimal}
+                                onChange={(event) => setDisappearingAnimal(event.target.value)}
+                            >
+                                <option value="">Select True or False</option>
+                                <option value="true">True</option>
+                                <option value="false">False</option>
+                            </Form.Control>
+                        </Form.Group>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col className={'text-center'} sx={12} md={6}>
                         <h5>Img 1</h5>
                         {animalData?.img_1 && (
                             <img
-                                src={`http://localhost:5000/${animalData.img_1}`}
+                                src={`${import.meta.env.VITE_URL}/${animalData.img_1}`}
                                 alt="Animal Image 1"
                                 className="img-fluid"
                             />
                         )}
                     </Col>
-                    <Col className={'text-center'}>
+                    <Col className={'text-center'} sx={12} md={6}>
                         <h5>Img 2</h5>
                         {animalData?.img_2 && (
                             <img
-                                src={`http://localhost:5000/${animalData.img_2}`}
+                                src={`${import.meta.env.VITE_URL}/${animalData.img_2}`}
                                 alt="Animal Image 2"
                                 className="img-fluid"
                             />

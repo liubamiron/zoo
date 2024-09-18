@@ -12,8 +12,10 @@ function Layout() {
         '/admin/events',
         '/admin/news',
         '/admin/reviews',
+        '/admin/reviews/:id',
         '/admin/posts',
         '/admin/tenders',
+        '/admin/tenders/:id',
         '/admin/main_page',
     ];
 

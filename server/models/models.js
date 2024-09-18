@@ -136,8 +136,8 @@ const Tender = sequelize.define('tender', {
     description_ru: {type: DataTypes.STRING, allowNull: true},  // Russian description
     description_ro: {type: DataTypes.STRING, allowNull: true},  // Romanian description
     description_en: {type: DataTypes.STRING, allowNull: true},  // English description
-
     pdf_file: {type: DataTypes.STRING},
+    typeTenderId: DataTypes.INTEGER
 })
 
 const TypeTender = sequelize.define('type_tender', {
@@ -247,11 +247,6 @@ const Tag = sequelize.define('tag', {
     name_en: {type: DataTypes.STRING, allowNull: true},  // English name
 })
 
-const PostTag = sequelize.define('post_tag', {
-    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-})
-
-
 const Review = sequelize.define('review', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     // Title in multiple languages
@@ -304,7 +299,7 @@ const HomePage = sequelize.define('home_page', {
     img_3: {type: DataTypes.STRING, allowNull: true},
 })
 
-const Faq = sequelize.define('home_page', {
+const Faq = sequelize.define('faq', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -344,9 +339,9 @@ Animal.belongsTo(TypeAnimal)
 TypeTender.hasMany(Tender)
 Tender.belongsTo(TypeTender)
 
-// Define the PostTag (junction table) model automatically by Sequelize
-Post.belongsToMany(Post, { through: 'PostTag', as: 'tags' });
-Tag.belongsToMany(Tag, { through: 'PostTag', as: 'posts' });
+
+Post.hasMany(Tag, {as: 'post_tags'}); ///name of array field
+Tag.belongsTo(Post)
 
 
 // export {
@@ -361,8 +356,7 @@ module.exports = {
     ActivitiesItem,
     Post,
     Tag,
-    PostTag,
     Review,
     HomePage,
-    Faq
+    Faq,
 }

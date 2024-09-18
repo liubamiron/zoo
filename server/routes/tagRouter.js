@@ -9,6 +9,6 @@ router.get('/', tagController.getAll)
 router.get('/:id', tagController.getOne);
 router.put('/:id', checkRole('ADMIN'), tagController.edit);
 
-router.delete('/',tagController.delete)
+router.delete('/:id',tagController.delete)
 
 module.exports = router

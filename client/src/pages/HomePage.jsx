@@ -1,5 +1,3 @@
-import React from 'react';
-import NavbarPage from "../components/NavbarPage.jsx";
 import {Button} from "react-bootstrap";
 import {useTranslation} from "../providers";
 

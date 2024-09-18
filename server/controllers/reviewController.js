@@ -3,7 +3,8 @@ const ApiError = require('../error/ApiError');
 const {Review} = require("../models/models");
 
 class ReviewController {
-    async create(req, res) {
+    async create(req, res, next) {
+        try {
         const {
             title_ru,
             title_ro,
@@ -16,6 +17,11 @@ class ReviewController {
             long_description_en,
             rating
         } =req.body
+
+            // Ensure rating is a valid number or null
+            const parsedRating = parseFloat(rating);
+            const validRating = isNaN(parsedRating) ? null : parsedRating;
+
         const review = await Review.create({
             title_ru,
             title_ro,
@@ -26,10 +32,12 @@ class ReviewController {
             long_description_ru,
             long_description_ro,
             long_description_en,
-            rating
+            rating: validRating
         })
         return res.json(review)
-
+        } catch (error) {
+            next(ApiError.internal('Failed to create review'));
+        }
     }
 
     async getAll(req, res) {

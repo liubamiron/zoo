@@ -10,6 +10,6 @@ router.get('/', eventController.getAll)
 router.get('/:id', eventController.getOne);
 router.put('/:id', checkRole('ADMIN'), eventController.edit);
 
-router.delete('/',eventController.delete)
+router.delete('/:id',eventController.delete)
 
 module.exports = router

@@ -12,6 +12,7 @@ class EventController {
                 long_description_ru, long_description_ro, long_description_en
             } = req.body;
 
+
             const event = await Event.create({
                 title_ru, title_ro, title_en,
                 time_event, start_date_event, end_date_event,

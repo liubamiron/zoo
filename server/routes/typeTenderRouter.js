@@ -9,6 +9,6 @@ router.get('/', typeTenderController.getAll)
 router.get('/:id', typeTenderController.getOne);
 router.put('/:id', checkRole('ADMIN'), typeTenderController.edit);
 
-router.delete('/',typeTenderController.delete)
+router.delete('/:id',typeTenderController.delete)
 
 module.exports = router

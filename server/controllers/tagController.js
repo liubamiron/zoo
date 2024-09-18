@@ -1,11 +1,14 @@
-
 const ApiError = require('../error/ApiError');
 const {Tag} = require("../models/models");
 
 class TagController {
     async create(req, res) {
-        const {name_ru, name_ro, name_en} =req.body
-        const tag = await Tag.create({name_ru, name_ro, name_en})
+        const {name_ru, name_ro, name_en, postId} = req.body
+        const tag = await Tag.create({
+            name_ru,
+            name_ro,
+            name_en,
+            postId})
         return res.json(tag)
 
     }
@@ -17,12 +20,12 @@ class TagController {
 
     async getOne(req, res, next) {
         try {
-            const { id } = req.params; // Get the id from the request parameters
-            const tag = await Tag.findOne({ where: { id } }); // Find one record by id
+            const {id} = req.params; // Get the id from the request parameters
+            const tag = await Tag.findOne({where: {id}}); // Find one record by id
 
             if (!tag) {
                 // If no record was found with the given id
-                return res.status(404).json({ message: 'Tag not found' });
+                return res.status(404).json({message: 'Tag not found'});
             }
 
             return res.json(tag);
@@ -33,23 +36,31 @@ class TagController {
 
     async edit(req, res, next) {
         try {
-            const { id } = req.params; // Get the ID from the request parameters
-            const { name_ru, name_ro, name_en } = req.body; // Get the new values from the request body
+            const {id} = req.params;
+            const {name_ru, name_ro, name_en} = req.body;
 
-            const tag = await Tag.findOne({ where: { id } });
+            const tag = await Tag.findOne({where: {id}});
 
             if (!tag) {
-                return res.status(404).json({ message: 'Tag not found' });
+                return res.status(404).json({message: 'Tag not found'});
             }
 
-            tag.name_ru = name_ru || tag.name_ru;
-            tag.name_ro = name_ro || tag.name_ro;
-            tag.name_en = name_en || tag.name_en;
+            Object.assign(tag, {
+                name_ru: name_ru || tag.name_ru,
+                name_ro: name_ro || tag.name_ro,
+                name_en: name_en || tag.name_en,
+                // postId: postId || tag.postId
+            })
+
+            // tag.name_ru = name_ru || tag.name_ru;
+            // tag.name_ro = name_ro || tag.name_ro;
+            // tag.name_en = name_en || tag.name_en;
+            // tag.postId = postId || tag.postId;
 
             // Save the updated record
             await tag.save();
 
-            return res.json({ message: 'Tag updated successfully', tag });
+            return res.json({message: 'Tag updated successfully', tag});
         } catch (error) {
             next(ApiError.internal('Failed to update Tag'));
         }
@@ -57,15 +68,15 @@ class TagController {
 
     async delete(req, res, next) {
         try {
-            const { id } = req.params; // Get the id from the request parameters
-            const deletedCount = await Tag.destroy({ where: { id } }); // Use the destroy method
+            const {id} = req.params; // Get the id from the request parameters
+            const deletedCount = await Tag.destroy({where: {id}}); // Use the destroy method
 
             if (deletedCount === 0) {
                 // If no record was deleted, the id wasn't found
-                return res.status(404).json({ message: 'Tag not found' });
+                return res.status(404).json({message: 'Tag not found'});
             }
 
-            return res.json({ message: 'Tag deleted successfully' });
+            return res.json({message: 'Tag deleted successfully'});
         } catch (error) {
             next(ApiError.internal('Failed to delete Tag'));
         }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import { Container, Button } from 'react-bootstrap';
 import { deleteAnimalById, fetchAnimalData } from "../../utils/apiCalls";
 import { useNavigate } from 'react-router-dom';
@@ -40,18 +40,28 @@ const AdminAnimals = () => {
     return (
         <Container>
             <div className={'d-flex justify-content-between mt-4'}>
-                <h1>Animals List</h1>
+                <h4>Animals List</h4>
                 <Button variant={'outline-success'} onClick={handleCreateNew}>
                     Create New
                 </Button>
             </div>
 
-            <div className="mt-4"  style={{background: 'lightcyan'}}>
+            <div className="mt-4"
+                 // style={{background: '#cdebc5'}}
+                 style={{background: 'lightcyan', padding: '15px', borderRadius: '8px'}}
+            >
                 {animalData.map((animal) => (
-                    <div className={'d-flex justify-content-between mb-2'}  key={animal.id}>
+                    <div className={'d-flex justify-content-between mb-2'}  key={animal.id}
+                         style={{
+                             border: '2px solid white',
+                             borderRadius: '8px',
+                             padding: '10px',
+                             marginBottom: '10px'
+                         }}
+                    >
                         <div
                             className="me-2"
-
+                            style={{ cursor: 'pointer', fontWeight: 'bold' }}
                             onClick={() => navigate(`/admin/animals/${animal.id}`)}
                         >
                             {animal?.name_ro}

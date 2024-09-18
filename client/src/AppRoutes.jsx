@@ -28,6 +28,13 @@ import ReviewCreate from "./pages/admin/ReviewCreate";
 import ReviewEdit from "./pages/admin/ReviewEdit";
 import ActivitiesCreate from "./pages/admin/ActivitiesCreate";
 import ActivitiesEdit from "./pages/admin/ActivitiesEdit";
+import NewsCreate from "./pages/admin/NewsCreate.jsx";
+import NewsEdit from "./pages/admin/NewsEdit.jsx";
+import Tags from "./pages/admin/Tags.jsx";
+import TagsEdit from "./pages/admin/TagsEdit.jsx";
+import TagsCreate from "./pages/admin/TagsCreate.jsx";
+import TypeAnimals from "./pages/admin/TypeAnimals.jsx";
+import FAQ from "./pages/admin/FAQ.jsx";
 
 
 function AppRoutes() {
@@ -48,6 +55,8 @@ function AppRoutes() {
                     <Route path="animals/:id" element={<AdminAnimalsDetails />} />
                     <Route path="animals/create" element={<AdminAnimalsCreate />} />
                     <Route path="news" element={<AdminNews />} />
+                    <Route path="news/create" element={<NewsCreate />} />
+                    <Route path="news/:id" element={<NewsEdit />} />
                     <Route path="events" element={<Events />} />
                     <Route path="events/create" element={<EventCreate />} />
                     <Route path="events/:id" element={<EventEdit />} />
@@ -56,13 +65,18 @@ function AppRoutes() {
                     <Route path="posts/:id" element={<PostEdit />} />
                     <Route path="tenders" element={<AdminTenders />} />
                     <Route path="tenders/create" element={<TenderCreate />} />
-                    <Route path="tenders/id" element={<TenderEdit />} />
+                    <Route path="tenders/:id" element={<TenderEdit />} />
                     <Route path="reviews" element={<AdminReviews />} />
                     <Route path="reviews/create" element={<ReviewCreate />} />
-                    <Route path="reviews/:1" element={<ReviewEdit />} />
+                    <Route path="reviews/:id" element={<ReviewEdit />} />
                     <Route path="activities" element={<AdminActivities />} />
                     <Route path="activities/create" element={<ActivitiesCreate />} />
-                    <Route path="activities/:1" element={<ActivitiesEdit />} />
+                    <Route path="activities/:id" element={<ActivitiesEdit />} />
+                    <Route path="tags" element={<Tags />} />
+                    <Route path="tags/create" element={<TagsCreate />} />
+                    <Route path="tags/:id" element={<TagsEdit />} />
+                    <Route path="type_animals" element={<TypeAnimals />} />
+                    <Route path="faq" element={<FAQ />} />
                 </Route>
             </Route>
         </Routes>

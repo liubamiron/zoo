@@ -9,6 +9,6 @@ router.get('/', reviewController.getAll)
 router.get('/:id', reviewController.getOne);
 router.put('/:id', checkRole('ADMIN'), reviewController.edit);
 
-router.delete('/',reviewController.delete)
+router.delete('/:id',reviewController.delete)
 
 module.exports = router

@@ -84,7 +84,7 @@ const AdminHomePage = () => {
 
     return (
         <Container>
-            <h1>Create Home Page</h1>
+            <h4>Create Home Page</h4>
             <Form onSubmit={handleSubmit} className={'mt-4'}>
                 <Row>
                     <Col>
@@ -265,9 +265,7 @@ const AdminHomePage = () => {
                         </Form.Group>
                     </Col>
                 </Row>
-
-
-
+                {/*/images row/*/}
                 <Row className={'mt-4'}>
                     <Col>
                         <Form.Group controlId="img1">
@@ -297,7 +295,6 @@ const AdminHomePage = () => {
                         </Form.Group>
                     </Col>
                 </Row>
-
                 <br />
                 <Button variant="primary" type="submit">
                     Save
