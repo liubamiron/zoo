@@ -59,7 +59,7 @@ function ReviewCreate() {
             <Form onSubmit={handleReviewCreate}>
                 <Row className={'mt-4'}>
                     <Col>
-                        <Form.Label>Title RO</Form.Label>
+                        <Form.Label>Name RO</Form.Label>
                         <Form.Control
                             type="text"
                             value={titleRO}
@@ -69,7 +69,7 @@ function ReviewCreate() {
                     </Col>
                     <Col>
                         <Form.Group controlId="title ru">
-                            <Form.Label>Title RU</Form.Label>
+                            <Form.Label>Name RU</Form.Label>
                             <Form.Control
                                 type="text"
                                 value={titleRU}
@@ -80,7 +80,7 @@ function ReviewCreate() {
                     </Col>
                     <Col>
                         <Form.Group controlId="title EN">
-                            <Form.Label>Title EN</Form.Label>
+                            <Form.Label>Name EN</Form.Label>
                             <Form.Control
                                 type="text"
                                 value={titleEN}

@@ -13,8 +13,9 @@ const Events = () => {
 
     // Time event states
     const [timeEvent, setTimeEvent] = useState('');
-    const [dateStartEvent, setDateStartEvent] = useState('');
-    const [dateEndEvent, setDateEndEvent] = useState('');
+    const [dateStartEvent, setDateStartEvent] = useState(null);
+    // const [dateEndEvent, setDateEndEvent] = useState('');
+    const [dateEndEvent, setDateEndEvent] = useState(null);
 
     // Short description states
     const [shortDescriptionRU, setShortDescriptionRU] = useState('');
@@ -25,6 +26,15 @@ const Events = () => {
     const [longDescriptionRU, setLongDescriptionRU] = useState('');
     const [longDescriptionRO, setLongDescriptionRO] = useState('');
     const [longDescriptionEN, setLongDescriptionEN] = useState('');
+
+    // Function to safely convert a date
+    const formatDate = (date) => {
+        if (date instanceof Date && !isNaN(date)) {
+            return date.toISOString().slice(0, 10);
+        }
+        return ''; // Return an empty string if the date is invalid
+    };
+
 
     useEffect(() => {
         const getEvents = async () => {
@@ -128,25 +138,38 @@ const Events = () => {
                 <Row className={'mt-4'}>
                     <Col>
                         <Form.Group controlId="time_event_ru">
-                            <Form.Label>Time Event </Form.Label>
+                            <Form.Label>Time Event</Form.Label>
                             <Form.Control
                                 type="text"
                                 value={timeEvent}
-                                onChange={(event) => setTimeEvent(event.target.value)}
-                                placeholder="Enter time event ru"
+                                onChange={(event) => {
+                                    const value = event.target.value;
+                                    const timeFormat = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;  // Regex for hh:mm format
+                                    if (timeFormat.test(value)) {
+                                        setTimeEvent(value);  // Update state if the format is valid
+                                    } else {
+                                        setTimeEvent(value);  // Still update the state for feedback but with invalid input
+                                    }
+                                }}
+                                placeholder="Enter time in hh:mm format"
                             />
+                            {/* Display error message if the format is incorrect */}
+                            {timeEvent && !/^([01]\d|2[0-3]):([0-5]\d)$/.test(timeEvent) && (
+                                <Form.Text className="text-danger">
+                                    Invalid time format. Please use hh:mm.
+                                </Form.Text>
+                            )}
                         </Form.Group>
                     </Col>
                     <Col>
                         <Form.Group controlId="time_event_ro">
-                            <Form.Label>Start Date  Event</Form.Label>
+                            <Form.Label>Start Date Event</Form.Label>
                             <Form.Control
                                 type="date"
-                                // value={dateStartEvent.toISOString().slice(0, 10)}
-                                value={dateStartEvent ? dateStartEvent.toISOString().slice(0, 10) : ''}
-                                onChange={(event) => setDateStartEvent(event.target.value)}
+                                value={formatDate(dateStartEvent)}
+                                onChange={(e) => setDateStartEvent(new Date(e.target.value))}
                                 placeholder="Enter start date for event"
-                                min={new Date().toISOString().split("T")[0]}  // Today or future dates only
+                                min={new Date().toISOString().split("T")[0]}
                             />
                         </Form.Group>
                     </Col>
@@ -155,10 +178,10 @@ const Events = () => {
                             <Form.Label>End Time Event</Form.Label>
                             <Form.Control
                                 type="date"
-                                value={dateEndEvent ? dateEndEvent.toISOString().slice(0, 10) : ''}
-                                onChange={(event) => setDateEndEvent(event.target.value)}
-                                placeholder="Enter end date of event"
-                                min={dateStartEvent}  // End date should be the same or after the start date
+                                value={formatDate(dateEndEvent)}
+                                onChange={(e) => setDateEndEvent(new Date(e.target.value))}
+                                placeholder="Enter start date for event"
+                                // min={dateStartEvent}
                             />
                         </Form.Group>
                     </Col>

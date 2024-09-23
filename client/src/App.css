@@ -1,3 +1,15 @@
+
+.f_montserrat {
+    font-family: ' Montserrat Alternates', sans-serif;
+}
+
+.title {
+    font-size: 85px;
+    font-weight: 700;
+    color: white;
+    padding-top: 150px;
+}
+
 .mobile-logo {
     display: none;
 }
@@ -21,7 +33,7 @@
 }
 
 .logo {
-    height: 73px; /* Set the logo height if necessary */
+    height: 73px;
 }
 
 .phone-icon {
@@ -37,7 +49,6 @@
     padding: 0 0 0 15px; /* Padding as per your requirement */
     border: none !important; /* Remove border */
     box-shadow: none !important; /* Remove box shadow if necessary */
-
 }
 
 .language_button .btn-group {
@@ -59,7 +70,6 @@
 }
 
 .language_button .dropdown-menu {
-    /*width: 90px; !* Set the width of the dropdown menu *!*/
     min-width: 90px; /* Ensure the menu does not shrink below this width */
 }
 
@@ -94,9 +104,102 @@
 }
 
 .z2 {
-    background-size: cover;
-    background: url('/main_banner.png') no-repeat center;
+    background: url('/main_banner.png') no-repeat;
+    background-size:cover;
+    /*background-size:contain;*/
 }
+
+.background_green {
+    background: url('/home_green.svg') no-repeat center top;
+}
+
+.background_white {
+    background: url('/home_white_1.png') no-repeat center bottom;
+}
+
+.background_white2 {
+    background: url('/home_white.png') no-repeat center top;
+}
+
+.bg_green {
+    background: #0A4D1EFC!important;
+}
+
+.bg_gray {
+    background: #E8ECE6;
+}
+
+.color_white {
+    color: white;
+}
+
+.color_yellow {
+    color: #FCC044;
+}
+
+.bg_yellow {
+    background: #FCC044;
+}
+
+.min-height-262 {
+    min-height: 262px;
+}
+
+.ticket_bg {
+    background: url("/ticket_bg.png") no-repeat;
+}
+
+.ticket_bg_dark {
+    background: url("/bg_dark_green.png") no-repeat;
+}
+
+.bg_shape2 {
+    background: url('/shape2.png') no-repeat;
+}
+
+.card1_style {
+    border-radius: unset!important;
+    border-bottom: unset!important;
+    border-left: unset!important;
+    border-top: unset!important;
+    border-right: unset!important;
+    background-color: #F1F3F0!important;
+    box-shadow: 0px 93.8px 187.6px 0px #2D2D2D22;
+    box-shadow: 0px 22.93px 22.93px 0px #F7F9F7 inset;
+    box-shadow: -0px -22.93px 22.93px 0px #C5C6C4 inset;
+}
+
+.height_27 {
+   line-height: 27px;
+}
+
+.padtop_125_25 {
+    padding-top: 125px;
+}
+
+.pad_top_95 {
+    padding-top: 95px !important;
+}
+
+.pad_top_55_15 {
+    padding-top: 55px;
+}
+
+.no_padding {
+    padding: 0 !important;
+}
+
+.card_no_radius {
+    border-radius: 0 !important; /* Remove border radius */
+    border-right: none !important;
+    border-bottom: none !important;
+    border-top: none !important;
+}
+
+.color_green {
+    color: #0A4D1EFC!important;
+}
+
 
 .btn_by {
     width: 200px;
@@ -105,7 +208,7 @@
 }
 
 .nav-link-active {
-    color: darkgreen !important;
+    color: #0A4D1EFC !important;
     font-weight: bold;
 }
 
@@ -122,6 +225,9 @@
     border: none;
 }
 
+.card-footer {
+    border-top: none!important;
+}
 /* Responsive adjustments */
 @media (max-width: 991px) { /* Adjust for tablets and mobile */
     .navbar-custom {
@@ -134,6 +240,16 @@
 
     .show_mobile {
         display: block;
+    }
+
+    .z2 {
+        height: auto;
+    }
+
+    .title {
+        font-size: 65px;
+        font-weight: 700;
+        color: white;
     }
 
     .text_white {
@@ -157,6 +273,14 @@
         padding: 10px 0;
         margin: 10px 0;
 
+    }
+
+    .padtop_125_25 {
+        padding-top: 25px;
+    }
+
+    .pad_top_55_15 {
+        padding-top: 15px;
     }
 }
 

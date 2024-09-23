@@ -67,8 +67,8 @@ function AdminAnimalsDetails() {
     const [protectionRU, setProtectionRU] = useState('');
     const [protectionEN, setProtectionEN] = useState('');
 
-    const [newAnimal, setNewAnimal] = useState('');
-    const [disappearingAnimal, setDisappearingAnimal] = useState('');
+    const [newAnimal, setNewAnimal] = useState(false);
+    const [disappearingAnimal, setDisappearingAnimal] = useState(false);
 
     const [img1, setImg1] = useState(null);
     const [img2, setImg2] = useState(null);
@@ -346,7 +346,7 @@ function AdminAnimalsDetails() {
                     </Form.Group>
                     </Col>
                     <Col sx={12} md={4}>
-                        <Form.Group controlId="descr_long_ro" className="mb-4">
+                        <Form.Group controlId="descr_long_ru" className="mb-4">
                             <Form.Label>Long Description (RU)</Form.Label>
                             <Form.Control
                                 as="textarea"
@@ -359,7 +359,7 @@ function AdminAnimalsDetails() {
                         </Form.Group>
                     </Col>
                     <Col sx={12} md={4}>
-                        <Form.Group controlId="descr_long_ro" className="mb-4">
+                        <Form.Group controlId="descr_long_en" className="mb-4">
                             <Form.Label>Long Description (EN)</Form.Label>
                             <Form.Control
                                 as="textarea"
@@ -374,7 +374,7 @@ function AdminAnimalsDetails() {
                 </Row>
                 <Row>
                     <Col sx={12} md={4}>
-                        <Form.Group controlId="descr_long_ro" className="mb-4">
+                        <Form.Group controlId="habitat_ro" className="mb-4">
                             <Form.Label>Habitat (RO)</Form.Label>
                             <Form.Control
                                 as="textarea"
@@ -387,14 +387,14 @@ function AdminAnimalsDetails() {
                         </Form.Group>
                     </Col>
                     <Col sx={12} md={4}>
-                        <Form.Group controlId="descr_long_ro" className="mb-4">
+                        <Form.Group controlId="habitat_ru" className="mb-4">
                             <Form.Label>Habitat (RU)</Form.Label>
                             <Form.Control
                                 as="textarea"
                                 rows={4}
                                 name="habitat_ru"
                                 value={habitatRU}
-                                onChange={(event) => setDescrLongRU(event.target.value)}
+                                onChange={(event) => setHabitatRU(event.target.value)}
                                 placeholder="Enter habitat (RU)"
                             />
                         </Form.Group>
@@ -441,7 +441,7 @@ function AdminAnimalsDetails() {
                         </Form.Group>
                     </Col>
                     <Col sx={12} md={4}>
-                        <Form.Group controlId="habitat_en" className="mb-4">
+                        <Form.Group controlId="habitat_long_en" className="mb-4">
                             <Form.Label>habitat Long (EN)</Form.Label>
                             <Form.Control
                                 as="textarea"
@@ -559,7 +559,7 @@ function AdminAnimalsDetails() {
                                 name="phylum_ru"
                                 value={phylumRU}
                                 onChange={(event) => setPhylumRU(event.target.value)}
-                                placeholder="phylum (RU)"
+                                placeholder="тип (RU)"
                             />
                         </Form.Group>
                     </Col>
@@ -881,7 +881,8 @@ function AdminAnimalsDetails() {
                         <Form.Group controlId="protection_ro" className="mb-4">
                             <Form.Label>Protection</Form.Label>
                             <Form.Control
-                                type='text'
+                                as="textarea"
+                                rows={3}
                                 name="protection"
                                 value={protectionRO}
                                 placeholder="protection RO"
@@ -893,7 +894,8 @@ function AdminAnimalsDetails() {
                         <Form.Group controlId="protection_ru" className="mb-4">
                             <Form.Label>Protection RU</Form.Label>
                             <Form.Control
-                                type='text'
+                                as="textarea"
+                                rows={3}
                                 name="protection_ru"
                                 value={protectionRU}
                                 placeholder="protection RU"
@@ -905,7 +907,8 @@ function AdminAnimalsDetails() {
                         <Form.Group controlId="protection_en" className="mb-4">
                             <Form.Label>Protection EN</Form.Label>
                             <Form.Control
-                                type='text'
+                                as="textarea"
+                                rows={3}
                                 name="protection"
                                 value={protectionEN}
                                 placeholder="protection EN"
@@ -931,11 +934,11 @@ function AdminAnimalsDetails() {
                         </Form.Group>
                     </Col>
                     <Col sx={12} md={4}>
-                        <Form.Group controlId="new_animal" className="mb-4">
+                        <Form.Group controlId="dissapearing" className="mb-4">
                             <Form.Label>Disappearing Animal</Form.Label>
                             <Form.Control
                                 as="select"
-                                name="new_animal"
+                                name="dissapearing"
                                 value={disappearingAnimal}
                                 onChange={(event) => setDisappearingAnimal(event.target.value)}
                             >

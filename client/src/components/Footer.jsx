@@ -56,7 +56,7 @@ function Footer() {
                         </Col>
                     </Row>
                     <hr/>
-                    <h6 className={'text-center color_white'}> © 2024 Gradina Zoologica. Все права защищены </h6>
+                    <h6 className={'text-center'}> © 2024 Gradina Zoologica. Все права защищены </h6>
                     <br/>
                 </div>
 

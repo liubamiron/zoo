@@ -59,7 +59,6 @@ const Reviews = () => {
                     Create New Review
                 </Button>
             </div>
-
             <div className="mt-4" style={{background: 'lightcyan', padding: '15px', borderRadius: '8px'}}>
                 {reviewsData.map((review) => (
                     <div className={'d-flex justify-content-between mb-2'}  key={review.id}
@@ -85,6 +84,7 @@ const Reviews = () => {
                     </div>
                 ))}
             </div>
+
         </Container>
     );
 };

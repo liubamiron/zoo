@@ -63,9 +63,9 @@ function AdminAnimalsCreate() {
     const [factsRU, setFactsRU] = useState('');
     const [factsEN, setFactsEN] = useState('');
 
-    const [protectionRO, setProtectionRO] = useState(false);
-    const [protectionRU, setProtectionRU] = useState(false);
-    const [protectionEN, setProtectionEN] = useState(false);
+    const [protectionRO, setProtectionRO] = useState('');
+    const [protectionRU, setProtectionRU] = useState('');
+    const [protectionEN, setProtectionEN] = useState('');
 
     const [newAnimal, setNewAnimal] = useState('');
     const [disappearingAnimal, setDisappearingAnimal] = useState('');
@@ -183,7 +183,7 @@ function AdminAnimalsCreate() {
                                 type="text"
                                 value={nameRU}
                                 onChange={(event) => setNameRU(event.target.value)}
-                                placeholder="Enter NameRU"
+                                placeholder="Название животного"
                             />
                         </Form.Group>
                     </Col>
@@ -297,7 +297,7 @@ function AdminAnimalsCreate() {
                                 name="habitat_ru"
                                 value={habitatRU}
                                 onChange={(event) => setHabitatRU(event.target.value)}
-                                placeholder="Enter habitat (RU)"/>
+                                placeholder="Обитание (RU)"/>
                         </Form.Group>
                     </Col>
                     <Col>
@@ -335,7 +335,7 @@ function AdminAnimalsCreate() {
                                 name="habitat_long_ru"
                                 value={habitatLongRU}
                                 onChange={(event) => setHabitatLongRU(event.target.value)}
-                                placeholder="Enter habitat (RU)"/>
+                                placeholder="Ареал обитания (RU)"/>
                         </Form.Group>
                     </Col>
                     <Col>
@@ -373,7 +373,7 @@ function AdminAnimalsCreate() {
                                 name="family_ru"
                                 value={familyRU}
                                 onChange={(event) => setFamilyRU(event.target.value)}
-                                placeholder="Family (RU)"/>
+                                placeholder="Семейство (RU)"/>
                         </Form.Group>
                     </Col>
                     <Col>
@@ -411,7 +411,7 @@ function AdminAnimalsCreate() {
                                 name="genus_ru"
                                 value={genusRU}
                                 onChange={(event) => setGenusRU(event.target.value)}
-                                placeholder="Genus (RU)"/>
+                                placeholder="Род (RU)"/>
                         </Form.Group>
                     </Col>
                     <Col>
@@ -437,7 +437,7 @@ function AdminAnimalsCreate() {
                                 name="phylum_ro"
                                 value={phylumRO}
                                 onChange={(event) => setPhylumRO(event.target.value)}
-                                placeholder="phylum (RO)"/>
+                                placeholder="Încrengătură (RO)"/>
                         </Form.Group>
                     </Col>
                     <Col>
@@ -449,7 +449,7 @@ function AdminAnimalsCreate() {
                                 name="phylum_ru"
                                 value={phylumRU}
                                 onChange={(event) => setPhylumRU(event.target.value)}
-                                placeholder="phylum (RU)"/>
+                                placeholder="Тип (RU)"/>
                         </Form.Group>
                     </Col>
                     <Col>
@@ -487,7 +487,7 @@ function AdminAnimalsCreate() {
                                 name="clas_ru"
                                 value={classRU}
                                 onChange={(event) => setClassRU(event.target.value)}
-                                placeholder="class (RU)"/>
+                                placeholder="Класс (RU)"/>
                         </Form.Group>
                     </Col>
                     <Col>
@@ -525,7 +525,7 @@ function AdminAnimalsCreate() {
                                 name="domain_ru"
                                 value={domainRU}
                                 onChange={(event) => setDomainRU(event.target.value)}
-                                placeholder="domain (RU)"/>
+                                placeholder="домен (RU)"/>
                         </Form.Group>
                     </Col>
                     <Col>
@@ -563,7 +563,7 @@ function AdminAnimalsCreate() {
                                 name="karyotype_ru"
                                 value={karyotypeRU}
                                 onChange={(event) => setKaryotypeRU(event.target.value)}
-                                placeholder="karyotype (RU)"/>
+                                placeholder="кариотип (RU)"/>
                         </Form.Group>
                     </Col>
                     <Col>
@@ -601,7 +601,7 @@ function AdminAnimalsCreate() {
                                 name="general_info_ru"
                                 value={generalInfoRU}
                                 onChange={(event) => setGeneralInfoRU(event.target.value)}
-                                placeholder="general info (RU)"/>
+                                placeholder="Общение (RU)"/>
                         </Form.Group>
                     </Col>
                     <Col>
@@ -639,7 +639,7 @@ function AdminAnimalsCreate() {
                                 name="nutrition_ru"
                                 value={nutritionRU}
                                 onChange={(event) => setNutritionRU(event.target.value)}
-                                placeholder="Nutrition (RU)"/>
+                                placeholder="Питание (RU)"/>
                         </Form.Group>
                     </Col>
                     <Col>
@@ -677,7 +677,7 @@ function AdminAnimalsCreate() {
                                 name="facts_ru"
                                 value={factsRU}
                                 onChange={(event) => setFactsRU(event.target.value)}
-                                placeholder="facts (RU)"/>
+                                placeholder="Интерессные факты (RU)"/>
                         </Form.Group>
                     </Col>
                     <Col>
@@ -710,11 +710,11 @@ function AdminAnimalsCreate() {
                         </Form.Group>
                     </Col>
                     <Col sx={12} md={4}>
-                        <Form.Group controlId="new_animal" className="mb-4">
+                        <Form.Group controlId="disappearing" className="mb-4">
                             <Form.Label>Disappearing Animal</Form.Label>
                             <Form.Control
                                 as="select"
-                                name="new_animal"
+                                name="disappearing"
                                 value={disappearingAnimal}
                                 onChange={(event) => setDisappearingAnimal(event.target.value)}
                             >
@@ -783,10 +783,11 @@ function AdminAnimalsCreate() {
                         <Form.Group controlId="protection_ro" className="mb-4">
                             <Form.Label>Protection</Form.Label>
                             <Form.Control
-                                as="select"
+                                as="textarea"
+                                rows={3}
                                 name="protection"
                                 value={protectionRO}
-                                placeholder="protection RO"
+                                placeholder="este sub protectie  RO"
                                 onChange={(event) => setProtectionRO(event.target.value)}
                             />
                         </Form.Group>
@@ -795,10 +796,11 @@ function AdminAnimalsCreate() {
                         <Form.Group controlId="protection_ru" className="mb-4">
                             <Form.Label>Protection RU</Form.Label>
                             <Form.Control
-                                as="select"
+                                as="textarea"
+                                rows={3}
                                 name="protection_ru"
                                 value={protectionRU}
-                                placeholder="protection RU"
+                                placeholder="Природохранный статус RU"
                                 onChange={(event) => setProtectionRU(event.target.value)}
                             />
                         </Form.Group>
@@ -807,7 +809,8 @@ function AdminAnimalsCreate() {
                         <Form.Group controlId="protection_en" className="mb-4">
                             <Form.Label>Protection EN</Form.Label>
                             <Form.Control
-                                as="select"
+                                as="textarea"
+                                rows={3}
                                 name="protection"
                                 value={protectionEN}
                                 placeholder="protection EN"

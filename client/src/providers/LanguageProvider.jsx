@@ -14,11 +14,13 @@ export const useTranslation = () => {
 };
 
 const langOptions = [
-    { value: 'EN', label: 'EN' },
-    { value: 'RO', label: 'RO' },
-    { value: 'RU', label: 'RU' },
+    { value: 'ru', label: 'ru' },
+    { value: 'en', label: 'en' },
+    { value: 'ro', label: 'ro' },
+
 
 ];
+
 
 export const LanguageProvider = ({ children }) => {
     const [language, setLanguage] = useState(langOptions[0].value);

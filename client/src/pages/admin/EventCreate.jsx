@@ -109,15 +109,54 @@ const EventCreate = () => {
                 </Row>
                 <Row className={'mt-4'}>
                     <Col>
+                        {/*<Form.Group controlId="time_event_ru">*/}
+                        {/*    <Form.Label>Time Event </Form.Label>*/}
+                        {/*    <Form.Control*/}
+                        {/*        type="text"*/}
+                        {/*        value={timeEvent}*/}
+                        {/*        // onChange={(event) => setTimeEvent(event.target.value)}*/}
+                        {/*        onChange={(event) => {*/}
+                        {/*            const value = event.target.value;*/}
+                        {/*            const timeFormat = /^([01]\d|2[0-3]):([0-5]\d)$/;  // Regex for hh:mm format*/}
+
+                        {/*            if (timeFormat.test(value)) {*/}
+                        {/*                setDateEndEvent(value);  // Update the state if the format is correct*/}
+                        {/*            } else {*/}
+                        {/*                console.log('Invalid time format. Please use hh:mm.');*/}
+                        {/*            }*/}
+                        {/*        }}*/}
+                        {/*    />*/}
+                        {/*    {dateEndEvent && !/^([01]\d|2[0-3]):([0-5]\d)$/.test(dateEndEvent) && (*/}
+                        {/*        <Form.Text className="text-danger">*/}
+                        {/*            Invalid time format. Please use hh:mm.*/}
+                        {/*        </Form.Text>*/}
+                        {/*    )}*/}
+                        {/*</Form.Group>*/}
                         <Form.Group controlId="time_event_ru">
-                            <Form.Label>Time Event </Form.Label>
+                            <Form.Label>Time Event</Form.Label>
                             <Form.Control
                                 type="text"
                                 value={timeEvent}
-                                onChange={(event) => setTimeEvent(event.target.value)}
-                                placeholder="Enter time event ru"
+                                onChange={(event) => {
+                                    const value = event.target.value;
+                                    const timeFormat = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;  // Regex for hh:mm format
+                                    if (timeFormat.test(value)) {
+                                        setTimeEvent(value);  // Update state if the format is valid
+                                    } else {
+                                        setTimeEvent(value);  // Still update the state for feedback but with invalid input
+                                    }
+                                }}
+                                placeholder="Enter time in hh:mm format"
                             />
+                            {/* Display error message if the format is incorrect */}
+                            {timeEvent && !/^([01]\d|2[0-3]):([0-5]\d)$/.test(timeEvent) && (
+                                <Form.Text className="text-danger">
+                                    Invalid time format. Please use hh:mm.
+                                </Form.Text>
+                            )}
                         </Form.Group>
+
+
                     </Col>
                     <Col>
                         <Form.Group controlId="time_event_ro">
@@ -137,9 +176,8 @@ const EventCreate = () => {
                             <Form.Control
                                 type="date"
                                 value={dateEndEvent}
+                                placeholder="Enter end date for event"
                                 onChange={(event) => setDateEndEvent(event.target.value)}
-                                placeholder="Enter end date of event"
-                                min={dateStartEvent}  // End date should be the same or after the start date
                             />
                         </Form.Group>
                     </Col>

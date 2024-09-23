@@ -6,7 +6,7 @@ import {useTranslation} from "../providers";
 // ----------------------------------------------------------------------
 
 export default function LanguagePopover() {
-    const [language, setLanguage] = useState("EN"); // Default language
+    const [language, setLanguage] = useState("ro"); // Default language
     const { setLanguage: setAppLanguage } = useTranslation();
 
     const handleLanguageChange = (lang) => {
@@ -23,29 +23,29 @@ export default function LanguagePopover() {
            className={'language_button'}
 
         >
-            <Dropdown.Item onClick={() => handleLanguageChange("RU")}>
+            <Dropdown.Item onClick={() => handleLanguageChange("ru")}>
                 <img
                     src="/icons/ru.svg"
-                    alt="RU"
+                    alt="ru"
                     style={{ width: 20, marginRight: 18 }}
                 />
-                RU
+                ru
             </Dropdown.Item>
-            <Dropdown.Item onClick={() => handleLanguageChange("RO")}>
+            <Dropdown.Item onClick={() => handleLanguageChange("ro")}>
                 <img
                     src="/icons/md.svg"
-                    alt="RO"
+                    alt="ro"
                     style={{ width: 20, marginRight: 18 }}
                 />
-                RO
+                ro
             </Dropdown.Item>
-            <Dropdown.Item onClick={() => handleLanguageChange("EN")}>
+            <Dropdown.Item onClick={() => handleLanguageChange("en")}>
                 <img
                     src="/icons/us.svg"
-                    alt="EN"
+                    alt="en"
                     style={{ width: 20, marginRight: 18 }}
                 />
-                EN
+                en
             </Dropdown.Item>
         </DropdownButton>
     );

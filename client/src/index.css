@@ -2,6 +2,8 @@ html, body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  background: #F1F3F0;
+  font-family: 'Lora', sans-serif;
 }
 
 *, *::before, *::after {
@@ -15,4 +17,8 @@ a {
 
 ul, ol {
   list-style: none;
+}
+
+.container {
+  max-width: 1182px;
 }

@@ -36,12 +36,7 @@ function NavbarPage() {
                             <Nav.Link href="/events" className="text_white">События</Nav.Link>
                             <Nav.Link href="/rules" className="text_white">Правила</Nav.Link>
                             <Nav.Link href="/contacts" className="text_white">Контакты</Nav.Link>
-                            <NavDropdown title="Eще" id="nav-dropdown" >
-
-                                <NavDropdown.Item as={Link} to="/login">Авторизация</NavDropdown.Item>
-                                <NavDropdown.Divider />
-                                <NavDropdown.Item as={Link} to="/login">Авторизация</NavDropdown.Item>
-                            </NavDropdown>
+                            {/*<Nav.Link href="/login" className="text_white">Авторизация</Nav.Link>*/}
                         </Nav>
                         <Nav className="ms-auto align-items-center">
                             <span className="text_white">

@@ -22,6 +22,7 @@ class AnimalController {
                 nutrition_ru, nutrition_ro, nutrition_en,
                 facts_ru, facts_ro, facts_en,
                 protection_ru, protection_ro, protection_en,
+                new_animal, disappearing,
                 typeAnimalId
             } = req.body;
 
@@ -51,7 +52,7 @@ class AnimalController {
                 general_info_ru, general_info_ro, general_info_en,
                 nutrition_ru, nutrition_ro, nutrition_en,
                 facts_ru, facts_ro, facts_en,
-                protection_ru, protection_ro, protection_en, typeAnimalId,
+                protection_ru, protection_ro, protection_en, new_animal, disappearing, typeAnimalId,
                 img_1: fileName1, img_2: fileName2
             });
 
@@ -113,6 +114,7 @@ class AnimalController {
                 nutrition_ru, nutrition_ro, nutrition_en,
                 facts_ru, facts_ro, facts_en,
                 protection_ru, protection_ro, protection_en,
+                new_animal, disappearing,
                 typeAnimalId,
             } = req.body;
 
@@ -185,6 +187,8 @@ class AnimalController {
                 protection_ro: protection_ro || animal.protection_ro,
                 protection_ru: protection_ru || animal.protection_ru,
                 protection_en: protection_en || animal.protection_en,
+                new_animal: new_animal || animal.new_animal,
+                disappearing: disappearing || animal.disappearing,
                 typeAnimalId:typeAnimalId || animal.typeAnimalId
             });
 

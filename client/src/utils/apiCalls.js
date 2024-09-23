@@ -28,11 +28,7 @@ const api = axios.create({
 // Fetch all animal data
 export const fetchAnimalData = async () => {
     try {
-        const token = getAuthCookie();
         const response = await api.get('/animal/', {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
         });
         return response.data; // Return the data from the API
     } catch (error) {
@@ -60,11 +56,7 @@ export const fetchAnimalDataById = async (id) => {
 // Fetch all type animals
 export const fetchTypeAnimals = async () => {
     try {
-        const token = getAuthCookie();
         const response = await api.get('/type_animal/', {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
         });
         return response.data; // Return the type animals data from the API
     } catch (error) {
@@ -154,15 +146,15 @@ export const createAdminHomePage = async (formData) => {
     }
 };
 
-// Fetch specific animal data by ID
+// Fetch home data by ID
 export const fetchHomePageDataById = async (id) => {
     try {
-        const token = getAuthCookie();
+        // const token = getAuthCookie();
         console.log('Fetching HomePage with ID:', id);
         const response = await api.get(`/home_page/${id}`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
+            // headers: {
+            //     Authorization: `Bearer ${token}`,
+            // },
         });
         return response.data; // Return the specific animal data from the API
     } catch (error) {
@@ -191,14 +183,14 @@ export const editAdminHomePage = async (formData, id) => {
     }
 };
 
-// Events
+// get all Events
 export const fetchEventsData = async () => {
     try {
-        const token = getAuthCookie();
+        // const token = getAuthCookie();
         const response = await api.get('/event/', {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
+            // headers: {
+            //     Authorization: `Bearer ${token}`,
+            // },
         });
         return response.data; // Return the data from the API
     } catch (error) {
@@ -613,11 +605,7 @@ export const deleteTypeAnimals = async (id) => {
 ///get all reviews
 export const fetchReviewsData = async () => {
     try {
-        const token = getAuthCookie();
         const response = await api.get('/review', {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
         });
         return response.data;
     } catch (error) {
