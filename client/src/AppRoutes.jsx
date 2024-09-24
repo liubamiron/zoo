@@ -35,6 +35,8 @@ import TagsEdit from "./pages/admin/TagsEdit.jsx";
 import TagsCreate from "./pages/admin/TagsCreate.jsx";
 import TypeAnimals from "./pages/admin/TypeAnimals.jsx";
 import FAQ from "./pages/admin/FAQ.jsx";
+import About from "./pages/About.jsx";
+import Animals from "./pages/Animals.jsx";
 
 
 function AppRoutes() {
@@ -43,6 +45,8 @@ function AppRoutes() {
         <Routes>
             <Route path="/" element={<Layout />}>
                 <Route index element={<HomePage/>} />
+                <Route path="/about" element={<About />} />
+                <Route path="/animals" element={<Animals />} />
                 <Route path="*" element={<NotFoundPage/>} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/registration" element={<Auth />} />

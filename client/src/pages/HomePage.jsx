@@ -147,7 +147,6 @@ const HomePage = () => {
             </Card>
         </>
     );
-
     const CardComponent2 = () => (
         <>
             <Card className="mb-4 card1_style h-100">
@@ -166,7 +165,6 @@ const HomePage = () => {
             </Card>
         </>
     )
-
     const CardComponent3 = () => (
         <Card className="mb-4 card1_style h-100"
             >
@@ -249,7 +247,6 @@ const HomePage = () => {
             {isMobile ? <MobileSlider /> : <CardList />}
         </div>
     );
-
 
     return (
         <>
@@ -504,7 +501,7 @@ const HomePage = () => {
                                 onClick={() => setSelectedType(type.id)}
                                 className="m-2"
                             >
-                                {type.name_ru}
+                                {type[`name_${language}`]}
                             </Button>
                         ))}
                         <Button
@@ -517,16 +514,28 @@ const HomePage = () => {
                     </div>
                     <Row>
                         {filteredAnimals?.slice(0, 6).map((animal) => (
-                            <Col xs={12} md={6} lg={4} key={animal.id}>
-                                <div className="animal-card p-3 text-center">
-                                    <img
-                                        src={`${import.meta.env.VITE_URL}/${animal.img_1}`}
-                                        alt="Animal Image 2"
-                                        className="img-fluid"
+                            <Col xs={12} md={4} key={animal.id}>
+                                <Card className={'bg_light_green mb-2'} >
+                                    <Card.Img variant="top"
+                                              src={`${import.meta.env.VITE_URL}/${animal.img_1}`} alt="animal"
+                                              className={'img-fluid'}
+                                              style={{ height: '230px' }}
                                     />
-                                    <h5>{animal[`name_${language}`]}</h5>
-                                </div>
+                                    <Card.Footer>
+                                        <p style={{ height: '60px' }}>{animal[`name_${language}`]}</p>
+                                    </Card.Footer>
+                                </Card>
                             </Col>
+                            // <Col xs={12} md={6} lg={4} key={animal.id}>
+                            //     <div className="animal-card p-3 text-center">
+                            //         <img
+                            //             src={`${import.meta.env.VITE_URL}/${animal.img_1}`}
+                            //             alt="Animal Image 2"
+                            //             className="img-fluid"
+                            //         />
+                            //         <h5>{animal[`name_${language}`]}</h5>
+                            //     </div>
+                            // </Col>
                         ))}
                     </Row>
                     <br/>

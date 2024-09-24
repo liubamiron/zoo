@@ -3,6 +3,19 @@
     font-family: ' Montserrat Alternates', sans-serif;
 }
 
+.f_size_42 {
+    font-size: 42px;
+    font-weight: 700;
+}
+
+.lh_27 {
+    line-height: 27px;
+}
+
+.f_size_18 {
+    font-size: 18px;
+}
+
 .title {
     font-size: 85px;
     font-weight: 700;
@@ -28,8 +41,20 @@
     color: white !important;
 }
 
+.height_280 {
+    height: 280px;
+}
+
 .navbar-custom {
     height: 73px; /* Set the height for the navbar */
+}
+
+.margin_top_40 {
+    margin-top: 40px !important;
+}
+
+.margin_top_85_40 {
+    margin-top: 85px;
 }
 
 .logo {
@@ -121,8 +146,20 @@
     background: url('/home_white.png') no-repeat center top;
 }
 
+.bg_banner {
+    background: url("/banner.svg") no-repeat center top;
+}
+
+.bg_banner_green {
+    background: url("/bg_green_baner.png") no-repeat center bottom;
+}
+
 .bg_green {
     background: #0A4D1EFC!important;
+}
+
+.bg_light_green {
+    background: #E8ECE6!important;
 }
 
 .bg_gray {
@@ -244,6 +281,10 @@
 
     .z2 {
         height: auto;
+    }
+
+    .margin_top_85_40 {
+        margin-top: 40px;
     }
 
     .title {

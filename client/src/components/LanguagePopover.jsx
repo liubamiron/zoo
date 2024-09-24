@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { Dropdown, ButtonGroup, DropdownButton } from "react-bootstrap";
 import {useTranslation} from "../providers";
 
@@ -6,7 +6,9 @@ import {useTranslation} from "../providers";
 // ----------------------------------------------------------------------
 
 export default function LanguagePopover() {
-    const [language, setLanguage] = useState("ro"); // Default language
+    // const [language, setLanguage] = useState("ro"); // Default language
+    const [language, setLanguage] = useState(localStorage.getItem("language") || "ro");
+
     const { setLanguage: setAppLanguage } = useTranslation();
 
     const handleLanguageChange = (lang) => {

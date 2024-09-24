@@ -114,6 +114,8 @@ const Animal = sequelize.define('animal', {
     // Images
     img_1: {type: DataTypes.STRING, allowNull: true},
     img_2: {type: DataTypes.STRING, allowNull: true},
+    img_3: {type: DataTypes.STRING, allowNull: true},
+    img_4: {type: DataTypes.STRING, allowNull: true},
 })
 
 const TypeAnimal = sequelize.define('type_animal', {

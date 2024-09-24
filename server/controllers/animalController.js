@@ -26,16 +26,41 @@ class AnimalController {
                 typeAnimalId
             } = req.body;
 
-            const { img_1, img_2 } = req.files;
+            const { img_1, img_2, img_3, img_4 } = req.files || {};
 
-            // Generate unique file names for both images
-            let fileName1 = uuid.v4() + ".jpg";
-            let fileName2 = uuid.v4() + ".jpg";
+            // Initialize file names
+            let fileName1 = null;
+            let fileName2 = null;
+            let fileName3 = null;
+            let fileName4 = null;
 
-            // Move images to the static folder
-            img_1.mv(path.resolve(__dirname, '..', 'static', fileName1));
-            img_2.mv(path.resolve(__dirname, '..', 'static', fileName2));
+            if (img_1) {
+                // Generate unique file name for the first image
+                fileName1 = uuid.v4() + ".jpg";
+                // Move image to the static folder
+                img_1.mv(path.resolve(__dirname, '..', 'static', fileName1));
+            }
 
+            if (img_2) {
+                // Generate unique file name for the second image
+                fileName2 = uuid.v4() + ".jpg";
+                // Move image to the static folder
+                img_2.mv(path.resolve(__dirname, '..', 'static', fileName2));
+            }
+
+            if (img_3) {
+                // Generate unique file name for the second image
+                fileName3 = uuid.v4() + ".jpg";
+                // Move image to the static folder
+                img_3.mv(path.resolve(__dirname, '..', 'static', fileName3));
+            }
+
+            if (img_4) {
+                // Generate unique file name for the second image
+                fileName4 = uuid.v4() + ".jpg";
+                // Move image to the static folder
+                img_4.mv(path.resolve(__dirname, '..', 'static', fileName4));
+            }
             // Create an animal entry
             const animal = await Animal.create({
                 name_ru, name_ro, name_en,
@@ -53,7 +78,8 @@ class AnimalController {
                 nutrition_ru, nutrition_ro, nutrition_en,
                 facts_ru, facts_ro, facts_en,
                 protection_ru, protection_ro, protection_en, new_animal, disappearing, typeAnimalId,
-                img_1: fileName1, img_2: fileName2
+                img_1: fileName1, img_2: fileName2,
+                img_3: fileName3, img_4: fileName4
             });
 
             return res.json(animal);
@@ -118,7 +144,7 @@ class AnimalController {
                 typeAnimalId,
             } = req.body;
 
-            const { img_1, img_2 } = req.files || {};
+            const { img_1, img_2, img_3, img_4 } = req.files || {};
 
             // Find the existing animal record by id
             const animal = await Animal.findOne({ where: { id } });
@@ -140,6 +166,17 @@ class AnimalController {
                 animal.img_2 = fileName2;
             }
 
+            if (img_3) {
+                let fileName3 = uuid.v4() + ".jpg";
+                img_3.mv(path.resolve(__dirname, '..', 'static', fileName3));
+                animal.img_3 = fileName3;
+            }
+
+            if (img_4) {
+                let fileName4 = uuid.v4() + ".jpg";
+                img_4.mv(path.resolve(__dirname, '..', 'static', fileName4));
+                animal.img_4 = fileName4;
+            }
             // Update other fields only if they are provided in the request
             Object.assign(animal, {
                 name_ru: name_ru || animal.name_ru,

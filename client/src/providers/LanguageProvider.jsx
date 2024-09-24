@@ -14,11 +14,9 @@ export const useTranslation = () => {
 };
 
 const langOptions = [
-    { value: 'ru', label: 'ru' },
-    { value: 'en', label: 'en' },
     { value: 'ro', label: 'ro' },
-
-
+    { value: 'ru', label: 'ru' },
+    { value: 'en', label: 'en' }
 ];
 
 

@@ -3,7 +3,7 @@ html, body {
   padding: 0;
   box-sizing: border-box;
   background: #F1F3F0;
-  font-family: 'Lora', sans-serif;
+  font-family: 'Lora', 'Montserrat', sans-serif;
 }
 
 *, *::before, *::after {

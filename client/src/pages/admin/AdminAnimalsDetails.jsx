@@ -72,6 +72,8 @@ function AdminAnimalsDetails() {
 
     const [img1, setImg1] = useState(null);
     const [img2, setImg2] = useState(null);
+    const [img3, setImg3] = useState(null);
+    const [img4, setImg4] = useState(null);
 
     const [typeAnimal, setTypeAnimal] = useState(4);
 
@@ -158,6 +160,8 @@ function AdminAnimalsDetails() {
 
                 setImg1(data?.img_1)
                 setImg2(data?.img_2)
+                setImg3(data?.img_3)
+                setImg4(data?.img_4)
 
                 setTypeAnimal(data?.typeAnimalId || '');
 
@@ -186,9 +190,19 @@ function AdminAnimalsDetails() {
         setImg1(e.target.files[0]);
     };
 
-    // Handler for the second image input
+    // Handler for the 2 image input
     const handleImg2Change = (e) => {
         setImg2(e.target.files[0]);
+    };
+
+    // Handler for the 3 image input
+    const handleImg3Change = (e) => {
+        setImg3(e.target.files[0]);
+    };
+
+    // Handler for the 4 image input
+    const handleImg4Change = (e) => {
+        setImg4(e.target.files[0]);
     };
 
 
@@ -249,6 +263,8 @@ function AdminAnimalsDetails() {
         formData.append('typeAnimalId', typeAnimal);
         formData.append('img_1', img1);
         formData.append('img_2', img2);
+        formData.append('img_3', img3);
+        formData.append('img_4', img4);
         updateAnimalData(id, formData).then(r => console.log('r', r))
     };
 
@@ -990,6 +1006,47 @@ function AdminAnimalsDetails() {
                     </Col>
                 </Row>
                 <br />
+                <Row>
+                    <Col className={'text-center'} sx={12} md={6}>
+                        <h5>Img 3</h5>
+                        {animalData?.img_3 && (
+                            <img
+                                src={`${import.meta.env.VITE_URL}/${animalData.img_3}`}
+                                alt="Animal Image 3"
+                                className="img-fluid"
+                            />
+                        )}
+                    </Col>
+                    <Col className={'text-center'} sx={12} md={6}>
+                        <h5>Img 4</h5>
+                        {animalData?.img_4 && (
+                            <img
+                                src={`${import.meta.env.VITE_URL}/${animalData.img_4}`}
+                                alt="Animal Image 4"
+                                className="img-fluid"
+                            />
+                        )}
+                    </Col>
+                </Row>
+                <Row className={'mt-4'}>
+                    <Col xs={12} md={6}>
+                        <div className="d-flex align-items-center">
+                            <span>Img&nbsp;3</span>&nbsp;
+                            <Form.Control
+                                type="file"
+                                onChange={handleImg3Change}/>
+                        </div>
+                    </Col>
+                    <Col xs={12} md={6}>
+                        <div className="d-flex align-items-center">
+                            <span>Img&nbsp;4</span>
+                            <Form.Control
+                                type="file"
+                                onChange={handleImg4Change}/>
+                        </div>
+                    </Col>
+                </Row>
+                <br/>
                 <Button type="submit" variant="primary">
                     Submit
                 </Button>

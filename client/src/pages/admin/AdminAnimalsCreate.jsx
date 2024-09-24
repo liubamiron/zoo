@@ -72,6 +72,8 @@ function AdminAnimalsCreate() {
 
     const [img1, setImg1] = useState('');
     const [img2, setImg2] = useState('');
+    const [img3, setImg3] = useState('');
+    const [img4, setImg4] = useState('');
 
 
     const [typeAnimal, setTypeAnimal] = useState(4);
@@ -99,6 +101,17 @@ function AdminAnimalsCreate() {
     const handleImg2Change = (e) => {
         setImg2(e.target.files[0]);
     };
+
+    // Handler for the second image input
+    const handleImg3Change = (e) => {
+        setImg3(e.target.files[0]);
+    };
+
+    // Handler for the second image input
+    const handleImg4Change = (e) => {
+        setImg4(e.target.files[0]);
+    };
+
 
     const handleCreate = (event) => {
         event.preventDefault();
@@ -157,6 +170,8 @@ function AdminAnimalsCreate() {
         formData.append('typeAnimalId', typeAnimal);
         formData.append('img_1', img1);
         formData.append('img_2', img2);
+        formData.append('img_3', img3);
+        formData.append('img_4', img4);
         createAnimalData(formData).then(r => console.log('r', r))
     };
 
@@ -834,6 +849,25 @@ function AdminAnimalsCreate() {
                             <Form.Control
                                 type="file"
                                 onChange={handleImg2Change}/>
+                        </div>
+                    </Col>
+                </Row>
+                <br/>
+                <Row className={'mt-4'}>
+                    <Col xs={12} md={6}>
+                        <div className="d-flex align-items-center">
+                            <span>Img&nbsp;3</span>&nbsp;
+                            <Form.Control
+                                type="file"
+                                onChange={handleImg3Change}/>
+                        </div>
+                    </Col>
+                    <Col xs={12} md={6}>
+                        <div className="d-flex align-items-center">
+                            <span>Img&nbsp;4</span>
+                            <Form.Control
+                                type="file"
+                                onChange={handleImg4Change}/>
                         </div>
                     </Col>
                 </Row>
