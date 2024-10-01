@@ -37,6 +37,8 @@ import TypeAnimals from "./pages/admin/TypeAnimals.jsx";
 import FAQ from "./pages/admin/FAQ.jsx";
 import About from "./pages/About.jsx";
 import Animals from "./pages/Animals.jsx";
+import Animal from "./pages/Animal.jsx";
+import Gallery from "./pages/admin/Gallery.jsx";
 
 
 function AppRoutes() {
@@ -47,6 +49,8 @@ function AppRoutes() {
                 <Route index element={<HomePage/>} />
                 <Route path="/about" element={<About />} />
                 <Route path="/animals" element={<Animals />} />
+                <Route path="/animals/:id" element={<Animal />} />
+                <Route path="/gallery" element={<Gallery />} />
                 <Route path="*" element={<NotFoundPage/>} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/registration" element={<Auth />} />

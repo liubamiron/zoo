@@ -256,7 +256,7 @@ function PostCreate() {
                         <Col md={4}>
                             <Form.Control
                                 value={i.name_ru}
-                                placeholder="tag ru"
+                                placeholder="tag_ru"
                                 onChange={(e) => changePost_tags('name_ru', e.target.value, i.number)}
 
                             />
@@ -264,7 +264,7 @@ function PostCreate() {
                         <Col md={4}>
                             <Form.Control
                                 value={i.name_en}
-                                placeholder="tag en"
+                                placeholder="tag_en"
                                 onChange={(e) => changePost_tags('name_en', e.target.value, i.number)}
 
                             />

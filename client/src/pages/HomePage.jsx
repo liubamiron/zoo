@@ -14,11 +14,14 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import {Navigation} from 'swiper/modules';
 import {zoo_facilities} from "../components/Constants.jsx";
+import {Link} from "react-router-dom";
 
 
 const HomePage = () => {
 
     const [eventsData, setEventsData] = useState([]);
+    const [openingEvent, setOpeningEvent] = useState(null);
+    const [closeEvent, setCloseEvent] = useState(null);
     const [allEvents, setAllEvents] = useState([]);
     const [allAnimalsData, setAllAnimals] = useState([]);
     const [typeAnimals, setTypeAnimals] = useState([]);
@@ -34,6 +37,13 @@ const HomePage = () => {
         const getData = async () => {
             try {
                 const data = await fetchEventsData();
+                // Find the "Opening" and "Close" events
+                const opening = data.find(event => event.title_en === 'Opening');
+                const close = data.find(event => event.title_en === 'Close');
+
+                // Store the events in state
+                setOpeningEvent(opening);
+                setCloseEvent(close);
                 setEventsData(data[0]);  // Store the list of first event
                 setAllEvents(data);  // Store the list of first event
             } catch (error) {
@@ -80,6 +90,7 @@ const HomePage = () => {
         };
         getData().then(r => console.log(r, 'animals data'));
     }, []);
+
     //get all reviews
     useEffect(() => {
         const getData = async () => {
@@ -115,15 +126,17 @@ const HomePage = () => {
         })
         .sort((a, b) => new Date('1970/01/01 ' + a.time_event.split(' - ')[0]) - new Date('1970/01/01 ' + b.time_event.split(' - ')[0]));
 
+
 // Filter animals by selected type
     const filteredAnimals = selectedType
-        ? allAnimalsData?.rows?.filter((animal) => animal.typeAnimalId === selectedType)
+        ? allAnimalsData?.rows.filter(animal => animal.types.some(animal => animal.id === selectedType))
         : allAnimalsData?.rows;
+
 
     // Filter the animals array where new_animal is true
     const newAnimals = allAnimalsData?.rows?.filter(animal => animal.new_animal === true);
 // Display the result
-    console.log('newAnimals', newAnimals, allAnimalsData?.rows?.filter(animal => animal.new_animal === true))
+    console.log('newAnimals', filteredAnimals, selectedType);
 
 
     const CardComponent = () => (
@@ -132,15 +145,18 @@ const HomePage = () => {
                 <Card.Body className="text-center ">
                     <Card.Title className={'d-flex justify-content-center color_green mb-4'}>
                         <img src={'/icons/Vector.svg'} alt={'vector'} style={{width: '7%', height: 'auto'}} />
-                        &nbsp;{eventsData[`title_${language}`]}
+                        &nbsp;{t('PLAN_VISIT')}
+                        {/*&nbsp;{eventsData[`title_${language}`]}*/}
                     </Card.Title>
                     <Card.Text className={'height_27'}>
-                        {new Date().toLocaleDateString(`${language}`, {
-                            month: 'long',
-                            day: 'numeric'
-                        })} <br />
-                        {eventsData.time_event}<br />
-                        {eventsData[`short_description_${language}`]}
+                        {t('TODAY')}&nbsp;{new Date().toLocaleDateString(`${language}`, {
+                        month: 'long',
+                        day: 'numeric'
+                    })}
+                        <div className={'mt-4 color_carrot'}>
+                            {openingEvent?.time_event} : {closeEvent?.time_event}
+                        </div>
+                        <div className={'mt-4'}> {openingEvent?.[`short_description_${language}`]}</div>
                     </Card.Text>
                 </Card.Body>
                 <Card.Footer className={'color_green'}>{t("PLAIN")}</Card.Footer>
@@ -305,10 +321,11 @@ const HomePage = () => {
                         >
                             {newAnimals?.map((item) => (
                             <SwiperSlide key={item.id}>
-                                <Card className="mb-3 h-100">
+                                <Link to={`/animals/${item.id}`} style={{ textDecoration: 'none' }}> {/* Wrap Card with Link */}
+                                    <Card className="mb-3 h-100">
                                     <Card.Img variant="top"
                                      src={`${import.meta.env.VITE_URL}/${item.img_1}`} alt="animal"
-                                         className={'img-fluid'}/>
+                                          style={{height: '400px', objectFit: 'cover'}}/>
                                     <Card.Body className="text-center bg_green">
                                         <Card.Title className={'mb-4 text_white'}>
                                             {item[`name_${language}`]}
@@ -317,10 +334,11 @@ const HomePage = () => {
                                             {item[`descr_short_${language}`]}
                                         </Card.Text>
                                     </Card.Body>
-                                    <Card.Footer className={'bg_green text_white'}>
+                                    <Card.Footer className={'bg_green color_green'}>
                                         {t("MORE_INFO")}
                                     </Card.Footer>
                                 </Card>
+                                </Link>
                             </SwiperSlide>
                             ))}
                         </Swiper>
@@ -515,7 +533,9 @@ const HomePage = () => {
                     <Row>
                         {filteredAnimals?.slice(0, 6).map((animal) => (
                             <Col xs={12} md={4} key={animal.id}>
-                                <Card className={'bg_light_green mb-2'} >
+                                <Link to={`/animals/${animal.id}`} style={{ textDecoration: 'none' }}>
+                                <Card className={'bg_light_green mb-2'}
+                                >
                                     <Card.Img variant="top"
                                               src={`${import.meta.env.VITE_URL}/${animal.img_1}`} alt="animal"
                                               className={'img-fluid'}
@@ -525,17 +545,8 @@ const HomePage = () => {
                                         <p style={{ height: '60px' }}>{animal[`name_${language}`]}</p>
                                     </Card.Footer>
                                 </Card>
+                                </Link>
                             </Col>
-                            // <Col xs={12} md={6} lg={4} key={animal.id}>
-                            //     <div className="animal-card p-3 text-center">
-                            //         <img
-                            //             src={`${import.meta.env.VITE_URL}/${animal.img_1}`}
-                            //             alt="Animal Image 2"
-                            //             className="img-fluid"
-                            //         />
-                            //         <h5>{animal[`name_${language}`]}</h5>
-                            //     </div>
-                            // </Col>
                         ))}
                     </Row>
                     <br/>

@@ -33,7 +33,7 @@ function NavbarPage() {
                     <Navbar.Collapse id="basic-navbar-nav" className={'navbar_menu'}>
                         <Nav className="me-auto align-content-center">
                             <Nav.Link href="/" className="text_white">ZOO</Nav.Link>
-                            <Nav.Link href="/login" className="text_white">{t('ANIMALS')}</Nav.Link>
+                            <Nav.Link href="/animals" className="text_white">{t('ANIMALS')}</Nav.Link>
                             <Nav.Link href="/gallery" className="text_white">{t('GALLERY')}</Nav.Link>
                             <Nav.Link href="/events" className="text_white">{t('EVENTS')}</Nav.Link>
                             <Nav.Link href="/rules" className="text_white">{t('RULES')}</Nav.Link>

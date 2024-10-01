@@ -5,173 +5,171 @@ import {Button} from "react-bootstrap";
 
 function AdminAnimalsCreate() {
 
-    // const [animalData, setAnimalData] = useState(null);
+    const [types, setTypes] = useState([]);
+    const [createAnimal, setCreateAnimal] = useState({
+        name_ro: '',
+        name_ru: '',
+        name_en: '',
+        descr_short_ru: '',
+        descr_short_ro: '',
+        descr_short_en: '',
+        descr_long_ru: '',
+        descr_long_ro: '',
+        descr_long_en: '',
+        habitat_ru: '',
+        habitat_ro: '',
+        habitat_en: '',
+        general_info_ru: '',
+        general_info_ro: '',
+        general_info_en: '',
+        nutrition_ru: '',
+        nutrition_ro: '',
+        nutrition_en: '',
+        facts_ru: '',
+        facts_ro: '',
+        facts_en: '',
+        family_ru: '',
+        family_ro: '',
+        family_en: '',
+        genus_ru: '',
+        genus_ro: '',
+        genus_en: '',
+        phylum_ru: '',
+        phylum_ro: '',
+        phylum_en: '',
+        clas_ru: '',
+        clas_ro: '',
+        clas_en: '',
+        domain_ru: '',
+        domain_ro: '',
+        domain_en: '',
+        karyotype_ru: '',
+        karyotype_ro: '',
+        karyotype_en: '',
+        habitat_long_ru: '',
+        habitat_long_ro: '',
+        habitat_long_en: '',
+        new_animal: 'false',
+        disappearing: 'false',
+        types: [],
+        protection_ro: '',
+        protection_ru: '',
+        protection_en: '',
+        conservation_ro: '',
+        conservation_ru: '',
+        conservation_en: '',
+        img_1: '',
+        img_2: '',
+        img_3: '',
+        img_4: '',
+    });
 
-    const [nameRO, setNameRO] = useState('');
-    const [nameRU, setNameRU] = useState('');
-    const [nameEN, setNameEN] = useState('');
-
-    const [descrShortRO, setDescrShortRO] = useState('');
-    const [descrShortRU, setDescrShortRU] = useState('');
-    const [descrShortEN, setDescrShortEN] = useState('');
-
-    const [descrLongRO, setDescrLongRO] = useState('')
-    const [descrLongRU, setDescrLongRU] = useState('')
-    const [descrLongEN, setDescrLongEN] = useState('')
-
-    const [habitatRO, setHabitatRO] = useState('');
-    const [habitatRU, setHabitatRU] = useState('');
-    const [habitatEN, setHabitatEN] = useState('');
-
-    const [familyRO, setFamilyRO] = useState('');
-    const [familyRU, setFamilyRU] = useState('');
-    const [familyEN, setFamilyEN] = useState('');
-
-    const [genusRO, setGenusRO] = useState('');
-    const [genusRU, setGenusRU] = useState('');
-    const [genusEN, setGenusEN] = useState('');
-
-    const [phylumRO, setPhylumRO] = useState('');
-    const [phylumRU, setPhylumRU] = useState('');
-    const [phylumEN, setPhylumEN] = useState('');
-
-    const [classRO, setClassRO] = useState('');
-    const [classRU, setClassRU] = useState('');
-    const [classEN, setClassEN] = useState('');
-
-    const [domainRO, setDomainRO] = useState('');
-    const [domainRU, setDomainRU] = useState('');
-    const [domainEN, setDomainEN] = useState('');
-
-    const [karyotypeRO, setKaryotypeRO] = useState('');
-    const [karyotypeRU, setKaryotypeRU] = useState('');
-    const [karyotypeEN, setKaryotypeEN] = useState('');
-
-    const [habitatLongRO, setHabitatLongRO] = useState('');
-    const [habitatLongRU, setHabitatLongRU] = useState('');
-    const [habitatLongEN, setHabitatLongEN] = useState('');
-
-    const [generalInfoRO, setGeneralInfoRO] = useState('');
-    const [generalInfoRU, setGeneralInfoRU] = useState('');
-    const [generalInfoEN, setGeneralInfoEN] = useState('');
-
-    const [nutritionRO, setNutritionRO] = useState('');
-    const [nutritionRU, setNutritionRU] = useState('');
-    const [nutritionEN, setNutritionEN] = useState('');
-
-    const [factsRO, setFactsRO] = useState('');
-    const [factsRU, setFactsRU] = useState('');
-    const [factsEN, setFactsEN] = useState('');
-
-    const [protectionRO, setProtectionRO] = useState('');
-    const [protectionRU, setProtectionRU] = useState('');
-    const [protectionEN, setProtectionEN] = useState('');
-
-    const [newAnimal, setNewAnimal] = useState('');
-    const [disappearingAnimal, setDisappearingAnimal] = useState('');
 
     const [img1, setImg1] = useState('');
     const [img2, setImg2] = useState('');
     const [img3, setImg3] = useState('');
     const [img4, setImg4] = useState('');
 
-
-    const [typeAnimal, setTypeAnimal] = useState(4);
-    const [typeAnimals, setTypeAnimals] = useState([]);
-
     useEffect(() => {
         const getTypeAnimals = async () => {
             try {
                 const data = await fetchTypeAnimals();
-                setTypeAnimals(data);
+                setTypes(data);
             } catch (error) {
                 console.error('Error fetching type animals:', error);
             }
         };
-
         getTypeAnimals();
     }, []);
 
-    // Handler for the first image input
+
     const handleImg1Change = (e) => {
         setImg1(e.target.files[0]);
     };
-
-    // Handler for the second image input
     const handleImg2Change = (e) => {
         setImg2(e.target.files[0]);
     };
-
-    // Handler for the second image input
     const handleImg3Change = (e) => {
         setImg3(e.target.files[0]);
     };
-
-    // Handler for the second image input
     const handleImg4Change = (e) => {
         setImg4(e.target.files[0]);
     };
 
+    const handleNewAnimalChange = (e) => {
+        const { name, value, type } = e.target;
 
-    const handleCreate = (event) => {
-        event.preventDefault();
+        if (type === 'select-multiple') {
+            const selectedOptions = Array.from(e.target.selectedOptions, (option) => option.value);
+            setCreateAnimal({ ...createAnimal, [name]: selectedOptions });
+        } else {
+            // Handle boolean conversion for the new_animal and disappearing fields
+            const newValue = value === 'true' ? true : value === 'false' ? false : value;
+            setCreateAnimal({ ...createAnimal, [name]: newValue });
+        }
+    };
 
+
+    const handleCreate = (e) => {
+        e.preventDefault();
         // Create a FormData object to handle text and file data
         const formData = new FormData();
-
-        // Append text fields
-        formData.append('name_ro', nameRO);
-        formData.append('name_ru', nameRU);
-        formData.append('name_en', nameEN);
-        formData.append('descr_short_ro', descrShortRO);
-        formData.append('descr_short_ru', descrShortRU);
-        formData.append('descr_short_en', descrShortEN);
-        formData.append('descr_long_ru', descrLongRU);
-        formData.append('descr_long_ro', descrLongRO);
-        formData.append('descr_long_en', descrLongEN);
-        formData.append('habitat_ru', habitatRU);
-        formData.append('habitat_ro', habitatRO);
-        formData.append('habitat_en', habitatEN);
-        formData.append('family_ru', familyRU);
-        formData.append('family_ro', familyRO);
-        formData.append('family_en', familyEN);
-        formData.append('genus_ru', genusRU);
-        formData.append('genus_ro', genusRO);
-        formData.append('genus_en', genusEN);
-        formData.append('phylum_ru', phylumRU);
-        formData.append('phylum_ro', phylumRO);
-        formData.append('phylum_en', phylumEN);
-        formData.append('clas_ru', classRU);
-        formData.append('clas_ro', classRO);
-        formData.append('clas_en', classEN);
-        formData.append('domain_ru', domainRU);
-        formData.append('domain_ro', domainRO);
-        formData.append('domain_en', domainEN);
-        formData.append('karyotype_ru', karyotypeRU);
-        formData.append('karyotype_ro', karyotypeRO);
-        formData.append('karyotype_en', karyotypeEN);
-        formData.append('habitat_long_ru', habitatLongRU);
-        formData.append('habitat_long_ro', habitatLongRO);
-        formData.append('habitat_long_en', habitatLongEN);
-        formData.append('general_info_ru', generalInfoRU);
-        formData.append('general_info_ro', generalInfoRO);
-        formData.append('general_info_en', generalInfoEN);
-        formData.append('nutrition_ru', nutritionRU);
-        formData.append('nutrition_ro', nutritionRO);
-        formData.append('nutrition_en', nutritionEN);
-        formData.append('facts_ru', factsRU);
-        formData.append('facts_ro', factsRO);
-        formData.append('facts_en', factsEN);
-        formData.append('protection_ro', protectionRO);
-        formData.append('protection_ru', protectionRU);
-        formData.append('protection_en', protectionEN);
-        formData.append('new_animal', newAnimal);
-        formData.append('disappearing', disappearingAnimal);
-        formData.append('typeAnimalId', typeAnimal);
+        formData.append('name_ro', createAnimal.name_ro);
+        formData.append('name_ru', createAnimal.name_ru);
+        formData.append('name_en', createAnimal.name_en);
+        formData.append('descr_short_ro', createAnimal.descr_short_ro);
+        formData.append('descr_short_ru', createAnimal.descr_short_ru);
+        formData.append('descr_short_en', createAnimal.descr_short_en);
+        formData.append('descr_long_ru', createAnimal.descr_long_ru);
+        formData.append('descr_long_ro', createAnimal.descr_long_ro);
+        formData.append('descr_long_en', createAnimal.descr_long_en);
+        formData.append('habitat_ru', createAnimal.habitat_ru);
+        formData.append('habitat_ro', createAnimal.habitat_ro);
+        formData.append('habitat_en', createAnimal.habitat_en);
+        formData.append('family_ru', createAnimal.family_ru);
+        formData.append('family_ro', createAnimal.family_ro);
+        formData.append('family_en', createAnimal.family_en);
+        formData.append('genus_ru', createAnimal.genus_ru);
+        formData.append('genus_ro', createAnimal.genus_ro);
+        formData.append('genus_en', createAnimal.genus_en);
+        formData.append('phylum_ru', createAnimal.phylum_ru);
+        formData.append('phylum_ro', createAnimal.phylum_ro);
+        formData.append('phylum_en', createAnimal.phylum_en);
+        formData.append('clas_ru', createAnimal.clas_ru);
+        formData.append('clas_ro', createAnimal.clas_ro);
+        formData.append('clas_en', createAnimal.clas_en);
+        formData.append('domain_ru', createAnimal.domain_ru);
+        formData.append('domain_ro', createAnimal.domain_ro);
+        formData.append('domain_en', createAnimal.domain_en);
+        formData.append('karyotype_ru', createAnimal.karyotype_ru);
+        formData.append('karyotype_ro', createAnimal.karyotype_ro);
+        formData.append('karyotype_en', createAnimal.karyotype_en);
+        formData.append('habitat_long_ru', createAnimal.habitat_long_ru);
+        formData.append('habitat_long_ro', createAnimal.habitat_long_ro);
+        formData.append('habitat_long_en', createAnimal.habitat_long_en);
+        formData.append('general_info_ru', createAnimal.general_info_ru);
+        formData.append('general_info_ro', createAnimal.general_info_ro);
+        formData.append('general_info_en', createAnimal.general_info_en);
+        formData.append('nutrition_ru', createAnimal.nutrition_ru);
+        formData.append('nutrition_ro', createAnimal.nutrition_ro);
+        formData.append('nutrition_en', createAnimal.nutrition_en);
+        formData.append('facts_ru', createAnimal.facts_ru);
+        formData.append('facts_ro', createAnimal.facts_ro);
+        formData.append('facts_en', createAnimal.facts_en);
+        formData.append('types', JSON.stringify(createAnimal.types)); // Handle array properly
+        formData.append('conservation_ro', createAnimal.conservation_ro);
+        formData.append('conservation_ru', createAnimal.conservation_ru);
+        formData.append('conservation_en', createAnimal.conservation_en);
+        formData.append('protection_ro', createAnimal.protection_ro);
+        formData.append('protection_ru', createAnimal.protection_ru);
+        formData.append('protection_en', createAnimal.protection_en);
+        formData.append('new_animal', createAnimal.new_animal);
+        formData.append('disappearing', createAnimal.disappearing);
         formData.append('img_1', img1);
         formData.append('img_2', img2);
         formData.append('img_3', img3);
         formData.append('img_4', img4);
+
         createAnimalData(formData).then(r => console.log('r', r))
     };
 
@@ -181,72 +179,79 @@ function AdminAnimalsCreate() {
             <Form onSubmit={handleCreate}>
                 <Row className={'mt-4'}>
                     <Col>
-                        <Form.Group controlId="nameRO">
+                        <Form.Group controlId="name_ro">
                             <Form.Label>NameRO</Form.Label>
                             <Form.Control
                                 type="text"
-                                value={nameRO}
-                                onChange={(event) => setNameRO(event.target.value)}
+                                name="name_ro"
                                 placeholder="Enter NameRO"
+                                value={createAnimal.name_ro}
+                                onChange={handleNewAnimalChange}
                             />
                         </Form.Group>
                     </Col>
                     <Col>
-                        <Form.Group controlId="nameRU">
+                        <Form.Group controlId="name_ru">
                             <Form.Label>NameRU</Form.Label>
                             <Form.Control
                                 type="text"
-                                value={nameRU}
-                                onChange={(event) => setNameRU(event.target.value)}
+                                name="name_ru"
                                 placeholder="Название животного"
+                                value={createAnimal.name_ru}
+                                onChange={handleNewAnimalChange}
                             />
                         </Form.Group>
                     </Col>
                     <Col>
-                        <Form.Group controlId="nameEN">
+                        <Form.Group controlId="name_en">
                             <Form.Label>NameEN</Form.Label>
                             <Form.Control
                                 type="text"
-                                value={nameEN}
-                                onChange={(event) => setNameEN(event.target.value)}
+                                name="name_en"
                                 placeholder="Enter NameEN"
+                                value={createAnimal.name_en}
+                                onChange={handleNewAnimalChange}
+
                             />
                         </Form.Group>
                     </Col>
                 </Row>
                 <Row className={'mt-4'}>
                     <Col>
-                        <Form.Group controlId="descrShortRO" className="mb-4">
+                        <Form.Group controlId="descr_short_ro" className="mb-4">
                             <Form.Label>Short Description (RO)</Form.Label>
                             <Form.Control
                                 as="textarea"
                                 rows={4}
-                                value={descrShortRO}
-                                onChange={(event) => setDescrShortRO(event.target.value)}
+                                name="descr_short_ro"
+                                value={createAnimal.descr_short_ro}
+                                onChange={handleNewAnimalChange}
                                 placeholder="Enter Short Description (RO)"
                             />
                         </Form.Group>
                     </Col>
                     <Col>
-                        <Form.Group controlId="descrShortRU" className="mb-4">
+                        <Form.Group controlId="descr_short_ru" className="mb-4">
                             <Form.Label>Short Description (RU)</Form.Label>
                             <Form.Control
                                 as="textarea"
                                 rows={4}
-                                value={descrShortRU}
-                                onChange={(event) => setDescrShortRU(event.target.value)}
+                                name="descr_short_ru"
+                                value={createAnimal.descr_short_ru}
+                                onChange={handleNewAnimalChange}
                                 placeholder="Enter Short Description (RU)"
                             />
                         </Form.Group>
                     </Col>
                     <Col>
-                        <Form.Group controlId="descrShortEN" className="mb-4">
+                        <Form.Group controlId="descr_short_en" className="mb-4">
                             <Form.Label>Short Description (EN) </Form.Label>
                             <Form.Control
                                 as="textarea"
                                 rows={4}
-                                value={descrShortEN}
-                                onChange={(event) => setDescrShortEN(event.target.value)}
+                                name="descr_short_en"
+                                value={createAnimal.descr_short_en}
+                                onChange={handleNewAnimalChange}
                                 placeholder="Enter Short Description (EN)"
                             />
                         </Form.Group>
@@ -260,58 +265,58 @@ function AdminAnimalsCreate() {
                                 as="textarea"
                                 rows={4}
                                 name="descr_long_ro"
-                                value={descrLongRO}
-                                onChange={(event) => setDescrLongRO(event.target.value)}
+                                value={createAnimal.descr_long_ro}
+                                onChange={handleNewAnimalChange}
                                 placeholder="Enter Description (RO)"/>
                         </Form.Group>
                     </Col>
                     <Col>
-                        <Form.Group controlId="descr_long_ro" className="mb-4">
+                        <Form.Group controlId="descr_long_ru" className="mb-4">
                             <Form.Label>Long Description (RU)</Form.Label>
                             <Form.Control
                                 as="textarea"
                                 rows={4}
                                 name="descr_long_ru"
-                                value={descrLongRU}
-                                onChange={(event) => setDescrLongRU(event.target.value)}
+                                value={createAnimal.descr_long_ru}
+                                onChange={handleNewAnimalChange}
                                 placeholder="Enter Description (RU)"/>
                         </Form.Group>
                     </Col>
                     <Col>
-                        <Form.Group controlId="descr_long_ro" className="mb-4">
+                        <Form.Group controlId="descr_long_en" className="mb-4">
                             <Form.Label>Long Description (EN)</Form.Label>
                             <Form.Control
                                 as="textarea"
                                 rows={4}
                                 name="descr_long_en"
-                                value={descrLongEN}
-                                onChange={(event) => setDescrLongEN(event.target.value)}
+                                value={createAnimal.descr_long_en}
+                                onChange={handleNewAnimalChange}
                                 placeholder="Enter Description (EN)"/>
                         </Form.Group>
                     </Col>
                 </Row>
                 <Row>
                     <Col>
-                        <Form.Group controlId="descr_long_ro" className="mb-4">
+                        <Form.Group controlId="habitat_ro" className="mb-4">
                             <Form.Label>Habitat (RO)</Form.Label>
                             <Form.Control
                                 as="textarea"
                                 rows={4}
                                 name="habitat_ro"
-                                value={habitatRO}
-                                onChange={(event) => setHabitatRO(event.target.value)}
+                                value={createAnimal.habitat_ro}
+                                onChange={handleNewAnimalChange}
                                 placeholder="Enter Habitat (RO)"/>
                         </Form.Group>
                     </Col>
                     <Col>
-                        <Form.Group controlId="descr_long_ro" className="mb-4">
+                        <Form.Group controlId="habitat_ru" className="mb-4">
                             <Form.Label>Habitat (RU)</Form.Label>
                             <Form.Control
                                 as="textarea"
                                 rows={4}
                                 name="habitat_ru"
-                                value={habitatRU}
-                                onChange={(event) => setHabitatRU(event.target.value)}
+                                value={createAnimal.habitat_ru}
+                                onChange={handleNewAnimalChange}
                                 placeholder="Обитание (RU)"/>
                         </Form.Group>
                     </Col>
@@ -322,8 +327,8 @@ function AdminAnimalsCreate() {
                                 as="textarea"
                                 rows={4}
                                 name="habitat_en"
-                                value={habitatEN}
-                                onChange={(event) => setHabitatEN(event.target.value)}
+                                value={createAnimal.habitat_en}
+                                onChange={handleNewAnimalChange}
                                 placeholder="habitat description (EN)"/>
                         </Form.Group>
                     </Col>
@@ -336,9 +341,11 @@ function AdminAnimalsCreate() {
                                 as="textarea"
                                 rows={4}
                                 name="habitat_long_ro"
-                                value={habitatLongRO}
-                                onChange={(event) => setHabitatLongRO(event.target.value)}
-                                placeholder="Enter Habitat Long (RO)"/>
+                                placeholder="Enter Habitat Long (RO)"
+                                value={createAnimal.habitat_long_ro}
+                                onChange={handleNewAnimalChange}
+
+                            />
                         </Form.Group>
                     </Col>
                     <Col>
@@ -348,20 +355,20 @@ function AdminAnimalsCreate() {
                                 as="textarea"
                                 rows={4}
                                 name="habitat_long_ru"
-                                value={habitatLongRU}
-                                onChange={(event) => setHabitatLongRU(event.target.value)}
+                                value={createAnimal.habitat_long_ru}
+                                onChange={handleNewAnimalChange}
                                 placeholder="Ареал обитания (RU)"/>
                         </Form.Group>
                     </Col>
                     <Col>
-                        <Form.Group controlId="habitat_en" className="mb-4">
+                        <Form.Group controlId="habitat_long_en" className="mb-4">
                             <Form.Label>habitat Long (EN)</Form.Label>
                             <Form.Control
                                 as="textarea"
                                 rows={4}
                                 name="habitat_long_en"
-                                value={habitatLongEN}
-                                onChange={(event) => setHabitatLongEN(event.target.value)}
+                                value={createAnimal.habitat_long_en}
+                                onChange={handleNewAnimalChange}
                                 placeholder="habitat description (EN)"/>
                         </Form.Group>
                     </Col>
@@ -374,8 +381,8 @@ function AdminAnimalsCreate() {
                                 as="textarea"
                                 rows={4}
                                 name="family_ro"
-                                value={familyRO}
-                                onChange={(event) => setFamilyRO(event.target.value)}
+                                value={createAnimal.family_ro}
+                                onChange={handleNewAnimalChange}
                                 placeholder="Family (RO)"/>
                         </Form.Group>
                     </Col>
@@ -386,8 +393,8 @@ function AdminAnimalsCreate() {
                                 as="textarea"
                                 rows={4}
                                 name="family_ru"
-                                value={familyRU}
-                                onChange={(event) => setFamilyRU(event.target.value)}
+                                value={createAnimal.family_ru}
+                                onChange={handleNewAnimalChange}
                                 placeholder="Семейство (RU)"/>
                         </Form.Group>
                     </Col>
@@ -398,8 +405,8 @@ function AdminAnimalsCreate() {
                                 as="textarea"
                                 rows={4}
                                 name="family_en"
-                                value={familyEN}
-                                onChange={(event) => setFamilyEN(event.target.value)}
+                                value={createAnimal.family_en}
+                                onChange={handleNewAnimalChange}
                                 placeholder="family (EN)"/>
                         </Form.Group>
                     </Col>
@@ -412,8 +419,8 @@ function AdminAnimalsCreate() {
                                 as="textarea"
                                 rows={4}
                                 name="genus_ro"
-                                value={genusRO}
-                                onChange={(event) => setGenusRO(event.target.value)}
+                                value={createAnimal.genus_ro}
+                                onChange={handleNewAnimalChange}
                                 placeholder="Genus (RO)"/>
                         </Form.Group>
                     </Col>
@@ -424,8 +431,8 @@ function AdminAnimalsCreate() {
                                 as="textarea"
                                 rows={4}
                                 name="genus_ru"
-                                value={genusRU}
-                                onChange={(event) => setGenusRU(event.target.value)}
+                                value={createAnimal.genus_ru}
+                                onChange={handleNewAnimalChange}
                                 placeholder="Род (RU)"/>
                         </Form.Group>
                     </Col>
@@ -436,8 +443,8 @@ function AdminAnimalsCreate() {
                                 as="textarea"
                                 rows={4}
                                 name="genus_en"
-                                value={genusEN}
-                                onChange={(event) => setGenusEN(event.target.value)}
+                                value={createAnimal.genus_en}
+                                onChange={handleNewAnimalChange}
                                 placeholder="Genus (EN)"/>
                         </Form.Group>
                     </Col>
@@ -450,8 +457,8 @@ function AdminAnimalsCreate() {
                                 as="textarea"
                                 rows={4}
                                 name="phylum_ro"
-                                value={phylumRO}
-                                onChange={(event) => setPhylumRO(event.target.value)}
+                                value={createAnimal.phylum_ro}
+                                onChange={handleNewAnimalChange}
                                 placeholder="Încrengătură (RO)"/>
                         </Form.Group>
                     </Col>
@@ -462,8 +469,8 @@ function AdminAnimalsCreate() {
                                 as="textarea"
                                 rows={4}
                                 name="phylum_ru"
-                                value={phylumRU}
-                                onChange={(event) => setPhylumRU(event.target.value)}
+                                value={createAnimal.phylum_ru}
+                                onChange={handleNewAnimalChange}
                                 placeholder="Тип (RU)"/>
                         </Form.Group>
                     </Col>
@@ -474,8 +481,8 @@ function AdminAnimalsCreate() {
                                 as="textarea"
                                 rows={4}
                                 name="phylum_en"
-                                value={phylumEN}
-                                onChange={(event) => setPhylumEN(event.target.value)}
+                                value={createAnimal.phylum_en}
+                                onChange={handleNewAnimalChange}
                                 placeholder="phylum (EN)"/>
                         </Form.Group>
                     </Col>
@@ -488,20 +495,20 @@ function AdminAnimalsCreate() {
                                 as="textarea"
                                 rows={4}
                                 name="clas_ro"
-                                value={classRO}
-                                onChange={(event) => setClassRO(event.target.value)}
+                                value={createAnimal.clas_ro}
+                                onChange={handleNewAnimalChange}
                                 placeholder="class (RO)"/>
                         </Form.Group>
                     </Col>
                     <Col>
                         <Form.Group controlId="clas_ru" className="mb-4">
-                            <Form.Label>Class (RO)</Form.Label>
+                            <Form.Label>Class (RU)</Form.Label>
                             <Form.Control
                                 as="textarea"
                                 rows={4}
                                 name="clas_ru"
-                                value={classRU}
-                                onChange={(event) => setClassRU(event.target.value)}
+                                value={createAnimal.clas_ru}
+                                onChange={handleNewAnimalChange}
                                 placeholder="Класс (RU)"/>
                         </Form.Group>
                     </Col>
@@ -512,8 +519,8 @@ function AdminAnimalsCreate() {
                                 as="textarea"
                                 rows={4}
                                 name="clas_en"
-                                value={classEN}
-                                onChange={(event) => setClassEN(event.target.value)}
+                                value={createAnimal.clas_en}
+                                onChange={handleNewAnimalChange}
                                 placeholder="class (EN)"/>
                         </Form.Group>
                     </Col>
@@ -526,8 +533,8 @@ function AdminAnimalsCreate() {
                                 as="textarea"
                                 rows={4}
                                 name="domain_ro"
-                                value={domainRO}
-                                onChange={(event) => setDomainRO(event.target.value)}
+                                value={createAnimal.domain_ro}
+                                onChange={handleNewAnimalChange}
                                 placeholder="domain (RO)"/>
                         </Form.Group>
                     </Col>
@@ -538,8 +545,8 @@ function AdminAnimalsCreate() {
                                 as="textarea"
                                 rows={4}
                                 name="domain_ru"
-                                value={domainRU}
-                                onChange={(event) => setDomainRU(event.target.value)}
+                                value={createAnimal.domain_ru}
+                                onChange={handleNewAnimalChange}
                                 placeholder="домен (RU)"/>
                         </Form.Group>
                     </Col>
@@ -550,8 +557,8 @@ function AdminAnimalsCreate() {
                                 as="textarea"
                                 rows={4}
                                 name="domain_en"
-                                value={domainEN}
-                                onChange={(event) => setDomainEN(event.target.value)}
+                                value={createAnimal.domain_en}
+                                onChange={handleNewAnimalChange}
                                 placeholder="domain (EN)"/>
                         </Form.Group>
                     </Col>
@@ -564,8 +571,8 @@ function AdminAnimalsCreate() {
                                 as="textarea"
                                 rows={4}
                                 name="karyotype_ro"
-                                value={karyotypeRO}
-                                onChange={(event) => setKaryotypeRO(event.target.value)}
+                                value={createAnimal.karyotype_ro}
+                                onChange={handleNewAnimalChange}
                                 placeholder="karyotype (RO)"/>
                         </Form.Group>
                     </Col>
@@ -576,8 +583,8 @@ function AdminAnimalsCreate() {
                                 as="textarea"
                                 rows={4}
                                 name="karyotype_ru"
-                                value={karyotypeRU}
-                                onChange={(event) => setKaryotypeRU(event.target.value)}
+                                value={createAnimal.karyotype_ru}
+                                onChange={handleNewAnimalChange}
                                 placeholder="кариотип (RU)"/>
                         </Form.Group>
                     </Col>
@@ -588,8 +595,8 @@ function AdminAnimalsCreate() {
                                 as="textarea"
                                 rows={4}
                                 name="karyotype_en"
-                                value={karyotypeEN}
-                                onChange={(event) => setKaryotypeEN(event.target.value)}
+                                value={createAnimal.karyotype_en}
+                                onChange={handleNewAnimalChange}
                                 placeholder="karyotype (EN)"/>
                         </Form.Group>
                     </Col>
@@ -602,8 +609,8 @@ function AdminAnimalsCreate() {
                                 as="textarea"
                                 rows={4}
                                 name="general_info_ro"
-                                value={generalInfoRO}
-                                onChange={(event) => setGeneralInfoRO(event.target.value)}
+                                value={createAnimal.general_info_ro}
+                                onChange={handleNewAnimalChange}
                                 placeholder="general info (RO)"/>
                         </Form.Group>
                     </Col>
@@ -614,8 +621,8 @@ function AdminAnimalsCreate() {
                                 as="textarea"
                                 rows={4}
                                 name="general_info_ru"
-                                value={generalInfoRU}
-                                onChange={(event) => setGeneralInfoRU(event.target.value)}
+                                value={createAnimal.general_info_ru}
+                                onChange={handleNewAnimalChange}
                                 placeholder="Общение (RU)"/>
                         </Form.Group>
                     </Col>
@@ -626,8 +633,8 @@ function AdminAnimalsCreate() {
                                 as="textarea"
                                 rows={4}
                                 name="general_info_en"
-                                value={generalInfoEN}
-                                onChange={(event) => setGeneralInfoEN(event.target.value)}
+                                value={createAnimal.general_info_en}
+                                onChange={handleNewAnimalChange}
                                 placeholder="general info (EN)"/>
                         </Form.Group>
                     </Col>
@@ -640,8 +647,8 @@ function AdminAnimalsCreate() {
                                 as="textarea"
                                 rows={4}
                                 name="nutrition_ro"
-                                value={nutritionRO}
-                                onChange={(event) => setNutritionRO(event.target.value)}
+                                value={createAnimal.nutrition_ro}
+                                onChange={handleNewAnimalChange}
                                 placeholder="Nutrition (RO)"/>
                         </Form.Group>
                     </Col>
@@ -652,8 +659,8 @@ function AdminAnimalsCreate() {
                                 as="textarea"
                                 rows={4}
                                 name="nutrition_ru"
-                                value={nutritionRU}
-                                onChange={(event) => setNutritionRU(event.target.value)}
+                                value={createAnimal.nutrition_ru}
+                                onChange={handleNewAnimalChange}
                                 placeholder="Питание (RU)"/>
                         </Form.Group>
                     </Col>
@@ -664,8 +671,8 @@ function AdminAnimalsCreate() {
                                 as="textarea"
                                 rows={4}
                                 name="nutrition_en"
-                                value={nutritionEN}
-                                onChange={(event) => setNutritionEN(event.target.value)}
+                                value={createAnimal.nutrition_en}
+                                onChange={handleNewAnimalChange}
                                 placeholder="Nutrition (EN)"/>
                         </Form.Group>
                     </Col>
@@ -678,8 +685,8 @@ function AdminAnimalsCreate() {
                                 as="textarea"
                                 rows={4}
                                 name="facts_ro"
-                                value={factsRO}
-                                onChange={(event) => setFactsRO(event.target.value)}
+                                value={createAnimal.facts_ro}
+                                onChange={handleNewAnimalChange}
                                 placeholder="facts (RO)"/>
                         </Form.Group>
                     </Col>
@@ -690,20 +697,20 @@ function AdminAnimalsCreate() {
                                 as="textarea"
                                 rows={4}
                                 name="facts_ru"
-                                value={factsRU}
-                                onChange={(event) => setFactsRU(event.target.value)}
+                                value={createAnimal.facts_ru}
+                                onChange={handleNewAnimalChange}
                                 placeholder="Интерессные факты (RU)"/>
                         </Form.Group>
                     </Col>
                     <Col>
-                        <Form.Group controlId="facts_ro" className="mb-4">
+                        <Form.Group controlId="facts_en" className="mb-4">
                             <Form.Label>facts (EN)</Form.Label>
                             <Form.Control
                                 as="textarea"
                                 rows={4}
                                 name="facts_en"
-                                value={factsEN}
-                                onChange={(event) => setFactsEN(event.target.value)}
+                                value={createAnimal.facts_en}
+                                onChange={handleNewAnimalChange}
                                 placeholder="facts (EN)"/>
                         </Form.Group>
                     </Col>
@@ -715,8 +722,8 @@ function AdminAnimalsCreate() {
                             <Form.Control
                                 as="select"
                                 name="new_animal"
-                                value={newAnimal}
-                                onChange={(event) => setNewAnimal(event.target.value)}
+                                value={createAnimal.new_animal}
+                                onChange={handleNewAnimalChange}
                             >
                                 <option value="">Select True or False</option>
                                 <option value="true">True</option>
@@ -730,8 +737,8 @@ function AdminAnimalsCreate() {
                             <Form.Control
                                 as="select"
                                 name="disappearing"
-                                value={disappearingAnimal}
-                                onChange={(event) => setDisappearingAnimal(event.target.value)}
+                                value={createAnimal.disappearing}
+                                onChange={handleNewAnimalChange}
                             >
                                 <option value="">Select True or False</option>
                                 <option value="true">True</option>
@@ -742,94 +749,103 @@ function AdminAnimalsCreate() {
                 </Row>
                 <Row>
                     <Col>
-                        <Form.Group controlId="type_ro" className="mb-4">
-                            <Form.Label>select type (RO)</Form.Label>
+                        <Form.Group controlId="typeAnimals" className="mb-4">
+                            <Form.Label>Select types</Form.Label>
                             <Form.Control
                                 as="select"
-                                name="typeAnimal"
-                                value={typeAnimal}
-                                onChange={(event) => setTypeAnimal(event.target.value)}
+                                multiple
+                                name="types"
+                                value={createAnimal.types}
+                                onChange={handleNewAnimalChange}
                             >
-                                {typeAnimals.map((type) => (
+                                {types.map(type => (
                                     <option key={type.id} value={type.id}>
-                                        {type.name_ro}
-                                    </option>
-                                ))}
-                            </Form.Control>
-                        </Form.Group>
-                    </Col>
-                    <Col>
-                        <Form.Group controlId="type_ru" className="mb-4">
-                            <Form.Label>select type (RU)</Form.Label>
-                            <Form.Control
-                                as="select"
-                                name="typeAnimal"
-                                value={typeAnimal}
-                                onChange={(event) => setTypeAnimal(event.target.value)}
-                            >
-                                {typeAnimals.map((type) => (
-                                    <option key={type.id} value={type.id}>
-                                        {type.name_ru}
-                                    </option>
-                                ))}
-                            </Form.Control>
-                        </Form.Group>
-                    </Col>
-                    <Col>
-                        <Form.Group controlId="type_en" className="mb-4">
-                            <Form.Label>select type (EN)</Form.Label>
-                            <Form.Control
-                                as="select"
-                                name="typeAnimal"
-                                value={typeAnimal}
-                                onChange={(event) => setTypeAnimal(event.target.value)}
-                            >
-                                {typeAnimals.map((type) => (
-                                    <option key={type.id} value={type.id}>
-                                        {type.name_en}
+                                        {type.name_ro} / {type.name_ru} / {type.name_en}
                                     </option>
                                 ))}
                             </Form.Control>
                         </Form.Group>
                     </Col>
                 </Row>
+                <br/>
                 <Row>
                     <Col>
-                        <Form.Group controlId="protection_ro" className="mb-4">
-                            <Form.Label>Protection</Form.Label>
+                        <Form.Group controlId="conservation_ro" className="mb-4">
+                            <Form.Label>Conservarea statut</Form.Label>
                             <Form.Control
                                 as="textarea"
                                 rows={3}
-                                name="protection"
-                                value={protectionRO}
-                                placeholder="este sub protectie  RO"
-                                onChange={(event) => setProtectionRO(event.target.value)}
+                                name="conservation_ro"
+                                placeholder="Conservarea statut"
+                                value={createAnimal.conservation_ro}
+                                onChange={handleNewAnimalChange}
+                            />
+                        </Form.Group>
+                    </Col>
+                    <Col>
+                        <Form.Group controlId="conservation_ru" className="mb-4">
+                            <Form.Label>Природохранный статус</Form.Label>
+                            <Form.Control
+                                as="textarea"
+                                rows={3}
+                                name="conservation_ru"
+                                placeholder="Природохранный статус"
+                                value={createAnimal.conservation_ru}
+                                onChange={handleNewAnimalChange}
+                            />
+                        </Form.Group>
+                    </Col>
+                    <Col>
+                        <Form.Group controlId="conservation_en" className="mb-4">
+                            <Form.Label>Conservation</Form.Label>
+                            <Form.Control
+                                as="textarea"
+                                rows={3}
+                                name="conservation_en"
+                                value={createAnimal.conservation_en}
+                                placeholder="Conservation"
+                                onChange={handleNewAnimalChange}
+                            />
+                        </Form.Group>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <Form.Group controlId="protection_ro" className="mb-4">
+                            <Form.Label> Comunicare/Reproducere</Form.Label>
+                            <Form.Control
+                                as="textarea"
+                                rows={3}
+                                name="protection_ro"
+                                placeholder="comunicare"
+                                value={createAnimal.protection_ro}
+                                onChange={handleNewAnimalChange}
                             />
                         </Form.Group>
                     </Col>
                     <Col>
                         <Form.Group controlId="protection_ru" className="mb-4">
-                            <Form.Label>Protection RU</Form.Label>
+                            <Form.Label>Общение/размножение</Form.Label>
                             <Form.Control
                                 as="textarea"
                                 rows={3}
                                 name="protection_ru"
-                                value={protectionRU}
-                                placeholder="Природохранный статус RU"
-                                onChange={(event) => setProtectionRU(event.target.value)}
+                                placeholder="Общение/размножение"
+                                value={createAnimal.protection_ru}
+                                onChange={handleNewAnimalChange}
                             />
                         </Form.Group>
                     </Col>
                     <Col>
                         <Form.Group controlId="protection_en" className="mb-4">
-                            <Form.Label>Protection EN</Form.Label>
+                            <Form.Label>Communication</Form.Label>
                             <Form.Control
                                 as="textarea"
                                 rows={3}
-                                name="protection"
-                                value={protectionEN}
-                                placeholder="protection EN"
-                                onChange={(event) => setProtectionEN(event.target.value)}
+                                name="protection_en"
+                                value={createAnimal.protection_en}
+                                placeholder="Communication EN"
+                                onChange={handleNewAnimalChange}
                             />
                         </Form.Group>
                     </Col>

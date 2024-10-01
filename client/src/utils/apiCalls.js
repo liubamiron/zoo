@@ -40,11 +40,7 @@ export const fetchAnimalData = async () => {
 // Fetch specific animal data by ID
 export const fetchAnimalDataById = async (id) => {
     try {
-        const token = getAuthCookie();
         const response = await api.get(`/animal/${id}`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
         });
         return response.data; // Return the specific animal data from the API
     } catch (error) {
@@ -56,7 +52,7 @@ export const fetchAnimalDataById = async (id) => {
 // Fetch all type animals
 export const fetchTypeAnimals = async () => {
     try {
-        const response = await api.get('/type_animal/', {
+        const response = await api.get('/type', {
         });
         return response.data; // Return the type animals data from the API
     } catch (error) {
@@ -69,7 +65,7 @@ export const createAnimalData = async (formData) => {
     console.log('formData', formData);
     try {
         const token = getAuthCookie();
-        const response = await api.post(`/animal/`, formData, {
+        const response = await api.post(`/animal`, formData, {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'multipart/form-data'
@@ -85,15 +81,12 @@ export const createAnimalData = async (formData) => {
 };
 
 export const updateAnimalData = async (id, formData) => {
-    console.log('formData', formData, id);
     try {
         const token = getAuthCookie();
-            // const response = await api.put(`http://localhost:5000/api/animal/${id}`, formData, {
             const response = await api.put(`/animal/${id}`, formData, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data'
-
                 },
             });
 
@@ -131,7 +124,7 @@ export const createAdminHomePage = async (formData) => {
     console.log('formData', formData);
     try {
         const token = getAuthCookie();
-        const response = await api.post(`/home_page/`, formData, {
+        const response = await api.post(`/home_page`, formData, {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'multipart/form-data'
@@ -541,7 +534,7 @@ export const deleteTagsById = async (id) => {
 export const createTypeAnimalsData = async (tags) => {
     try {
         const token = getAuthCookie();
-        const response = await api.post(`/type_animal`, tags, {
+        const response = await api.post(`/type`, tags, {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
@@ -558,7 +551,7 @@ export const updateTypeAnimalsData = async (id, typeAnimalData) => {
     console.log(id, typeAnimalData);
     try {
         const token = getAuthCookie();
-        const response = await api.put(`/type_animal/${id}`, typeAnimalData,{
+        const response = await api.put(`/type/${id}`, typeAnimalData,{
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
@@ -574,7 +567,7 @@ export const updateTypeAnimalsData = async (id, typeAnimalData) => {
 export const getAllTypeAnimals = async () => {
     try {
         const token = getAuthCookie();
-        const response = await api.get('/type_animal', {
+        const response = await api.get('/type', {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -589,7 +582,7 @@ export const getAllTypeAnimals = async () => {
 export const deleteTypeAnimals = async (id) => {
     const token = getAuthCookie();  // Retrieve the token
     try {
-        const response = await api.delete(`/type_animal/${id}`, {
+        const response = await api.delete(`/type/${id}`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             },

@@ -8,6 +8,18 @@
     font-weight: 700;
 }
 
+.f_weight_700 {
+    font-weight: 700;
+}
+
+.f_weight_600 {
+    font-weight: 600;
+}
+
+.f_weight_400 {
+    font-weight: 400;
+}
+
 .lh_27 {
     line-height: 27px;
 }
@@ -55,6 +67,10 @@
 
 .margin_top_85_40 {
     margin-top: 85px;
+}
+
+.margin_top_185_40 {
+    margin-top: 185px;
 }
 
 .logo {
@@ -155,7 +171,12 @@
 }
 
 .bg_green {
-    background: #0A4D1EFC!important;
+    background: #0A4D1EFC;
+}
+
+.bg_yellow_green {
+    background: #0A4D1EFC url("/yellow_bg.png") no-repeat center bottom;
+    background-size: cover;
 }
 
 .bg_light_green {
@@ -173,6 +194,11 @@
 .color_yellow {
     color: #FCC044;
 }
+
+.color_carrot {
+    color: #f7931e;
+}
+
 
 .bg_yellow {
     background: #FCC044;
@@ -264,6 +290,31 @@
 
 .card-footer {
     border-top: none!important;
+}
+
+.care_style {
+    padding-top: 219px;
+}
+
+.custom-accordion .accordion-button {
+    background-color: #0A4D1EFC; /* Green background for the header */
+    color: white; /* White text */
+    border: none; /* Remove border */
+}
+
+.custom-accordion .accordion-button:not(.collapsed) {
+    background-color: #0A4D1EFC; /* Darker green when accordion is expanded */
+    color: white;
+}
+
+.custom-accordion .accordion-button:hover {
+    background-color: #124712; /* Light green on hover */
+    color: white;
+}
+
+.custom-accordion .accordion-body {
+    background-color: #f5f5f5; /* Light grey background for the content */
+    color: black; /* Black text for content */
 }
 /* Responsive adjustments */
 @media (max-width: 991px) { /* Adjust for tablets and mobile */
