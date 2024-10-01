@@ -1,4 +1,4 @@
-const {TypeAnimal} = require('../models/models');
+const {TypeAnimal, Animal, Tag} = require('../models/models');
 const ApiError = require('../error/ApiError');
 
 class TypeAnimalController {
@@ -20,7 +20,11 @@ class TypeAnimalController {
     }
 
     async getAll(req, res) {
-        const typesAnimals = await TypeAnimal.findAll()
+        const typesAnimals = await TypeAnimal.findAll(
+            {
+                include: [{model: Animal, as: 'animals'}]
+            }
+        )
         return res.json(typesAnimals)
 
     }
@@ -28,7 +32,10 @@ class TypeAnimalController {
     async getOne(req, res, next) {
         try {
             const { id } = req.params; // Get the id from the request parameters
-            const typeAnimal = await TypeAnimal.findOne({ where: { id } }); // Find one record by id
+            const typeAnimal = await TypeAnimal.findOne({
+                where: { id },
+                include: [{model: Animal, as: 'animals'}]
+                }); // Find one record by id
 
             if (!typeAnimal) {
                 // If no record was found with the given id

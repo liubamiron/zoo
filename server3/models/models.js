@@ -334,9 +334,15 @@ const Faq = sequelize.define('faq', {
     },
 })
 
+// Define the many-to-many relationship using a junction table
+const AnimalTypeAnimal = sequelize.define('AnimalTypeAnimal', {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true }
+});
 
-TypeAnimal.hasMany(Animal)
-Animal.belongsTo(TypeAnimal)
+
+TypeAnimal.belongsToMany(Animal, {through: 'AnimalTypeAnimal' });
+Animal.belongsToMany(TypeAnimal, {through: 'AnimalTypeAnimal' });
+
 
 TypeTender.hasMany(Tender)
 Tender.belongsTo(TypeTender)
@@ -351,6 +357,7 @@ module.exports = {
     User,
     Animal,
     TypeAnimal,
+    AnimalTypeAnimal,
     Tender,
     TypeTender,
     Event,

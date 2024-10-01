@@ -1,12 +1,12 @@
 const uuid = require('uuid');
 const path = require('path');
 const ApiError = require("../error/ApiError");
-const { Animal } = require('../models/models');
+const {Animal, TypeAnimal, AnimalTypeAnimal} = require('../models/models');
 
 class AnimalController {
     async create(req, res, next) {
         try {
-            const {
+            let {
                 name_ru, name_ro, name_en,
                 descr_short_ru, descr_short_ro, descr_short_en,
                 descr_long_ru, descr_long_ro, descr_long_en,
@@ -23,45 +23,23 @@ class AnimalController {
                 facts_ru, facts_ro, facts_en,
                 protection_ru, protection_ro, protection_en,
                 new_animal, disappearing,
-                typeAnimalId
+                type_animals
             } = req.body;
 
             const { img_1, img_2, img_3, img_4 } = req.files || {};
 
             // Initialize file names
-            let fileName1 = null;
-            let fileName2 = null;
-            let fileName3 = null;
-            let fileName4 = null;
+            let fileName1 = img_1 ? uuid.v4() + ".jpg" : null;
+            let fileName2 = img_2 ? uuid.v4() + ".jpg" : null;
+            let fileName3 = img_3 ? uuid.v4() + ".jpg" : null;
+            let fileName4 = img_4 ? uuid.v4() + ".jpg" : null;
 
-            if (img_1) {
-                // Generate unique file name for the first image
-                fileName1 = uuid.v4() + ".jpg";
-                // Move image to the static folder
-                img_1.mv(path.resolve(__dirname, '..', 'static', fileName1));
-            }
+            if (img_1) img_1.mv(path.resolve(__dirname, '..', 'static', fileName1));
+            if (img_2) img_2.mv(path.resolve(__dirname, '..', 'static', fileName2));
+            if (img_3) img_3.mv(path.resolve(__dirname, '..', 'static', fileName3));
+            if (img_4) img_4.mv(path.resolve(__dirname, '..', 'static', fileName4));
 
-            if (img_2) {
-                // Generate unique file name for the second image
-                fileName2 = uuid.v4() + ".jpg";
-                // Move image to the static folder
-                img_2.mv(path.resolve(__dirname, '..', 'static', fileName2));
-            }
-
-            if (img_3) {
-                // Generate unique file name for the second image
-                fileName3 = uuid.v4() + ".jpg";
-                // Move image to the static folder
-                img_3.mv(path.resolve(__dirname, '..', 'static', fileName3));
-            }
-
-            if (img_4) {
-                // Generate unique file name for the second image
-                fileName4 = uuid.v4() + ".jpg";
-                // Move image to the static folder
-                img_4.mv(path.resolve(__dirname, '..', 'static', fileName4));
-            }
-            // Create an animal entry
+            // Create the animal entry
             const animal = await Animal.create({
                 name_ru, name_ro, name_en,
                 descr_short_ru, descr_short_ro, descr_short_en,
@@ -77,40 +55,60 @@ class AnimalController {
                 general_info_ru, general_info_ro, general_info_en,
                 nutrition_ru, nutrition_ro, nutrition_en,
                 facts_ru, facts_ro, facts_en,
-                protection_ru, protection_ro, protection_en, new_animal, disappearing, typeAnimalId,
+                protection_ru, protection_ro, protection_en,
+                new_animal, disappearing,
                 img_1: fileName1, img_2: fileName2,
                 img_3: fileName3, img_4: fileName4
             });
 
+            // Associate types with the animal
+            if (Array.isArray(type_animals) && type_animals.length > 0) {
+                const types = await TypeAnimal.findAll({
+                    where: { id: type_animals } // Assuming type_animals is an array of type IDs
+                });
+                await animal.setTypeAnimals(types);  // This should now work
+            }
+
             return res.json(animal);
         } catch (e) {
             next(ApiError.badRequest(e.message));
+            console.error('Error creating animal:', e);
         }
     }
 
     async getAll(req, res) {
-        let { typeAnimalId, limit, page } = req.query;
+        let {limit, page} = req.query;
         page = page || 1;
         limit = limit || 9;
         let offset = page * limit - limit;
         let animals;
 
-        if (!typeAnimalId) {
-            animals = await Animal.findAndCountAll({ limit, offset });
-        } else {
-            animals = await Animal.findAndCountAll({ where: { typeAnimalId }, limit, offset });
-        }
+            // Find animals by associated TypeAnimal
+            animals = await Animal.findAndCountAll({
+                limit,
+                offset,
+                include: [{
+                    model: TypeAnimal,
+                    through: { attributes: [] },
+                    attributes: ['id', 'name_ru', 'name_ro', 'name_en']
+                }]
+            });
 
         return res.json(animals);
     }
 
     async getOne(req, res, next) {
         try {
-            const { id } = req.params;
-            const animal = await Animal.findOne({ where: { id } });
+            const {id} = req.params;
+            const animal = await Animal.findOne({where: {id},
+                include: [{
+                model: TypeAnimal,
+                    through: { attributes: [] },
+                    attributes: ['id', 'name_ru', 'name_ro', 'name_en']
+            }]});
 
             if (!animal) {
-                return res.status(404).json({ message: 'Animal not found' });
+                return res.status(404).json({message: 'Animal not found'});
             }
 
             return res.json(animal);
@@ -121,10 +119,9 @@ class AnimalController {
 
     async edit(req, res, next) {
         try {
-            const { id } = req.params;
+            const {id} = req.params;
 
-            // Destructure all fields from req.body
-            const {
+            let {
                 name_ru, name_ro, name_en,
                 descr_short_ru, descr_short_ro, descr_short_en,
                 descr_long_ru, descr_long_ro, descr_long_en,
@@ -141,16 +138,15 @@ class AnimalController {
                 facts_ru, facts_ro, facts_en,
                 protection_ru, protection_ro, protection_en,
                 new_animal, disappearing,
-                typeAnimalId,
+                type_animals
             } = req.body;
 
-            const { img_1, img_2, img_3, img_4 } = req.files || {};
+            const {img_1, img_2, img_3, img_4} = req.files || {};
 
-            // Find the existing animal record by id
-            const animal = await Animal.findOne({ where: { id } });
+            const animal = await Animal.findOne({where: {id}});
 
             if (!animal) {
-                return res.status(404).json({ message: 'Animal not found' });
+                return res.status(404).json({message: 'Animal not found'});
             }
 
             // Update images if provided
@@ -177,7 +173,7 @@ class AnimalController {
                 img_4.mv(path.resolve(__dirname, '..', 'static', fileName4));
                 animal.img_4 = fileName4;
             }
-            // Update other fields only if they are provided in the request
+
             Object.assign(animal, {
                 name_ru: name_ru || animal.name_ru,
                 name_ro: name_ro || animal.name_ro,
@@ -225,29 +221,33 @@ class AnimalController {
                 protection_ru: protection_ru || animal.protection_ru,
                 protection_en: protection_en || animal.protection_en,
                 new_animal: new_animal || animal.new_animal,
-                disappearing: disappearing || animal.disappearing,
-                typeAnimalId:typeAnimalId || animal.typeAnimalId
+                disappearing: disappearing || animal.disappearing
             });
 
-            // Save the updated record
             await animal.save();
 
-            return res.json({ message: 'Animal updated successfully', animal });
+            // Update the types association
+            if (Array.isArray(type_animals) && type_animals.length > 0) {
+                await animal.setTypes(type_animals);
+            }
+
+            return res.json({message: 'Animal updated successfully', animal});
         } catch (error) {
-            next(ApiError.internal('Failed to update animal'));
+            next(ApiError.internal('Failed to update animal: ' + error.message));
         }
     }
 
+
     async delete(req, res, next) {
         try {
-            const { id } = req.params;
-            const animal = await Animal.destroy({ where: { id } });
+            const {id} = req.params;
+            const animal = await Animal.destroy({where: {id}});
 
             if (!animal) {
-                return res.status(404).json({ message: 'Animal not found' });
+                return res.status(404).json({message: 'Animal not found'});
             }
 
-            return res.json({ message: 'Animal deleted successfully' });
+            return res.json({message: 'Animal deleted successfully'});
         } catch (error) {
             next(ApiError.internal('Failed to delete animal'));
         }
