@@ -213,7 +213,7 @@ export const createEventData = async (eventData) => {
         const response = await api.post(`/event/`, eventData, {
             headers: {
                 'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
+                'Content-Type': 'multipart/form-data'
             },
         });
 
@@ -224,15 +224,14 @@ export const createEventData = async (eventData) => {
     }
 };
 
-export const updateEventData = async (id, eventData) => {
-    console.log(id, eventData);
+export const updateEventData = async (id, formData) => {
+    console.log(id, formData);
     try {
         const token = getAuthCookie();
-        const response = await api.put(`/event/${id}`, eventData,{
+        const response = await api.put(`/event/${id}`, formData,{
             headers: {
                 'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-
+                'Content-Type': 'multipart/form-data'
             },
         });
 

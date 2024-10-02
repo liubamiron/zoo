@@ -17,7 +17,7 @@ export const dictionary = {
         CARD2_SLIDER_TITLE: 'Камерунская коза',
         CARD2_SLIDER_DESCRIPTION: 'Родиной этих карликовых коз ' +
             'является камерунская долина Западной Африки.',
-        MORE_INFO: "Больше Инфо",
+        MORE_INFO: "Afla mai mult",
         CHISINAU_ZOO_TITLE: 'Gradina Zoologica din Chisinau',
         SMOKE:"Locuri pentru fumat",
         CART: 'Disponibilitate',
@@ -109,6 +109,11 @@ export const dictionary = {
         OTHER: 'Alte',
         OTHER_SPECIES_FROM:'Alte specii din clasa',
         PLAN_VISIT: 'Planifica vizita',
+        ALL_EVENTS_TITLE: 'Toate evenimente',
+        ALL_EVENTS_1: 'Fii primul care află toate știrile ale faunei din Moldova și din lume',
+        SEARCH: 'Cauta',
+        SEARCH_BY_TITLE: 'Denumirea evenimentului'
+
     },
     ru: {
         MAIN: 'Главная',
@@ -128,7 +133,7 @@ export const dictionary = {
         CARD2_SLIDER_TITLE: 'Камерунская коза',
         CARD2_SLIDER_DESCRIPTION: 'Родиной этих карликовых коз ' +
             'является камерунская долина Западной Африки.',
-        MORE_INFO: "Больше Инфо",
+        MORE_INFO: "Больше инфо",
         CHISINAU_ZOO_TITLE: 'Кишиневский Зоопарк',
         SMOKE:"Места для курения",
         CART: 'Доступность',
@@ -219,6 +224,10 @@ export const dictionary = {
         OTHER: 'Другие',
         OTHER_SPECIES_FROM:'Другие виды из класса',
         PLAN_VISIT: 'Спланируй визит',
+        ALL_EVENTS_TITLE: 'Все события',
+        ALL_EVENTS_1: 'Узнайте о Всех новостях Фауны в Молдове и мире первыми',
+        SEARCH: 'Поиск',
+        SEARCH_BY_TITLE: 'Название события'
     },
     en: {
         MAIN: 'Main',
@@ -238,7 +247,7 @@ export const dictionary = {
         CARD2_SLIDER_TITLE: 'Камерунская коза',
         CARD2_SLIDER_DESCRIPTION: 'Родиной этих карликовых коз ' +
             'является камерунская долина Западной Африки.',
-        MORE_INFO: "Больше Инфо",
+        MORE_INFO: "More Info",
         CHISINAU_ZOO_TITLE: 'Chisinau ZOO',
         SMOKE:"Place for smoke",
         CART: 'Availability',
@@ -330,5 +339,8 @@ export const dictionary = {
         ALL_ANIMALS_GALLERY: "Все животные Кишиневского зоопарка",
         OTHER: 'Other',
         OTHER_SPECIES_FROM:'Other species from class',
+        ALL_EVENTS_1: 'Fii primul care află toate știrile ale faunei din Moldova și din lume',
+        SEARCH: 'Search',
+        SEARCH_BY_TITLE: 'Event name'
     },
 }

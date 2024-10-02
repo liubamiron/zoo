@@ -6,6 +6,7 @@ import {useEffect, useState} from "react";
 import {fetchAnimalData, fetchReviewsData, fetchTypeAnimals} from "../utils/apiCalls.js";
 import {Navigation} from "swiper/modules";
 import {Swiper, SwiperSlide} from "swiper/react";
+import {Link} from "react-router-dom";
 
 const About = () => {
     const {t, language} = useTranslation();
@@ -74,8 +75,12 @@ const About = () => {
                     &nbsp;
                 </div>
                 <div className={'mt-4 text-center d-flex justify-content-center align-items-center mb-4'}>
-                    <img src={'/house.svg'} className={'img-fluid'} alt={'house'} style={{marginRight: '5px'}}/>
-                    <span>ZOO&nbsp;&#62;&nbsp;{t('ABOUT_ZOO')}</span>
+                    <span>
+                        <Link to={'/'}>
+                            <img src={'/house.svg'} className={'img-fluid'} alt={'house'} style={{marginRight: '5px'}}/>
+                            ZOO
+                        </Link>&nbsp;&#62;&nbsp;<Link to={'/about'}>{t('ABOUT_ZOO')}</Link>
+                    </span>
                 </div>
             </div>
             <div className="container">

@@ -39,6 +39,7 @@ import About from "./pages/About.jsx";
 import Animals from "./pages/Animals.jsx";
 import Animal from "./pages/Animal.jsx";
 import Gallery from "./pages/admin/Gallery.jsx";
+import PageEvents from "./pages/PageEvents.jsx";
 
 
 function AppRoutes() {
@@ -51,6 +52,7 @@ function AppRoutes() {
                 <Route path="/animals" element={<Animals />} />
                 <Route path="/animals/:id" element={<Animal />} />
                 <Route path="/gallery" element={<Gallery />} />
+                <Route path="/events" element={<PageEvents />} />
                 <Route path="*" element={<NotFoundPage/>} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/registration" element={<Auth />} />

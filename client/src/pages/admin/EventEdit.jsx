@@ -14,7 +14,6 @@ const Events = () => {
     // Time event states
     const [timeEvent, setTimeEvent] = useState('');
     const [dateStartEvent, setDateStartEvent] = useState(null);
-    // const [dateEndEvent, setDateEndEvent] = useState('');
     const [dateEndEvent, setDateEndEvent] = useState(null);
 
     // Short description states
@@ -26,6 +25,9 @@ const Events = () => {
     const [longDescriptionRU, setLongDescriptionRU] = useState('');
     const [longDescriptionRO, setLongDescriptionRO] = useState('');
     const [longDescriptionEN, setLongDescriptionEN] = useState('');
+
+    const [img, setImg] = useState('');
+    const [message, setMessage] = useState(''); // State for success/error messages
 
     // Function to safely convert a date
     const formatDate = (date) => {
@@ -40,7 +42,7 @@ const Events = () => {
         const getEvents = async () => {
             try {
                 const data = await fetchEventsById(id);
-                console.log(data, 'data');
+
                 setEventData(data);
                 setTitleRU(data?.title_ru);
                 setTitleRO(data?.title_ro);
@@ -54,6 +56,7 @@ const Events = () => {
                 setLongDescriptionRU(data?.long_description_ru)
                 setLongDescriptionRO(data?.long_description_ro)
                 setLongDescriptionEN(data?.long_description_en)
+                setImg(data?.img)
 
             } catch (error) {
                 console.error('Error fetching events:', error);
@@ -61,43 +64,51 @@ const Events = () => {
         };
 
         getEvents();
-    }, []);
+    }, [id]);
 
+
+    const handleImgChange = (e) => {
+        setImg(e.target.files[0]);
+    };
+
+    console.log(img, 'img')
 
     const handleEventUpdate = async (event) => {
         event.preventDefault();
 
-        // Construct the event object using the state values
-        const eventData = {
-            title_ru: titleRU,
-            title_ro: titleRO,
-            title_en: titleEN,
-            time_event: timeEvent,
-            start_date_event: dateStartEvent,
-            end_date_event: dateEndEvent,
-            short_description_ru: shortDescriptionRU,
-            short_description_ro: shortDescriptionRO,
-            short_description_en: shortDescriptionEN,
-            long_description_ru: longDescriptionRU,
-            long_description_ro: longDescriptionRO,
-            long_description_en: longDescriptionEN,
-        };
+        if (dateEndEvent && dateStartEvent && dateEndEvent < dateStartEvent) {
+            setMessage('End date must be after start date.');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('title_ru', titleRU);
+        formData.append('title_ro', titleRO);
+        formData.append('title_en', titleEN);
+        formData.append('time_event', timeEvent);
+        formData.append('start_date_event', formatDate(dateStartEvent)); // Ensure the date is formatted as a string
+        formData.append('end_date_event', formatDate(dateEndEvent)); // E
+        formData.append('short_description_ru', shortDescriptionRU);
+        formData.append('short_description_ro', shortDescriptionRO);
+        formData.append('short_description_en', shortDescriptionEN);
+        formData.append('long_description_ru', longDescriptionRU);
+        formData.append('long_description_ro', longDescriptionRO);
+        formData.append('long_description_en', longDescriptionEN);
+        formData.append('img', img);
 
         try {
-            const response = await updateEventData(id, eventData);
-            if (response) {
-                console.log('Event created successfully:', response);
-                // Optionally clear form fields or show a success message
-            }
+            const response = await updateEventData(id, formData);
+            console.log('Event created successfully:', response);
         } catch (error) {
-            console.error('Error while creating event:', error);
+            console.error('Error creating event:', error);
         }
     };
 
     console.log(eventData, 'eventData');
     return (
         <div>
-            Edit event : <strong>{titleRO || ''}</strong>
+            Edit event: <strong>{titleRO || ''}</strong>
+            {message && <p className="text-danger">{message}</p>} {/* Display message */}
 
             <Form onSubmit={handleEventUpdate}>
                 <Row className={'mt-4'}>
@@ -169,7 +180,6 @@ const Events = () => {
                                 value={formatDate(dateStartEvent)}
                                 onChange={(e) => setDateStartEvent(new Date(e.target.value))}
                                 placeholder="Enter start date for event"
-                                min={new Date().toISOString().split("T")[0]}
                             />
                         </Form.Group>
                     </Col>
@@ -259,6 +269,23 @@ const Events = () => {
                         </Form.Group>
                     </Col>
                 </Row>
+                {/* Image Upload */}
+                <Row className="mt-4">
+                    <Col xs={12} md={6}>
+                        <img
+                            src={`${import.meta.env.VITE_URL}/${img}`}
+                            alt="event img"
+                            className="img-fluid"
+                        />
+                    </Col>
+                    <Col xs={12} md={6}>
+                        <Form.Group>
+                            <Form.Label>Upload Image</Form.Label>
+                            <Form.Control type="file" onChange={handleImgChange} />
+                        </Form.Group>
+                    </Col>
+                </Row>
+
                 <br />
                 <Button type="submit" variant="primary">
                     Submit
@@ -267,7 +294,7 @@ const Events = () => {
 
 
         </div>
-    );
+);
 };
 
 export default Events;
