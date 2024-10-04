@@ -1,96 +1,99 @@
 
-import {useState} from "react";
-import {createPostData} from "../../utils/apiCalls.js";
+import {useEffect, useState} from "react";
+import {createPostData, getAllTags} from "../../utils/apiCalls.js";
 import {Button, Col, Form, Row} from "react-bootstrap";
 
 function PostCreate() {
-    const [nameRU, setNameRU]=useState('')
-    const [nameRO, setNameRO]=useState('')
-    const [nameEN, setNameEN]=useState('')
+    const [tags, setTags] = useState([]);
+    const [createPost, setCreatePost] = useState({
+        name_ro: '',
+        name_ru: '',
+        name_en: '',
+        short_description_ru: '',
+        short_description_ro: '',
+        short_description_en: '',
+        long_description_ru: '',
+        long_description_ro: '',
+        long_description_en: '',
+        types: [],
+        img_1: '',
+        img_2: '',
+    });
+    
+    const [img1, setImg1] = useState('');
+    const [img2, setImg2] = useState('');
+    
+    useEffect(() => {
+        const getTags = async () => {
+            try {
+                const data = await getAllTags();
+                setTags(data);
+            } catch (error) {
+                console.error('Error fetching tags:', error);
+            }
+        };
+        getTags();
+    }, []);
 
-    const [titleRU, setTitleRU]=useState('')
-    const [titleRO, setTitleRO]=useState('')
-    const [titleEN, setTitleEN]=useState('')
-
-    const [shortDescriptionRU, setShortDescriptionRU] = useState('');
-    const [shortDescriptionRO, setShortDescriptionRO] = useState('');
-    const [shortDescriptionEN, setShortDescriptionEN] = useState('');
-
-    const [longDescriptionRU, setLongDescriptionRU] = useState('');
-    const [longDescriptionRO, setLongDescriptionRO] = useState('');
-    const [longDescriptionEN, setLongDescriptionEN] = useState('');
-
-    const [img1, setImg1] = useState(null);
-    const [img2, setImg2] = useState(null);
-
-    const [post_tags, setPost_tags] = useState([])
-
-    const addPost_tags = () => {
-        setPost_tags([...post_tags, {name_ru: '', name_ro: '', name_en: '', number: Date.now()}])
-    }
-
-    const changePost_tags = (key, value, number) => {
-        setPost_tags(post_tags.map(i => i.number === number ? {...i, [key]: value} : i))
-    }
-
-
-    const handlePostCreate  = (event) => {
-        event.preventDefault();
-
-        const formData = new FormData();
-        // Append text fields to formData
-        formData.append('name_ru', nameRU);
-        formData.append('name_ro', nameRO);
-        formData.append('name_en', nameEN);
-        formData.append('title_ru', titleRU);
-        formData.append('title_ro', titleRO);
-        formData.append('title_en', titleEN);
-        formData.append('short_description_ru', shortDescriptionRU);
-        formData.append('short_description_ro', shortDescriptionRO);
-        formData.append('short_description_en', shortDescriptionEN);
-        formData.append('long_description_ru', longDescriptionRU);
-        formData.append('long_description_ro', longDescriptionRO);
-        formData.append('long_description_en', longDescriptionEN);
-        formData.append('img_1', img1);
-        formData.append('img_2', img2);
-        formData.append('post_tags', JSON.stringify(post_tags));
-
-        createPostData(formData)
-            .then((response) => {
-                console.log('Success:', response);
-                // Handle success, e.g., showing a success message
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                // Handle error, e.g., showing an error message
-            });
-    };
 
     const handleImg1Change = (e) => {
         setImg1(e.target.files[0]);
-        console.log(img1, 'img1')
     };
-
-    // Handler for the second image input
     const handleImg2Change = (e) => {
         setImg2(e.target.files[0]);
+    };
+
+    const handleNewPostChange = (e) => {
+        const { name, value, tag } = e.target;
+
+        if (tag === 'select-multiple') {
+            const selectedOptions = Array.from(e.target.selectedOptions, (option) => option.value);
+            setCreatePost({ ...createPost, [name]: selectedOptions });
+        } else {
+            // Handle boolean conversion for the new_animal and disappearing fields
+            const newValue = value === 'true' ? true : value === 'false' ? false : value;
+            setCreatePost({ ...createPost, [name]: newValue });
+        }
+    };
+
+    const handleCreate = (e) => {
+        e.preventDefault();
+        // Create a FormData object to handle text and file data
+        const formData = new FormData();
+        formData.append('name_ro', createPost.name_ro);
+        formData.append('name_ru', createPost.name_ru);
+        formData.append('name_en', createPost.name_en);
+        formData.append('short_description_ru', createPost.short_description_ru);
+        formData.append('short_description_ro', createPost.short_description_ro);
+        formData.append('short_description_en', createPost.short_description_en);
+        formData.append('long_description_ru', createPost.long_description_ru);
+        formData.append('long_description_ro', createPost.long_description_ro);
+        formData.append('long_description_en', createPost.long_description_en);
+
+        formData.append('types', JSON.stringify(createPost.types)); // Handle array properly
+
+        formData.append('img_1', img1);
+        formData.append('img_2', img2);
+
+        createPostData(formData).then(r => console.log('r', r))
     };
 
     return (
         <>
         <h4>Create New Blog Post</h4>
             <br/>
-            <Form onSubmit={handlePostCreate}>
+            <Form onSubmit={handleCreate}>
                 <Row className={'mt-4'}>
                     <Col>
                         <Form.Group controlId="name_ro">
-                        <Form.Label>Name RO</Form.Label>
-                        <Form.Control
-                            type="text"
-                            value={nameRO}
-                            onChange={(event) => setNameRO(event.target.value)}
-                            placeholder="Enter name ro"
-                        />
+                            <Form.Label>NameRO</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="name_ro"
+                                placeholder="Enter NameRO"
+                                value={createPost.name_ro}
+                                onChange={handleNewPostChange}
+                            />
                         </Form.Group>
                     </Col>
                     <Col>
@@ -98,9 +101,10 @@ function PostCreate() {
                             <Form.Label>Name RU</Form.Label>
                             <Form.Control
                                 type="text"
-                                value={nameRU}
-                                onChange={(event) => setNameRU(event.target.value)}
-                                placeholder="Enter name RU"
+                                name="name_ru"
+                                placeholder="Enter NameRU"
+                                value={createPost.name_ru}
+                                onChange={handleNewPostChange}
                             />
                         </Form.Group>
                     </Col>
@@ -109,9 +113,10 @@ function PostCreate() {
                             <Form.Label>Name EN</Form.Label>
                             <Form.Control
                                 type="text"
-                                value={nameEN}
-                                onChange={(event) => setNameEN(event.target.value)}
-                                placeholder="Enter name EN"
+                                name="name_en"
+                                placeholder="Enter NameEN"
+                                value={createPost.name_en}
+                                onChange={handleNewPostChange}
                             />
                         </Form.Group>
                     </Col>
@@ -121,30 +126,35 @@ function PostCreate() {
                         <Form.Label>Title RO</Form.Label>
                         <Form.Control
                             type="text"
-                            value={titleRO}
-                            onChange={(event) => setTitleRO(event.target.value)}
-                            placeholder="Enter title ro"
+                            name="title_ro"
+                            placeholder="Enter title"
+                            value={createPost.title_ro}
+                            onChange={handleNewPostChange}
+                            required // This makes the field required
                         />
                     </Col>
                     <Col>
-                        <Form.Group controlId="title ru">
+                        <Form.Group controlId="title_ru">
                             <Form.Label>Title RU</Form.Label>
                             <Form.Control
                                 type="text"
-                                value={titleRU}
-                                onChange={(event) => setTitleRU(event.target.value)}
-                                placeholder="Enter title RU"
+                                name="title_ru"
+                                placeholder="Enter title_ru"
+                                value={createPost.title_ru}
+                                onChange={handleNewPostChange}
                             />
                         </Form.Group>
                     </Col>
                     <Col>
-                        <Form.Group controlId="title EN">
+                        <Form.Group controlId="title_en">
                             <Form.Label>Title EN</Form.Label>
                             <Form.Control
                                 type="text"
-                                value={titleEN}
-                                onChange={(event) => setTitleEN(event.target.value)}
-                                placeholder="Enter title EN"
+                                name="title_en"
+                                placeholder="Enter title_en"
+                                value={createPost.title_en}
+                                onChange={handleNewPostChange}
+
                             />
                         </Form.Group>
                     </Col>
@@ -155,9 +165,10 @@ function PostCreate() {
                             <Form.Label>short Description RO</Form.Label>
                             <Form.Control
                                 type="text"
-                                value={shortDescriptionRO}
-                                onChange={(event) => setShortDescriptionRO(event.target.value)}
-                                placeholder="short description ro"
+                                name="short_description_ro"
+                                placeholder="Enter short_description_ro"
+                                value={createPost.short_description_ro}
+                                onChange={handleNewPostChange}
                             />
                         </Form.Group>
                     </Col>
@@ -166,9 +177,10 @@ function PostCreate() {
                             <Form.Label>short Description RU</Form.Label>
                             <Form.Control
                                 type="text"
-                                value={shortDescriptionRU}
-                                onChange={(event) => setShortDescriptionRU(event.target.value)}
-                                placeholder="short description ru"
+                                name="short_description_ru"
+                                placeholder="short Description RU"
+                                value={createPost.short_description_ru}
+                                onChange={handleNewPostChange}
                             />
                         </Form.Group>
                     </Col>
@@ -177,9 +189,10 @@ function PostCreate() {
                             <Form.Label>short Description EN</Form.Label>
                             <Form.Control
                                 type="text"
-                                value={shortDescriptionEN}
-                                onChange={(event) => setShortDescriptionEN(event.target.value)}
-                                placeholder="short description en"
+                                name="short_description_en"
+                                placeholder="Enter short description en"
+                                value={createPost.short_description_en}
+                                onChange={handleNewPostChange}
                             />
                         </Form.Group>
                     </Col>
@@ -189,11 +202,11 @@ function PostCreate() {
                         <Form.Group controlId="long_description_ro">
                             <Form.Label>Long Description RO</Form.Label>
                             <Form.Control
-                                as="textarea"
-                                rows={3}
-                                value={longDescriptionRO}
-                                onChange={(event) => setLongDescriptionRO(event.target.value)}
-                                placeholder="Enter long description ro"
+                                type="text"
+                                name="long_description_ro"
+                                placeholder="Enter long description_ro"
+                                value={createPost.long_description_ro}
+                                onChange={handleNewPostChange}
                             />
                         </Form.Group>
                     </Col>
@@ -201,11 +214,11 @@ function PostCreate() {
                         <Form.Group controlId="long_description_ru">
                             <Form.Label>Long Description RU</Form.Label>
                             <Form.Control
-                                as="textarea"
-                                rows={3}
-                                value={longDescriptionRU}
-                                onChange={(event) => setLongDescriptionRU(event.target.value)}
-                                placeholder="Enter long description ru"
+                                type="text"
+                                name="long_description_ru"
+                                placeholder="Enter long description_ru"
+                                value={createPost.long_description_ru}
+                                onChange={handleNewPostChange}
                             />
                         </Form.Group>
                     </Col>
@@ -213,11 +226,11 @@ function PostCreate() {
                         <Form.Group controlId="long_description_en">
                             <Form.Label>Long Description EN</Form.Label>
                             <Form.Control
-                                as="textarea"
-                                rows={3}
-                                value={longDescriptionEN}
-                                onChange={(event) => setLongDescriptionEN(event.target.value)}
-                                placeholder="Enter long description en"
+                                type="text"
+                                name="long_description_en"
+                                placeholder="Enter long description_en"
+                                value={createPost.long_description_en}
+                                onChange={handleNewPostChange}
                             />
                         </Form.Group>
                     </Col>
@@ -243,35 +256,27 @@ function PostCreate() {
                     </Col>
                 </Row>
                 <br />
-                <Button onClick={addPost_tags} variant={"outline-info"}>Add tags</Button>
-                {post_tags.map(i =>
-                    <Row className={'mt-4'} key={i.number}>
-                        <Col md={4}>
+                <Row>
+                    <Col>
+                        <Form.Group controlId="tags" className="mb-4">
+                            <Form.Label>Select tags</Form.Label>
                             <Form.Control
-                                value={i.name_ro}
-                                placeholder="tag ro"
-                                onChange={(e) => changePost_tags('name_ro', e.target.value, i.number)}
-                                />
-                        </Col>
-                        <Col md={4}>
-                            <Form.Control
-                                value={i.name_ru}
-                                placeholder="tag_ru"
-                                onChange={(e) => changePost_tags('name_ru', e.target.value, i.number)}
-
-                            />
-                        </Col>
-                        <Col md={4}>
-                            <Form.Control
-                                value={i.name_en}
-                                placeholder="tag_en"
-                                onChange={(e) => changePost_tags('name_en', e.target.value, i.number)}
-
-                            />
-                        </Col>
-                    </Row>
-                )}
-                <br />
+                                as="select"
+                                multiple
+                                name="tags"
+                                value={createPost.tags}
+                                onChange={handleNewPostChange}
+                            >
+                                {tags.map(item => (
+                                    <option key={item.id} value={item.id}>
+                                        {item.name_ro} / {item.name_ru} / {item.name_en}
+                                    </option>
+                                ))}
+                            </Form.Control>
+                        </Form.Group>
+                    </Col>
+                </Row>
+                <br/>
                <br/>
                 <Button type="submit" variant="primary">
                     Submit Post

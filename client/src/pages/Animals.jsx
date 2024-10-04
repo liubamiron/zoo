@@ -1,22 +1,19 @@
-import { useTranslation } from "../providers/index.js";
-import { useEffect, useState } from "react";
-import { fetchAnimalData, fetchTypeAnimals } from "../utils/apiCalls.js";
-import { Link } from "react-router-dom";
+import {useTranslation} from "../providers/index.js";
+import {useEffect, useState} from "react";
+import {fetchAnimalData, fetchTypeAnimals} from "../utils/apiCalls.js";
+import {Link} from "react-router-dom";
 import {Button, Card, Col, Form, Row} from "react-bootstrap";
+import PaginationComponent from "../components/PaginationComponent.jsx";
 
 const Animals = () => {
-    const { t, language } = useTranslation();
+    const {t, language} = useTranslation();
     const [allAnimalsData, setAllAnimals] = useState([]);
     const [typeAnimals, setTypeAnimals] = useState([]);
     const [selectedType, setSelectedType] = useState(null);
     const [emailUser, setEmailUser] = useState([]);
-
     // Pagination states
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 9; // Show 9 animals per page
-
-    // Track the range of visible pages
-    const [visiblePages, setVisiblePages] = useState([1, 2, 3]);
 
     // Get all animals
     useEffect(() => {
@@ -57,27 +54,6 @@ const Animals = () => {
     // Calculate total pages
     const totalPages = Math.ceil((filteredAnimals?.length || 0) / itemsPerPage);
 
-    // Handler for pagination
-    const handlePageChange = (pageNumber) => {
-        setCurrentPage(pageNumber);
-    };
-
-    // Handler for showing next pages
-    const handleNextPages = () => {
-        if (visiblePages[2] < totalPages) {
-            const nextStart = visiblePages[0] + 3; // Move to the next set of 3 pages
-            setVisiblePages([nextStart, nextStart + 1, nextStart + 2]);
-        }
-    };
-
-    // Handler for showing previous pages
-    const handlePrevPages = () => {
-        if (visiblePages[0] > 1) {
-            const prevStart = visiblePages[0] - 3; // Move to the previous set of 3 pages
-            setVisiblePages([prevStart, prevStart + 1, prevStart + 2]);
-        }
-    };
-
     return (
         <div className={"bg_banner"}>
             <div className="bg_banner_green height_280">
@@ -85,7 +61,7 @@ const Animals = () => {
             </div>
             <div className={'mt-4 text-center d-flex justify-content-center align-items-center mb-4'}>
                 <span> <Link to={'/'}>
-                    <img src={'/house.svg'} className={'img-fluid'} alt={'house'} style={{ marginRight: '5px' }} />
+                    <img src={'/house.svg'} className={'img-fluid'} alt={'house'} style={{marginRight: '5px'}}/>
                     ZOO</Link>&nbsp;&#62;&nbsp;{t('ANIMALS')}
                 </span>
             </div>
@@ -113,54 +89,36 @@ const Animals = () => {
                     <Row>
                         {currentAnimals.map((animal) => (
                             <Col xs={12} md={4} key={animal.id}> {/* Changed to 4 for 3 items per row */}
-                                <Link to={`/animals/${animal.id}`} style={{ textDecoration: 'none' }}> {/* Wrap Card with Link */}
+                                <Link to={`/animals/${animal.id}`}
+                                      style={{textDecoration: 'none'}}> {/* Wrap Card with Link */}
                                     <Card className={'bg_light_green mb-2'}>
-                                    <div className={'bg_green'}>
-                                        <Card.Img variant="top"
-                                                  src={`${import.meta.env.VITE_URL}/${animal.img_1}`} alt="animal"
-                                                  className={'img-fluid'}
-                                                  style={{height: '230px'}}
-                                        />
-                                    </div>
-                                    <Card.Footer>
-                                        <p style={{height: '60px'}}>{animal[`name_${language}`]}</p>
-                                    </Card.Footer>
-                                </Card>
+                                        <div className={'bg_green'}>
+                                            <Card.Img variant="top"
+                                                      src={`${import.meta.env.VITE_URL}/${animal.img_1}`} alt="animal"
+                                                      className={'img-fluid'}
+                                                      style={{height: '230px'}}
+                                            />
+                                        </div>
+                                        <Card.Footer>
+                                            <p style={{height: '60px'}}>{animal[`name_${language}`]}</p>
+                                        </Card.Footer>
+                                    </Card>
                                 </Link>
                             </Col>
                         ))}
                     </Row>
                 </div>
             </Row>
-            {/* Pagination Controls */}
-            <div className="text-center mt-4">
-                {visiblePages[0] > 1 && (
-                    <Button variant="outline-secondary" className="m-1" onClick={handlePrevPages}>
-                        Prev
-                    </Button>
-                )}
-                {visiblePages.map((page) => (
-                    page <= totalPages && (
-                        <Button
-                            key={page}
-                            variant="outline-success"
-                            className={`m-1 ${currentPage === page ? 'active' : ''}`}
-                            onClick={() => handlePageChange(page)}
-                        >
-                            {page}
-                        </Button>
-                    )
-                ))}
-                {visiblePages[2] < totalPages && (
-                    <Button variant="outline-secondary" className="m-1" onClick={handleNextPages}>
-                        Next
-                    </Button>
-                )}
-            </div>
+            {/* Pagination */}
+            <PaginationComponent
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
+            />
             <br/>
             <div className={'container mt-5'}>
                 <h2 className={'text-center'}>{t('BUY_TICKET')}</h2>
-                <p className={'text-center'} >Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.
+                <p className={'text-center'}>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.
                     Velit officia consequat duis enim velit mollit.</p>
 
                 <Row className="mt-4 d-flex align-items-stretch">
@@ -215,7 +173,8 @@ const Animals = () => {
                                 <br/>
                                 <p>{t('BOOK_GROUP')}</p>
                                 <span style={{display: 'flex', alignItems: 'center'}} className="mt-2">
-                            <h2 style={{marginRight: '8px', color: '#FCC044'}}>25%</h2></span>
+                                    <h2 style={{marginRight: '8px', color: '#FCC044'}}>25%</h2>
+                                </span>
                                 <br/>
                                 <span className="mt-2">* - {t('PRICE_5')}</span>
                                 <br/>
@@ -230,9 +189,8 @@ const Animals = () => {
                         </div>
                         <br/>
                     </Col>
-                </Row>
-                <br/>
-                <Row  className={'bg_green p-3 mt-5'}>
+                </Row><br/>
+                <Row className={'bg_green p-3 mt-5'}>
                     <Col>
                         <h1 className={'color_white'}>{t('SUBSCRIBE_NEWS')}</h1>
                     </Col>
@@ -257,7 +215,6 @@ const Animals = () => {
                     </Col>
                 </Row>
             </div>
-
         </div>
     );
 };

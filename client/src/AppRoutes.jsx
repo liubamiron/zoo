@@ -31,15 +31,23 @@ import ActivitiesEdit from "./pages/admin/ActivitiesEdit";
 import NewsCreate from "./pages/admin/NewsCreate.jsx";
 import NewsEdit from "./pages/admin/NewsEdit.jsx";
 import Tags from "./pages/admin/Tags.jsx";
-import TagsEdit from "./pages/admin/TagsEdit.jsx";
-import TagsCreate from "./pages/admin/TagsCreate.jsx";
 import TypeAnimals from "./pages/admin/TypeAnimals.jsx";
 import FAQ from "./pages/admin/FAQ.jsx";
 import About from "./pages/About.jsx";
 import Animals from "./pages/Animals.jsx";
 import Animal from "./pages/Animal.jsx";
-import Gallery from "./pages/admin/Gallery.jsx";
+import Gallery from "./pages/Gallery.jsx";
 import PageEvents from "./pages/PageEvents.jsx";
+import PostsPage from "./pages/PostsPage.jsx";
+import PostPage from "./pages/PostPage.jsx";
+import QuestionsPage from "./pages/QuestionsPage.jsx";
+import ReviewsPage from "./pages/ReviewsPage.jsx";
+import TendersPage from "./pages/TendersPage.jsx";
+import ContactUs from "./pages/ContactUs.jsx";
+import DonationPage from "./pages/DonationPage.jsx";
+import MapPage from "./pages/MapPage.jsx";
+import TypeTender from "./pages/admin/TypeTender.jsx";
+
 
 
 function AppRoutes() {
@@ -53,11 +61,18 @@ function AppRoutes() {
                 <Route path="/animals/:id" element={<Animal />} />
                 <Route path="/gallery" element={<Gallery />} />
                 <Route path="/events" element={<PageEvents />} />
+                <Route path="/news" element={<PostsPage />} />
+                <Route path="/news/:id" element={<PostPage />} />
+                <Route path="/reviews" element={<ReviewsPage />} />
+                <Route path="/questions" element={<QuestionsPage />} />
+                <Route path="/tender" element={<TendersPage />} />
+                <Route path="/contacts" element={<ContactUs />} />
+                <Route path="/donation" element={<DonationPage />} />
+                <Route path="/map" element={<MapPage />} />
                 <Route path="*" element={<NotFoundPage/>} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/registration" element={<Auth />} />
 
-                {/* Admin routes */}
                 <Route path="/admin" element={<AdminLayout />}>
                     <Route path="main_page" element={<AdminHomePage />} />
                     <Route path="main_page/:id" element={<AdminHomePageEdit />} />
@@ -76,6 +91,7 @@ function AppRoutes() {
                     <Route path="tenders" element={<AdminTenders />} />
                     <Route path="tenders/create" element={<TenderCreate />} />
                     <Route path="tenders/:id" element={<TenderEdit />} />
+                    <Route path="type_tenders" element={<TypeTender />} />
                     <Route path="reviews" element={<AdminReviews />} />
                     <Route path="reviews/create" element={<ReviewCreate />} />
                     <Route path="reviews/:id" element={<ReviewEdit />} />
@@ -83,8 +99,6 @@ function AppRoutes() {
                     <Route path="activities/create" element={<ActivitiesCreate />} />
                     <Route path="activities/:id" element={<ActivitiesEdit />} />
                     <Route path="tags" element={<Tags />} />
-                    <Route path="tags/create" element={<TagsCreate />} />
-                    <Route path="tags/:id" element={<TagsEdit />} />
                     <Route path="type_animals" element={<TypeAnimals />} />
                     <Route path="faq" element={<FAQ />} />
                 </Route>

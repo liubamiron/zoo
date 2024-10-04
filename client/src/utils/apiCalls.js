@@ -266,11 +266,7 @@ export const deleteEventById = async (id) => {
 ///// news all news
 export const fetchNewsData = async () => {
     try {
-        const token = getAuthCookie();
-        const response = await api.get('/news_item/', {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
+        const response = await api.get('/news_item', {
         });
         return response.data;
     } catch (error) {
@@ -354,11 +350,7 @@ export const deleteNewsById = async (id) => {
 ///get all posts
 export const fetchPostsData = async () => {
     try {
-        const token = getAuthCookie();
         const response = await api.get('/post', {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
         });
         return response.data;
     } catch (error) {
@@ -369,11 +361,7 @@ export const fetchPostsData = async () => {
 
 export const fetchPostsById = async (id) => {
     try {
-        const token = getAuthCookie();
         const response = await api.get(`/post/${id}`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
         });
         return response.data;
     } catch (error) {
@@ -466,13 +454,41 @@ export const updateTagsData = async (id, tagData) => {
     }
 };
 
-export const getAllTags = async () => {
+export const createOrUpdateTagsData = async (id, tagData) => {
     try {
         const token = getAuthCookie();
+
+        if (id) {
+            // Update tag if ID is provided
+            const response = await api.put(`/tag/${id}`, tagData, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+            console.log('Tag updated successfully');
+            return response.data;
+        } else {
+            // Create new tag if no ID is provided
+            const response = await api.post(`/tag`, tagData, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+            console.log('Tag created successfully');
+            return response.data;
+        }
+    } catch (error) {
+        console.error('Error creating or updating tag data:', error);
+        throw error;
+    }
+};
+
+
+export const getAllTags = async () => {
+    try {
         const response = await api.get('/tag', {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
         });
         return response.data;
     } catch (error) {
@@ -483,11 +499,7 @@ export const getAllTags = async () => {
 
 export const getTagsById = async (id) => {
     try {
-        const token = getAuthCookie();
         const response = await api.get(`/tag/${id}`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
         });
         return response.data;
     } catch (error) {
@@ -675,11 +687,7 @@ export const deleteReviewsById = async (id) => {
 // tenders api
 export const fetchTenderData = async () => {
     try {
-        const token = getAuthCookie();
         const response = await api.get('/tender', {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
         });
         return response.data;
     } catch (error) {
@@ -745,6 +753,82 @@ export const deleteTenderById = async (id) => {
 
     try {
         const response = await api.delete(`/tender/${id}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,  // Include the authorization token
+            },
+        });
+        console.log('Tender deleted response:', response.data);
+        return response.data;  // Return the server response
+    } catch (error) {
+        console.error('Error deleting tender:', error);
+        throw error;  // Rethrow error to handle it in the calling function
+    }
+};
+
+// type tenders api
+export const fetchTypeTenderData = async () => {
+    try {
+        const response = await api.get('/type_tender', {
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching news data:', error);
+        throw error;
+    }
+};
+
+export const fetchTypeTenderById = async (id) => {
+    try {
+        const response = await api.get(`/type_tender/${id}`, {
+        });
+        return response.data; // Return the specific tender data from the API
+    } catch (error) {
+        console.error(`Error fetching tender data with ID ${id}:`, error);
+        throw error;
+    }
+};
+
+export const createTypeTenderData = async (typeTender) => {
+    try {
+        const token = getAuthCookie();
+        const response = await api.post(`/type_tender`, typeTender, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+        });
+
+        return response.data; // Return the created tender data from the API
+    } catch (error) {
+        console.error('Error creating tender data:', error);
+        throw error;
+    }
+};
+
+export const updateTypeTenderData = async (id, formData) => {
+    console.log(id, formData);
+    try {
+        const token = getAuthCookie();
+        const response = await api.put(`/type_tender/${id}`, formData,{
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+        });
+
+        return response.data; // Return the updated tender data from the API
+    } catch (error) {
+        console.error('Error updating tender data:', error);
+        throw error;
+    }
+};
+
+export const deleteTypeTenderById = async (id) => {
+    console.log('delete id:', id);
+    const token = getAuthCookie();  // Retrieve the token
+
+    try {
+        const response = await api.delete(`/type_tender/${id}`, {
             headers: {
                 'Authorization': `Bearer ${token}`,  // Include the authorization token
             },
@@ -876,11 +960,7 @@ export const updateFAQData = async (id, typeAnimalData) => {
 
 export const getAllFAQ = async () => {
     try {
-        const token = getAuthCookie();
         const response = await api.get('/faq', {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
         });
         return response.data;
     } catch (error) {

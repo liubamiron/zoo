@@ -5,6 +5,7 @@ import { Button, Col, Form, InputGroup, Row } from "react-bootstrap";
 import { fetchEventsData } from "../utils/apiCalls.js";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import PaginationComponent from "../components/PaginationComponent.jsx";
 
 function PageEvents() {
     const [startDate, setStartDate] = useState(null);
@@ -66,9 +67,6 @@ function PageEvents() {
 
     // Total pages
     const totalPages = Math.ceil(filteredEvents.length / eventsPerPage);
-
-    // Change page
-    const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     return (
         <div>
@@ -182,19 +180,11 @@ function PageEvents() {
                     </Row>
                 </div>
                 {/* Pagination Controls */}
-                <div className="d-flex justify-content-center mt-4">
-                    {Array.from({ length: totalPages }, (_, index) => (
-                        <Button
-                            key={index + 1}
-                            variant={index + 1 === currentPage ? 'primary' : 'light'}
-                            onClick={() => paginate(index + 1)}
-                            className="mx-1"
-                        >
-                            {index + 1}
-                        </Button>
-                    ))}
-                </div>
-                <br/>
+                <PaginationComponent
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={setCurrentPage}
+                />
                 <br/>
                 <Row  className={'bg_green p-3 mt-5'}>
                     <Col>

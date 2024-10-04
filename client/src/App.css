@@ -28,6 +28,14 @@
     font-size: 18px;
 }
 
+.f_size_14 {
+    font-size: 14px;
+}
+
+.f_size_13 {
+    font-size: 13px;
+}
+
 .title {
     font-size: 85px;
     font-weight: 700;
@@ -357,6 +365,21 @@
 .input-group-text {
     background-color: transparent!important;
     border: none!important;
+}
+
+/* customStyles.css */
+.pagination .page-link {
+    color: green; /* Change pagination text color */
+}
+
+.pagination .page-item.active .page-link {
+    background-color: green; /* Change the background color of active page */
+    border-color: green; /* Change the border color of active page */
+}
+
+.pagination .page-item .page-link:hover {
+    background-color: #e6f4e6; /* Light green background on hover */
+    color: green; /* Change color on hover */
 }
 
 

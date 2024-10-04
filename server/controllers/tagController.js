@@ -3,12 +3,12 @@ const {Tag} = require("../models/models");
 
 class TagController {
     async create(req, res) {
-        const {name_ru, name_ro, name_en, postId} = req.body
+        const {name_ru, name_ro, name_en, } = req.body
         const tag = await Tag.create({
             name_ru,
             name_ro,
             name_en,
-            postId})
+            })
         return res.json(tag)
 
     }
@@ -49,13 +49,7 @@ class TagController {
                 name_ru: name_ru || tag.name_ru,
                 name_ro: name_ro || tag.name_ro,
                 name_en: name_en || tag.name_en,
-                // postId: postId || tag.postId
             })
-
-            // tag.name_ru = name_ru || tag.name_ru;
-            // tag.name_ro = name_ro || tag.name_ro;
-            // tag.name_en = name_en || tag.name_en;
-            // tag.postId = postId || tag.postId;
 
             // Save the updated record
             await tag.save();

@@ -1,4 +1,4 @@
-import {Link, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import {useTranslation} from "../providers/index.js";
 import {useEffect, useState} from "react";
 import {fetchAnimalData, fetchAnimalDataById, fetchEventsData} from "../utils/apiCalls.js";
@@ -8,11 +8,11 @@ import {Accordion, Button, Col, Form, Image, Row} from "react-bootstrap";
 const Animal = () => {
     const {id} = useParams(); // Get the animal ID from the URL
     const [allEvents, setAllEvents] = useState([]);
-    // const [filteredAnimalsByType, setFilteredAnimalsByType] =useState([])
     const {t, language} = useTranslation();
     const [emailUser, setEmailUser] = useState([]);
     const [animalsData, setAnimalsData] = useState([]);
     const [groupedAnimals, setGroupedAnimals] = useState([]);
+    const navigate = useNavigate();
 
     // Get animal by id
     useEffect(() => {
@@ -54,66 +54,6 @@ const Animal = () => {
         })
         .sort((a, b) => new Date('1970/01/01 ' + a.time_event.split(' - ')[0]) -
             new Date('1970/01/01 ' + b.time_event.split(' - ')[0]));
-    // Get all animals and filter by current animal's types
-//     useEffect(() => {
-//         const getData = async () => {
-//             try {
-//                 const data = await fetchAnimalData(); // Fetch all animals data from API
-//                 const currentAnimalData = await fetchAnimalDataById(id); // Fetch the current animal data by ID
-//                 const filteredAnimals = filterAnimalsByCurrentTypes(data.rows, currentAnimalData.types); // Filter animals that have the same types
-//
-//                 groupAnimalsByType(filteredAnimals); // Group animals by their types
-//             } catch (error) {
-//                 console.error('Error fetching animals data:', error);
-//             }
-//         };
-//         getData();  // Call the async function
-//     }, []);
-//
-// // Filter animals that share the same types as the current animal
-//     const filterAnimalsByCurrentTypes = (allAnimals, currentAnimalTypes) => {
-//         const currentTypeIds = currentAnimalTypes.map(type => type.id);
-//
-//         return allAnimals.filter(animal =>
-//             animal.types.some(type => currentTypeIds.includes(type.id))
-//         );
-//     };
-//
-// // Group animals by their types
-//     const groupAnimalsByType = (animals) => {
-//         const grouped = {};
-//
-//         animals.forEach((animal) => {
-//             animal.types.forEach((type) => {
-//                 if (!grouped[type.id]) {
-//                     grouped[type.id] = {
-//                         typeName: type[`name_${language}`], // Adjust for the current language
-//                         animals: [],
-//                     };
-//                 }
-//                 // Optionally exclude the current animal from the group
-//                 if (animal.id !== id) {
-//                     grouped[type.id].animals.push(animal);  // Add animal to the corresponding type
-//                 }
-//             });
-//         });
-//
-//         setFilteredAnimalsByType(grouped); // Update state with grouped animals
-//     };
-
-    // Get all animals adn filter bu  type
-    // useEffect(() => {
-    //     const getData = async () => {
-    //         try {
-    //             const data = await fetchAnimalData();  // Fetch data from API
-    //             const animalDataById = await fetchAnimalDataById(id);  // Fetch specific animal by ID (http://localhost:5000/api/animal/:id)
-    //             groupAnimalsByType(data.rows, animalDataById.types);  // Group animals by their corresponding types
-    //         } catch (error) {
-    //             console.error('Error fetching animals data:', error);
-    //         }
-    //     };
-    //     getData();
-    // }, []);
 
     // get all animals and filter by clas_ro
     useEffect(() => {
@@ -133,30 +73,6 @@ const Animal = () => {
 
         getData();
     }, [id]);
-
-// Group animals by their types that match the types from animalById
-//     const groupAnimalsByType = (animals, animalTypesById) => {
-//         const grouped = {};
-//
-//         // Filter animals to only include those whose types match animalTypesById
-//         animals.forEach((animal) => {
-//             const matchedTypes = animal.types.filter(type =>
-//                 animalTypesById.some(animalType => animalType.id === type.id)
-//             );
-//
-//             matchedTypes.forEach((type) => {
-//                 if (!grouped[type.id]) {
-//                     grouped[type.id] = {
-//                         typeName: type[`name_${language}`],
-//                         animals: [],
-//                     };
-//                 }
-//                 grouped[type.id].animals.push(animal);  // Add animal to the corresponding type
-//             });
-//         });
-//
-//         setFilteredAnimalsByType(grouped); // Update state with grouped animals
-//     };
 
     console.log('gp', groupedAnimals)
     return (
@@ -270,61 +186,37 @@ const Animal = () => {
                         <div className={'bg_light_green p-3'}>
                             <h2 className={'mt-3 color_green '}>{t("EVENTS_INFO")}</h2>
                             <br/>
-                            {activeEvents
-                                .map((event) => (
-                                    <>
-                                        <Row key={event.id}>
-                                            <Col>
-                                                <div className={'d-flex align-items-center p-2'}>
-                                                    <img src="holder.js/100px180" alt={'img'}/>
-                                                </div>
-                                            </Col>
-                                            <Col>
-                                                <div className={'p-1'}>
-                                                    <div
-                                                        className={'text-center color_green'}>{event[`title_${language}`]}</div>
-                                                    <p className={'text-center color_green mt-2'}>{event.start_date_event}</p>
-                                                </div>
-                                            </Col>
-                                        </Row>
-                                        <hr/>
-                                    </>
-                                ))}
+                            {activeEvents.map((event) => (
+                                <div key={event.id}
+                                     // onClick={() => navigate(`/events/${event.id}`)}
+                                     onClick={() => navigate(`/events`)}
+                                >
+                                    <Row>
+                                        <Col xs={6} md={5} className="p-0">
+                                            <div className="d-flex align-items-center">
+                                                <Image
+                                                    src={`${import.meta.env.VITE_URL}/${event.img}`}
+                                                    alt={event[`title_${language}`]}
+                                                    className="img-fluid"
+                                                />
+                                            </div>
+                                        </Col>
+                                        <Col xs={6} md={7} className="d-flex flex-column justify-content-between">
+                                            <div className="text-center color_green">{event[`title_${language}`]}</div>
+                                            <div className="text-center color_green mt-2">{event.start_date_event}</div>
+                                        </Col>
+                                    </Row>
+                                    <hr />
+                                </div>
+                            ))}
                         </div>
                     </Col>
                 </Row>
                 <br/>
             </div>
-                <div className={'bg_shape2 pt-5'}>
-
-                    {/*<div className="container mt-5">*/}
-                    {/*    {Object.keys(filteredAnimalsByType).map((typeId) => (*/}
-                    {/*        <div key={typeId}>*/}
-                    {/*            <h3 className="text-center my-4"> {t('OTHER')} {filteredAnimalsByType[typeId].typeName}</h3>*/}
-                    {/*            <Row>*/}
-                    {/*                {typeId}*/}
-                    {/*                {filteredAnimalsByType[typeId].animals.map((animal, idx) => (*/}
-                    {/*                    <Col key={idx} xs={6} sm={4} md={3} className="mb-4">*/}
-
-                    {/*                        <Image*/}
-                    {/*                            src={`${import.meta.env.VITE_URL}/${animal.img_1}`}*/}
-                    {/*                            alt={animal[`name_${language}`]}*/}
-                    {/*                            fluid*/}
-                    {/*                            style={{height: '200px', width: '100%', objectFit: 'cover'}}*/}
-                    {/*                        />*/}
-                    {/*                        <div className="mt-2 text-center">*/}
-                    {/*                            <h5>{animal[`name_${language}`]}</h5>*/}
-                    {/*                            <p>{animal[`descr_short_${language}`]}</p>*/}
-                    {/*                        </div>*/}
-                    {/*                    </Col>*/}
-                    {/*                ))}*/}
-                    {/*            </Row>*/}
-                    {/*        </div>*/}
-                    {/*    ))}*/}
-                    {/*</div>*/}
-
-                    <div className={'container'}>
-                    <Row className={ "mb-5"}>
+            <div className={'bg_shape2 pt-5'}>
+                <div className={'container'}>
+                    <Row className={"mb-5"}>
                         {/* Check if animal is defined before accessing its properties */}
                         <h2 className={'mt-5 mb-5 text-center'}>
                             {t('OTHER_SPECIES_FROM')}&nbsp;{groupedAnimals[0]?.[`clas_${language}`]}
@@ -341,12 +233,11 @@ const Animal = () => {
                                 <p className={'mt-1'}>{animal[`descr_short_${language}`]}</p>
                             </Col>
                         ))}
-
                     </Row>
                     <br/>
                     <br/>
                     <br/>
-                    <Row  className={'bg_green p-3 mt-5'}>
+                    <Row className={'bg_green p-3 mt-5'}>
                         <Col>
                             <h1 className={'color_white'}>{t('SUBSCRIBE_NEWS')}</h1>
                         </Col>
@@ -370,8 +261,8 @@ const Animal = () => {
                             </Row>
                         </Col>
                     </Row>
-                    </div>
                 </div>
+            </div>
         </>
     )
         ;

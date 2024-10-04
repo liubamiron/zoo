@@ -28,23 +28,8 @@ function AdminSidebar() {
                 </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-                <Nav.Link as={Link} to="/admin/news" className={getLinkClass('/admin/news')}>
-                    News
-                </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-                <Nav.Link as={Link} to="/admin/activities" className={getLinkClass('/admin/activities')}>
-                    Activities
-                </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
                 <Nav.Link as={Link} to="/admin/reviews" className={getLinkClass('/admin/reviews')}>
                     Reviews
-                </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-                <Nav.Link as={Link} to="/admin/tenders" className={getLinkClass('/admin/tenders')}>
-                    Tenders
                 </Nav.Link>
             </Nav.Item>
             <Nav.Item>
@@ -56,19 +41,19 @@ function AdminSidebar() {
                 <Accordion>
                     <Accordion.Item eventKey="0">
                         <Accordion.Header >
-                            Blog Posts
+                            News Posts
                         </Accordion.Header>
                         <Accordion.Collapse eventKey="0" >
                             <Accordion.Body >
                                 <Nav.Item>
                                     <Nav.Link as={Link} to="/admin/posts" className={getLinkClass('/admin/posts')}>
-                                        Posts List
+                                        News List
                                     </Nav.Link>
                                 </Nav.Item>
                                 <Nav.Item>
                                     <Nav.Link as={Link} to="/admin/tags"
                                               className={getLinkClass('/admin/tags')}>
-                                        Post Tags
+                                        News Tags
                                     </Nav.Link>
                                 </Nav.Item>
                             </Accordion.Body>
@@ -93,6 +78,30 @@ function AdminSidebar() {
                                     <Nav.Link as={Link} to="/admin/type_animals"
                                               className={getLinkClass('/admin/type_animals')}>
                                         Type Animals
+                                    </Nav.Link>
+                                </Nav.Item>
+                            </Accordion.Body>
+                        </Accordion.Collapse>
+                    </Accordion.Item>
+                </Accordion>
+            </Nav.Item>
+            <Nav.Item className={"mt-4"}>
+                <Accordion>
+                    <Accordion.Item eventKey="0">
+                        <Accordion.Header >
+                            Tenders
+                        </Accordion.Header>
+                        <Accordion.Collapse eventKey="0" >
+                            <Accordion.Body >
+                                <Nav.Item>
+                                    <Nav.Link as={Link} to="/admin/tenders" className={getLinkClass('/admin/tenders')}>
+                                        Tenders
+                                    </Nav.Link>
+                                </Nav.Item>
+                                <Nav.Item>
+                                    <Nav.Link as={Link} to="/admin/type_tenders"
+                                              className={getLinkClass('/admin/type_tenders')}>
+                                        Type Tenders
                                     </Nav.Link>
                                 </Nav.Item>
                             </Accordion.Body>

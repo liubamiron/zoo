@@ -19,7 +19,6 @@ import {Link} from "react-router-dom";
 
 const HomePage = () => {
 
-    const [eventsData, setEventsData] = useState([]);
     const [openingEvent, setOpeningEvent] = useState(null);
     const [closeEvent, setCloseEvent] = useState(null);
     const [allEvents, setAllEvents] = useState([]);
@@ -44,7 +43,6 @@ const HomePage = () => {
                 // Store the events in state
                 setOpeningEvent(opening);
                 setCloseEvent(close);
-                setEventsData(data[0]);  // Store the list of first event
                 setAllEvents(data);  // Store the list of first event
             } catch (error) {
                 console.error('Error fetching events data:', error);
@@ -138,80 +136,142 @@ const HomePage = () => {
 // Display the result
     console.log('newAnimals', filteredAnimals, selectedType);
 
+    //
+    // const CardComponent = () => (
+    //     <>
+    //         <Card className="mb-3 h-100 card1_style">
+    //
+    //                 <Card.Title className={'d-flex justify-content-center color_green mb-4'}>
+    //                     <img src={'/icons/Vector.svg'} alt={'vector'} style={{width: '7%', height: 'auto'}} />
+    //                     &nbsp;{t('PLAN_VISIT')}
+    //                 </Card.Title>
+    //             <Card.Body className="text-center ">
+    //                 <Card.Text className={'height_27'}>
+    //                     {t('TODAY')}&nbsp;{new Date().toLocaleDateString(`${language}`, {
+    //                     month: 'long',
+    //                     day: 'numeric'
+    //                 })}
+    //                     <div className={'mt-4 color_carrot'}>
+    //                         {openingEvent?.time_event} : {closeEvent?.time_event}
+    //                     </div>
+    //                     <div className={'mt-4'}> {openingEvent?.[`short_description_${language}`]}</div>
+    //                 </Card.Text>
+    //             </Card.Body>
+    //             <Card.Footer className={'color_green'}>{t("PLAIN")}</Card.Footer>
+    //         </Card>
+    //     </>
+    // );
+    // const CardComponent2 = () => (
+    //     <>
+    //         <Card className="mb-4 card1_style h-100">
+    //             <Card.Body>
+    //                 <Card.Title
+    //                     className={'d-flex justify-content-center color_green  mb-4'}>
+    //                     <img src={'/icons/map.svg'} alt={'vector'}
+    //                          style={{width: '7%', height: 'auto'}}/>
+    //                     &nbsp;{t('MAP')}
+    //                 </Card.Title>
+    //                 <Card.Text className={'height_27'}>
+    //                     <img src={'/map_img.svg'} alt={'vector'}/>
+    //                 </Card.Text>
+    //             </Card.Body>
+    //             <Card.Footer>{t('ZOO_MAP')}</Card.Footer>
+    //         </Card>
+    //     </>
+    // )
+    // const CardComponent3 = () => (
+    //     <Card className="mb-4 card1_style h-100"
+    //         >
+    //             <Card.Body>
+    //                 <Card.Title
+    //                     className={'d-flex justify-content-center color_green mb-4'}>
+    //                     <img src={'/icons/apple-alt.svg'} alt={'apple-alt'}
+    //                          style={{width: '7%', height: 'auto'}}/>
+    //                     &nbsp;{t('NEW_ANIMALS')}
+    //                 </Card.Title>
+    //                 <Card.Text
+    //                     className={'height_27'}>{t('NEW_ANIMALS_INFO')}</Card.Text>
+    //             </Card.Body>
+    //             <Card.Footer>{t('MORE')}</Card.Footer>
+    //         </Card>
+    // )
+    // const CardComponent4 = () => (
+    //     <Card className="mb-4 card1_style h-100"
+    //     >
+    //         <Card.Body>
+    //             <Card.Title
+    //                 className={'d-flex justify-content-center color_green mb-4'}>
+    //                 <img src={'/icons/evernote.svg'} alt={'apple-alt'}
+    //                      style={{width: '7%', height: 'auto'}}/>
+    //                 &nbsp;{t('EVENTS')}
+    //             </Card.Title>
+    //             <Card.Text className={'height_27'}>{t('EVENTS_INFO')}</Card.Text>
+    //         </Card.Body>
+    //         <Card.Footer>{t('ALL_EVENTS')}</Card.Footer>
+    //     </Card>
+    // )
 
     const CardComponent = () => (
-        <>
-            <Card className="mb-3 h-100 card1_style">
-                <Card.Body className="text-center ">
-                    <Card.Title className={'d-flex justify-content-center color_green mb-4'}>
-                        <img src={'/icons/Vector.svg'} alt={'vector'} style={{width: '7%', height: 'auto'}} />
-                        &nbsp;{t('PLAN_VISIT')}
-                        {/*&nbsp;{eventsData[`title_${language}`]}*/}
-                    </Card.Title>
-                    <Card.Text className={'height_27'}>
-                        {t('TODAY')}&nbsp;{new Date().toLocaleDateString(`${language}`, {
-                        month: 'long',
-                        day: 'numeric'
-                    })}
-                        <div className={'mt-4 color_carrot'}>
-                            {openingEvent?.time_event} : {closeEvent?.time_event}
-                        </div>
-                        <div className={'mt-4'}> {openingEvent?.[`short_description_${language}`]}</div>
-                    </Card.Text>
-                </Card.Body>
-                <Card.Footer className={'color_green'}>{t("PLAIN")}</Card.Footer>
-            </Card>
-        </>
+        <Card className="mb-3 h-100 card1_style">
+            <Card.Body className="text-center">
+            <Card.Title className={'d-flex justify-content-center color_green mb-4'}>
+                <img src={'/icons/Vector.svg'} alt={'vector'} style={{width: '7%', height: 'auto'}} />
+                &nbsp;{t('PLAN_VISIT')}
+            </Card.Title>
+
+                <Card.Text className={'height_27'}>
+                    {t('TODAY')}&nbsp;{new Date().toLocaleDateString(`${language}`, { month: 'long', day: 'numeric' })}
+                    <span className={'mt-4 color_carrot'} style={{display: 'block'}}>
+                        {openingEvent?.time_event || 'N/A'} : {closeEvent?.time_event || 'N/A'}
+                    </span>
+                    <span className={'mt-4'} style={{display: 'block'}}>
+                        {openingEvent?.[`short_description_${language}`] || t('NO_DESCRIPTION')}</span>
+                </Card.Text>
+            </Card.Body>
+            <Card.Footer className={'color_green'}>{t("PLAIN")}</Card.Footer>
+        </Card>
     );
+
     const CardComponent2 = () => (
-        <>
-            <Card className="mb-4 card1_style h-100">
-                <Card.Body>
-                    <Card.Title
-                        className={'d-flex justify-content-center color_green  mb-4'}>
-                        <img src={'/icons/map.svg'} alt={'vector'}
-                             style={{width: '7%', height: 'auto'}}/>
-                        &nbsp;{t('MAP')}
-                    </Card.Title>
-                    <Card.Text className={'height_27'}>
-                        <img src={'/map_img.svg'} alt={'vector'}/>
-                    </Card.Text>
-                </Card.Body>
-                <Card.Footer>{t('ZOO_MAP')}</Card.Footer>
-            </Card>
-        </>
-    )
-    const CardComponent3 = () => (
-        <Card className="mb-4 card1_style h-100"
-            >
-                <Card.Body>
-                    <Card.Title
-                        className={'d-flex justify-content-center color_green mb-4'}>
-                        <img src={'/icons/apple-alt.svg'} alt={'apple-alt'}
-                             style={{width: '7%', height: 'auto'}}/>
-                        &nbsp;{t('NEW_ANIMALS')}
-                    </Card.Title>
-                    <Card.Text
-                        className={'height_27'}>{t('NEW_ANIMALS_INFO')}</Card.Text>
-                </Card.Body>
-                <Card.Footer>{t('MORE')}</Card.Footer>
-            </Card>
-    )
-    const CardComponent4 = () => (
-        <Card className="mb-4 card1_style h-100"
-        >
+        <Card className="mb-4 card1_style h-100">
             <Card.Body>
-                <Card.Title
-                    className={'d-flex justify-content-center color_green mb-4'}>
-                    <img src={'/icons/evernote.svg'} alt={'apple-alt'}
-                         style={{width: '7%', height: 'auto'}}/>
+                <Card.Title className={'d-flex justify-content-center color_green mb-4'}>
+                    <img src={'/icons/map.svg'} alt={'map icon'} style={{width: '7%', height: 'auto'}} />
+                    &nbsp;{t('MAP')}
+                </Card.Title>
+                <Card.Text className={'height_27'}>
+                    <img src={'/map_img.svg'} alt={'map'} />
+                </Card.Text>
+            </Card.Body>
+            <Card.Footer>{t('ZOO_MAP')}</Card.Footer>
+        </Card>
+    );
+
+    const CardComponent3 = () => (
+        <Card className="mb-4 card1_style h-100">
+            <Card.Body>
+                <Card.Title className={'d-flex justify-content-center color_green mb-4'}>
+                    <img src={'/icons/apple-alt.svg'} alt={'apple icon'} style={{width: '7%', height: 'auto'}} />
+                    &nbsp;{t('NEW_ANIMALS')}
+                </Card.Title>
+                <Card.Text className={'height_27'}>{t('NEW_ANIMALS_INFO')}</Card.Text>
+            </Card.Body>
+            <Card.Footer>{t('MORE')}</Card.Footer>
+        </Card>
+    );
+
+    const CardComponent4 = () => (
+        <Card className="mb-4 card1_style h-100">
+            <Card.Body>
+                <Card.Title className={'d-flex justify-content-center color_green mb-4'}>
+                    <img src={'/icons/evernote.svg'} alt={'events icon'} style={{width: '7%', height: 'auto'}} />
                     &nbsp;{t('EVENTS')}
                 </Card.Title>
                 <Card.Text className={'height_27'}>{t('EVENTS_INFO')}</Card.Text>
             </Card.Body>
             <Card.Footer>{t('ALL_EVENTS')}</Card.Footer>
         </Card>
-    )
+    );
 
     const CardList = () => (
         <Row className="d-flex align-items-stretch bg_gray_zoo" style={{
@@ -258,7 +318,6 @@ const HomePage = () => {
     );
 
     const CardsContainer = () => (
-        // <div style={{ margin: '180px 21px -20px' }}>
         <div >
             {isMobile ? <MobileSlider /> : <CardList />}
         </div>
@@ -368,7 +427,7 @@ const HomePage = () => {
                             <Row className={'pad_top_55_15'}>
                                 <Col>
                                     <h3 className={'color_green mb-4'}>{homePageData[`short_description_${language}`]}</h3>
-                                    <p>{homePageData[`long_description_${language}`]}</p>
+                                    <div>{homePageData[`long_description_${language}`]}</div>
                                     {zoo_facilities.map((facility, index) => (
                                         <span key={index}
                                               style={{
@@ -422,27 +481,36 @@ const HomePage = () => {
                                 style={{top: '-45px', right: '15px'}}
                             />
                             <h3>{t('TODAY_ON_ZOO')}</h3>
-                            <br/>
+                            <br />
                             <div className="row">
-                                {activeEvents.map((event) => (
-                                    <div className="col-12 mb-3" key={event.id}>
-                                        <div className="row">
-                                            <div className="col-6">
-                                                <strong>{event.time_event}</strong>
+                                {activeEvents
+                                    .sort((a, b) => {
+                                        // Prioritize "Открытие" (Opening) to be first
+                                        if (a.title_ru === "Открытие") return -1;
+                                        if (b.title_ru === "Открытие") return 1;
+
+                                        // Otherwise, maintain the original order
+                                        return 0;
+                                    })
+                                    .map((event) => (
+                                        <div className="col-12 mb-3" key={event.id}>
+                                            <div className="row">
+                                                <div className="col-6">
+                                                    <strong>{event.time_event}</strong>
+                                                </div>
+                                                <div className="col-6">
+                                                    <span>{event.title_ru}</span>
+                                                </div>
+                                                <hr />
                                             </div>
-                                            <div className="col-6">
-                                                <span>{event.title_ru}</span>
-                                            </div>
-                                            <hr/>
                                         </div>
-                                    </div>
-                                ))}
+                                    ))}
                             </div>
-                            <br/>
-                            <span>{t('All_EVENTS_TODAY')}&nbsp;<img src={'/icons/arrow_green.svg'}
-                                                                    alt={'arrow'}/></span>
+                            <br />
+                            <span>{t('All_EVENTS_TODAY')}&nbsp;<img src={'/icons/arrow_green.svg'} alt={'arrow'} /></span>
                         </div>
                     </Col>
+
                     <Col sx={12} md={6} className="d-flex align-items-stretch">
                         <div className={'bg_green p-5 color_white position-relative w-100'}>
                             <h3 className={'text-center '}>{t('VISITORS')}</h3>
@@ -459,15 +527,15 @@ const HomePage = () => {
                                 className="position-absolute"
                                 style={{bottom: '0', right: '0'}}
                             />
-                            <p>{t('INFO_BEFORE_VISIT')}</p>
-                            <p className={'color_yellow'}>{t('INFO_1')}&nbsp; <img src={'/icons/arrow_gold.svg'}/></p>
-                            <p className={'color_yellow'}>{t('INFO_2')}&nbsp; <img src={'/icons/arrow_gold.svg'}/></p>
-                            <p className={'color_yellow'}>{t('INFO_3')}&nbsp; <img src={'/icons/arrow_gold.svg'}/></p>
+                            <div>{t('INFO_BEFORE_VISIT')}</div>
+                            <div className={'color_yellow'}>{t('INFO_1')}&nbsp; <img src={'/icons/arrow_gold.svg'}/></div>
+                            <div className={'color_yellow'}>{t('INFO_2')}&nbsp; <img src={'/icons/arrow_gold.svg'}/></div>
+                            <div className={'color_yellow'}>{t('INFO_3')}&nbsp; <img src={'/icons/arrow_gold.svg'}/></div>
                             <br/>
-                            <p><img src={'/icons/map-marker-alt.svg'} alt={'map'}/>&nbsp; {t('HOW_TO')}</p>
+                            <div><img src={'/icons/map-marker-alt.svg'} alt={'map'}/>&nbsp; {t('HOW_TO')}</div>
                             <br/>
                             <br/>
-                            <p>{t('MAP_DIRECTIONS')}&nbsp; <img src={'/icons/arrow_gold.svg'}/></p>
+                            <div>{t('MAP_DIRECTIONS')}&nbsp; <img src={'/icons/arrow_gold.svg'}/></div>
                         </div>
                     </Col>
                 </Row>
@@ -478,24 +546,47 @@ const HomePage = () => {
                         )
                         .slice(0, 4) // Get the first four events after filtering
                         .map((event) => {
+                            // const eventDate = new Date(event.start_date_event);
+                            // const options = {month: 'long', day: 'numeric'}; // Format options for month and day
+                            // const formattedDate = eventDate.toLocaleDateString('ro-RO', options); // Change locale as needed
+
                             const eventDate = new Date(event.start_date_event);
-                            const options = {month: 'long', day: 'numeric'}; // Format options for month and day
-                            const formattedDate = eventDate.toLocaleDateString('ro-RO', options); // Change locale as needed
+                            const day = eventDate.getDate(); // Extract day
+                            const month = eventDate.toLocaleDateString('ro-RO', { month: 'long' }); // Extract month with long format
+
 
                             return (
-                                <Col xs={12} md={3} key={event.id}>
+                                <Col xs={12} md={3} key={event.id} className={'mb-4'}>
                                     <div
-                                        className={'bg_green p-3 text-center color_white d-flex flex-column justify-content-between min-height-262'}>
+                                        className={'' +
+                                            'bg_green ' +
+                                            'p-3 ' +
+                                            'text-center ' +
+                                            'color_white ' +
+                                            'd-flex ' +
+                                            'flex-column ' +
+                                            'justify-content-between ' +
+                                            'min-height-262'}>
                                         <Row>
-                                            <Col xs={12} md={7}>
+                                            <div
+                                            style={{
+                                            backgroundColor: 'yellow',
+                                            backgroundImage: `url(${import.meta.env.VITE_URL}/${event.img})`,
+                                            backgroundSize: 'cover',
+                                            backgroundPosition: 'center',
+                                            height: '240px',
+                                            width: '100%'
+                                        }}>
+                                            <Col xs={7} md={5}>
                                                 &nbsp;
                                             </Col>
-                                            <Col xs={12} md={5} className={'bg_yellow'}>
-                                                <strong>{formattedDate}</strong>
+                                            <Col xs={5} md={6} className={'bg_yellow'}>
+                                                <strong>{day}<br/>{month}</strong>
                                             </Col>
+                                                </div>
                                         </Row>
                                         <br/>
-                                        <strong>{event[`title_${language}`]}</strong>
+                                        <strong style={{minHeight: '80px'}}>{event[`title_${language}`]}</strong>
                                     </div>
                                 </Col>
                             );
@@ -503,8 +594,8 @@ const HomePage = () => {
                     <br/>
                 </Row>
                 <br/>
-                <div className={'text-center'}>{t('ALL_EVENTS')}&nbsp;
-                    <img src={'/icons/arrow_green.svg'} alt={'arrow'}/>
+                <div className={'text-center'}><Link to={'/events'}>{t('ALL_EVENTS')} &nbsp;
+                    <img src={'/icons/arrow_green.svg'} alt={'arrow'}/></Link>
                 </div>
             </div>
             <div className="bg_shape2 mt-5">
@@ -542,7 +633,7 @@ const HomePage = () => {
                                               style={{ height: '230px' }}
                                     />
                                     <Card.Footer>
-                                        <p style={{ height: '60px' }}>{animal[`name_${language}`]}</p>
+                                        <div style={{ height: '60px' }}>{animal[`name_${language}`]}</div>
                                     </Card.Footer>
                                 </Card>
                                 </Link>
@@ -550,12 +641,16 @@ const HomePage = () => {
                         ))}
                     </Row>
                     <br/>
-                    <p className={'text-center'}>{t('SEE_ALL')}&nbsp; <img src={'/icons/arrow_green.svg'}
-                                                                           alt={'arrow'}/></p>
+                    <div className={'text-center'}>
+                        <Link to={'/animals'}>
+                            {t('SEE_ALL')}&nbsp;
+                            <img src={'/icons/arrow_green.svg'} alt={'arrow'}/>
+                        </Link>
+                    </div>
                     <br/>
                     <h2>{t('BUY_TICKET')}</h2>
-                    <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.
-                        Velit officia consequat duis enim velit mollit.</p>
+                    <div>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.
+                        Velit officia consequat duis enim velit mollit.</div>
 
                     <Row className="mt-4 d-flex align-items-stretch">
                         <Col xs={12} md={4} className="p-2">
@@ -607,7 +702,7 @@ const HomePage = () => {
                                 <div className="p-4">
                                     <h3>{t('GROUP')}</h3>
                                     <br/>
-                                    <p>{t('BOOK_GROUP')}</p>
+                                    <div>{t('BOOK_GROUP')}</div>
                                     <span style={{display: 'flex', alignItems: 'center'}} className="mt-2">
                                         <h2 style={{marginRight: '8px', color: '#FCC044'}}>25%</h2></span>
                                     <br/>
@@ -626,26 +721,36 @@ const HomePage = () => {
                     </Row>
                     <br/>
                     <Row>
-                        <h2 className={'text-center mt-5'}>{t('REVIEWS')}</h2>
-                        <p className={'text-center mb-4'}>{t('REVIEWS_LOCAL')}</p>
+                        <h2 className={'text-center mt-5'}>
+                            <Link to={'/reviews'}>{t('REVIEWS')}</Link>
+                        </h2>
+                        <div className={'text-center mb-4'}>
+                            <Link to={'/reviews'}> {t('REVIEWS_LOCAL')}</Link>
+                        </div>
 
-                        {reviews?.slice(0, 6).map((item) => (
-                        <Col xs={12} md={4} key={item.id}>
-                            {/* Map the rating to star images */}
-                            {[...Array(5)].map((_, index) => (
-                                <img
-                                    key={index}
-                                    src={index < item.rating ? '/icons/star.svg' : '/icons/star_empty.svg'}
-                                    alt={index < item.rating ? 'full star' : 'empty star'}
-                                    style={{ width: '20px', height: '20px', marginRight: '5px' }}
-                                />
-                            ))}
-                            <br/>
-                            <br/>
-                            <p>{item[`long_description_${language}`]}</p>
-                            {item[`title_${language}`]}
-                            <p>{t('VISITATOR')}</p>
-                        </Col>
+                        {reviews?.slice(0, 3).map((item) => (
+                            <Col xs={12} md={4} key={item.id} className={'mt-4'}>
+                                <Card className={'bg_light_green p-4 text-center'}>
+                                    <div className={'d-flex align-items-center justify-content-center'}>
+                                        <img src="/quotes.svg" alt={'quotes'} width={'24px'} className={'img-fluid'}/>
+                                    </div>
+                                    <Card.Body>
+                                        <p>{item[`long_description_${language}`]}</p>
+                                        {/* Map the rating to star images */}
+                                        {[...Array(5)].map((_, index) => (
+                                            <img
+                                                key={index}
+                                                src={index < item.rating ? '/icons/star.svg' : '/icons/star_empty.svg'}
+                                                alt={index < item.rating ? 'full star' : 'empty star'}
+                                                style={{width: '20px', height: '20px', marginRight: '5px'}}
+                                            />
+                                        ))}
+                                    </Card.Body>
+                                </Card>
+                                <div style={{ textDecoration: 'underline' }} className={'mt-3 text-center'}>
+                                    {item[`title_${language}`]}</div>
+                                <div style={{ fontStyle: 'italic' }} className={'text-center'}>{t('VISITATOR')}</div>
+                            </Col>
                             ))}
                     </Row>
                 </div>

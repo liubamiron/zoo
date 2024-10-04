@@ -27,10 +27,10 @@ function Footer() {
                         <Col xs={12} md={2} className="mb-4 mb-md-0">
                             <h5 style={{color: '#0A4D1EFC'}}>Навигация</h5>
                             <ul className="list-unstyled">
-                                <li><Link to="/rules" >Правила зоопарка</Link></li>
-                                <li><Link to="/row" >Как добраться</Link></li>
-                                <li><Link to ="/vacancies" >Вакансии</Link></li>
-                                <li><Link to ="/faq" >Частые вопросы</Link></li>
+                                <li><Link to="/questions" >Правила зоопарка</Link></li>
+                                <li><Link to="/map" >Как добраться</Link></li>
+                                <li><Link to ="/contacts" >Вакансии</Link></li>
+                                <li><Link to ="/questions" >Частые вопросы</Link></li>
                             </ul>
                         </Col>
 
@@ -38,9 +38,9 @@ function Footer() {
                         <Col xs={12} md={2} className="mb-4 mb-md-0">
                             <h5 style={{color: '#0A4D1EFC'}}>Ресурсы</h5>
                             <ul className="list-unstyled">
-                                <li><Link to="/grand_opening" >Госзакупки</Link></li>
-                                <li><Link to="/public_info" >Публичная информация</Link></li>
-                                <li><Link to="/roller_night" >Сайты государственных учереждении</Link></li>
+                                <li><Link to="/tender" >Госзакупки</Link></li>
+                                <li><Link to="/tender" >Публичная информация</Link></li>
+                                <li><Link to="/" >Сайты государственных учереждении</Link></li>
 
                             </ul>
                         </Col>
@@ -49,9 +49,9 @@ function Footer() {
                         <Col xs={12} md={2}>
                             <h5 style={{color: '#0A4D1EFC'}}>Контакты</h5>
                             <ul className="list-unstyled">
-                                <li><Link to="/big_six" >Кишинёв, бульвар Дачия, 50/7 MD-2072</Link></li>
-                                <li><Link to="/keno" >zookishinev@mail.ru</Link></li>
-                                <li><Link to="/sic_bo" >(022) 76-37-33</Link></li>
+                                <li>Кишинёв, бульвар Дачия, 50/7 MD-2072</li>
+                                <li>zookishinev@mail.ru</li>
+                                <li>(022) 76-37-33</li>
                             </ul>
                         </Col>
                     </Row>

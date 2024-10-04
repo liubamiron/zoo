@@ -390,4 +390,5 @@ module.exports = {
     Review,
     HomePage,
     Faq,
+    EmailList
 }

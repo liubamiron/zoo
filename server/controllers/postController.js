@@ -1,5 +1,5 @@
 const ApiError = require("../error/ApiError");
-const {Post, Tag, Animal} = require("../models/models");
+const { Post, Tag} = require("../models/models");
 const uuid = require('uuid');
 const path = require('path');
 
@@ -19,24 +19,26 @@ class PostController {
                 long_description_ru,
                 long_description_ro,
                 long_description_en,
-                post_tags
-            } = req.body
+                tags
+            } = req.body;
 
-            const {img_1, img_2} = req.files || {};
-            // Initialize file names
+            const { img_1, img_2 } = req.files || {};
             let fileName1 = null;
             let fileName2 = null;
+
+            // Handle file uploads
             if (img_1) {
-                fileName1 = uuid.v4() + ".jpg";
-                img_1.mv(path.resolve(__dirname, '..', 'static', fileName1));
+                const img1Name = uuid.v4() + ".jpg";
+                await img_1.mv(path.resolve(__dirname, '..', 'static', img1Name));
+                fileName1 = img1Name; // Assign the name for storage
             }
             if (img_2) {
-                // Generate unique file name for the second image
-                fileName2 = uuid.v4() + ".jpg";
-                // Move image to the static folder
-                img_2.mv(path.resolve(__dirname, '..', 'static', fileName2));
+                const img2Name = uuid.v4() + ".jpg";
+                await img_2.mv(path.resolve(__dirname, '..', 'static', img2Name));
+                fileName2 = img2Name; // Assign the name for storage
             }
 
+            // Create the post
             const post = await Post.create({
                 name_ru,
                 name_ro,
@@ -50,61 +52,61 @@ class PostController {
                 long_description_ru,
                 long_description_ro,
                 long_description_en,
-                img_1: fileName1,  // Store the file name if the image was provided
+                img_1: fileName1,
                 img_2: fileName2,
             });
 
-            await post.save();
-
-            if (post_tags) {
-                post_tags = JSON.parse(post_tags)
-                await Promise.all(post_tags.map(i =>
-                // post_tags.forEach(i =>
-                    Tag.create({
-                        name_ru: i.name_ru,
-                        name_ro: i.name_ro,
-                        name_en: i.name_en,
-                        postId: post.id
-                    })
-                ))
+            // Handle tags if provided
+            if (tags) {
+                await post.setTags(JSON.parse(tags)); // Ensure types are parsed if necessary
             }
-            return res.json(post)
+
+            return res.json(post); // Respond with the created post
         } catch (e) {
-            next(ApiError.badRequest(e.message));
+            console.error('Error creating post:', e);
+            return next(ApiError.badRequest('Error creating post: ' + e.message));
         }
     }
 
     async getAll(req, res) {
-        const post = await Post.findAll(
-            {
-                include: [{model: Tag, as: 'post_tags'}]
-            }
-        )
-        return res.json(post)
+        try {
+            const posts = await Post.findAll({
+                include: [{
+                    model: Tag,
+                    through: { attributes: [] },
+                    attributes: ['id', 'name_ru', 'name_ro', 'name_en']
+                }]
+            });
+            return res.json(posts);
+        } catch (error) {
+            return res.status(500).json({ message: 'Failed to fetch posts: ' + error.message });
+        }
     }
 
     async getOne(req, res, next) {
         try {
-            const {id} = req.params;
-            const post = await Post.findOne(
-                {
-                    where: {id},
-                    include: [{model: Tag, as: 'post_tags'}]
-                }
-            );
+            const { id } = req.params;
+            const post = await Post.findOne({
+                where: { id },
+                include: [{
+                    model: Tag,
+                    through: { attributes: [] },
+                    attributes: ['id', 'name_ru', 'name_ro', 'name_en']
+                }]
+            });
 
             if (!post) {
-                return res.status(404).json({message: 'Post not found'});
+                return res.status(404).json({ message: 'Post not found' });
             }
             return res.json(post);
         } catch (error) {
-            next(ApiError.internal('Failed to fetch Post'));
+            next(ApiError.internal('Failed to fetch post: ' + error.message));
         }
     }
 
     async edit(req, res, next) {
         try {
-            const {id} = req.params; // Get the ID from the request parameters
+            const { id } = req.params; // Get the ID from the request parameters
             let {
                 name_ru,
                 name_ro,
@@ -118,16 +120,34 @@ class PostController {
                 long_description_ru,
                 long_description_ro,
                 long_description_en,
-                // post_tags
             } = req.body;
 
-            const {img_1, img_2} = req.files || {};
+            // Parse tags from the request body
+            let tags = JSON.parse(req.body.tags) || [];
 
-            const post = await Post.findOne({where: {id}});
+            const { img_1, img_2 } = req.files || {};
+
+            const post = await Post.findOne({ where: { id } });
 
             if (!post) {
-                return res.status(404).json({message: 'post not found'});
+                return res.status(404).json({ message: 'Post not found' });
             }
+
+            // Update the post item with new values
+            Object.assign(post, {
+                name_ru: name_ru || post.name_ru,
+                name_ro: name_ro || post.name_ro,
+                name_en: name_en || post.name_en,
+                title_ru: title_ru || post.title_ru,
+                title_ro: title_ro || post.title_ro,
+                title_en: title_en || post.title_en,
+                short_description_ru: short_description_ru || post.short_description_ru,
+                short_description_ro: short_description_ro || post.short_description_ro,
+                short_description_en: short_description_en || post.short_description_en,
+                long_description_ru: long_description_ru || post.long_description_ru,
+                long_description_ro: long_description_ro || post.long_description_ro,
+                long_description_en: long_description_en || post.long_description_en,
+            });
 
             // Update images if provided
             if (img_1) {
@@ -141,63 +161,44 @@ class PostController {
                 img_2.mv(path.resolve(__dirname, '..', 'static', fileName2));
                 post.img_2 = fileName2;
             }
-            Object.assign(post, {
-                // Update the post item with new values
-                name_ru: name_ru || post.name_ru,
-                name_ro: name_ro || post.name_ro,
-                name_en: name_en || post.name_en,
 
-                title_ru: title_ru || post.title_ru,
-                title_ro: title_ro || post.title_ro,
-                title_en: title_en || post.title_en,
 
-                short_description_ru: short_description_ru || post.short_description_ru,
-                short_description_ro: short_description_ro || post.short_description_ro,
-                short_description_en: short_description_en || post.short_description_en,
-
-                long_description_ru: long_description_ru || post.long_description_ru,
-                long_description_ro: long_description_ro || post.long_description_ro,
-                long_description_en: long_description_en || post.long_description_en,
+            await post.save();
+            // Update the tags association
+            if (Array.isArray(tags) && tags.length > 0) {
+                await post.setTags(tags);
+            }
+            // Optionally, fetch the updated animal with its types to return
+            const updatedPost = await Post.findOne({
+                where: { id },
+                include: {
+                    model: Tag,
+                    through: {
+                        attributes: [] // Exclude the join table attributes
+                    }
+                }
             });
 
-            // if (post_tags) {
-            //     post_tags = JSON.parse(post_tags);
-            //
-            //     await Tag.destroy({where: {postId: id}});
-            //
-            //     await Promise.all(post_tags.map(i =>
-            //         Tag.create({
-            //             name_ru: i.name_ru,
-            //             name_ro: i.name_ro,
-            //             name_en: i.name_en,
-            //             postId: post.id
-            //         })
-            //     ));
-            // }
-            // Save the updated post
-                    await post.save();
-            return res.json({message: 'Post updated successfully', post});
-                } catch (error) {
-                    next(ApiError.internal('Failed to update post'));
-                }
-            }
+            return res.json({ message: 'Post updated successfully', post:updatedPost });
+        } catch (error) {
+            next(ApiError.internal('Failed to update post: ' + error.message));
+        }
+    }
 
     async delete(req, res, next) {
         try {
-            const {id} = req.params; // Get the id from the request parameters
-            const deletedCount = await Post.destroy({where: {id}}); // Use the destroy method
+            const { id } = req.params; // Get the id from the request parameters
+            const deletedCount = await Post.destroy({ where: { id } }); // Use the destroy method
 
             if (deletedCount === 0) {
-                // If no record was deleted, the id wasn't found
-                return res.status(404).json({message: 'Post not found'});
+                return res.status(404).json({ message: 'Post not found' });
             }
 
-            return res.json({message: 'Post deleted successfully'});
+            return res.json({ message: 'Post deleted successfully' });
         } catch (error) {
-            next(ApiError.internal('Failed to delete Post'));
+            next(ApiError.internal('Failed to delete post: ' + error.message));
         }
     }
 }
 
-
-module.exports = new PostController()
+module.exports = new PostController();

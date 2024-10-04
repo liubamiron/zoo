@@ -1,21 +1,26 @@
 import { useEffect, useState } from "react";
 import { Button, Col, Container, Row, Modal, Form } from "react-bootstrap";
-import {createTagsData, deleteTagsById, getAllTags, updateTagsData} from "../../utils/apiCalls.js";
+import {
+    createTypeTenderData,
+    deleteTypeTenderById,
+    fetchTypeTenderData,
+    updateTypeTenderData,
+} from "../../utils/apiCalls.js";
 
-const Tags = () => {
-    const [tags, setTags] = useState([]);
+const TypeTender = () => {
+    const [typeTender, setTypeTender] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
-    const [currentTag, setCurrentTag] = useState(null);
+    const [currentTender, setCurrentTender] = useState(null);
     const [formData, setFormData] = useState({ name_ru: '', name_ro: '', name_en: '' });
 
     useEffect(() => {
         const getData = async () => {
             try {
-                const data = await getAllTags();
-                setTags(data);
+                const data = await fetchTypeTenderData();
+                setTypeTender(data);
             } catch (error) {
-                console.error('Error fetching Type tags data:', error);
+                console.error('Error fetching Type tender data:', error);
             }
         };
 
@@ -24,11 +29,11 @@ const Tags = () => {
 
     const handleDelete = async (id) => {
         try {
-            await deleteTagsById(id);
-            setTags((prevData) => prevData.filter(item => item.id !== id));
-            console.log('Type tag deleted successfully');
+            await deleteTypeTenderById(id);
+            setTypeTender((prevData) => prevData.filter(item => item.id !== id));
+            console.log('Type tender deleted successfully');
         } catch (error) {
-            console.error('Error deleting Type tag:', error);
+            console.error('Error deleting tender tag:', error);
         }
     };
 
@@ -36,28 +41,28 @@ const Tags = () => {
         event.preventDefault();
         try {
             if (isEditing) {
-                await updateTagsData(currentTag.id, formData);
-                setTags((prevData) => prevData.map(item => item.id === currentTag.id ? { ...item, ...formData } : item));
+                await updateTypeTenderData(currentTender.id, formData);
+                setTypeTender((prevData) => prevData.map(item => item.id === currentTender.id ? { ...item, ...formData } : item));
             } else {
-                await createTagsData(formData);
-                setTags((prevData) => [...prevData, { ...formData, id: Date.now() }]);
+                const newTender = await createTypeTenderData(formData); // Assuming this returns the created item with an ID
+                setTypeTender((prevData) => [...prevData, newTender]);
             }
             setShowModal(false);
             setFormData({ name_ru: '', name_ro: '', name_en: '' });
         } catch (error) {
-            console.error('Error saving Type tag:', error);
+            console.error('Error saving Type tender:', error);
         }
     };
 
-    const handleEdit = (tag) => {
-        setCurrentTag(tag);
-        setFormData({ name_ru: tag.name_ru, name_ro: tag.name_ro, name_en: tag.name_en });
+    const handleEdit = (typeTender) => {
+        setCurrentTender(typeTender);
+        setFormData({ name_ru: typeTender.name_ru, name_ro: typeTender.name_ro, name_en: typeTender.name_en });
         setIsEditing(true);
         setShowModal(true);
     };
 
     const handleCreate = () => {
-        setCurrentTag(null);
+        setCurrentTender(null);
         setFormData({ name_ru: '', name_ro: '', name_en: '' });
         setIsEditing(false);
         setShowModal(true);
@@ -66,20 +71,20 @@ const Tags = () => {
     return (
         <Container>
             <div className={'d-flex justify-content-between mt-4'}>
-                <h2>Tag List</h2>
+                <h2>Tenders List</h2>
                 <Button variant={'outline-success'} onClick={handleCreate}>
-                    Create New Tag
+                    Create New Tender
                 </Button>
             </div>
             <div className="mt-4"
                  style={{ background: 'lightcyan', padding: '15px', borderRadius: '8px' }}>
                 <Row className="align-items-center" style={{ color: 'gray', fontWeight: 'bold' }}>
-                    <Col>Tag RO</Col>
-                    <Col>Tag RU</Col>
-                    <Col>Tag EN</Col>
+                    <Col>Tender RO</Col>
+                    <Col>Tender RU</Col>
+                    <Col>Tender EN</Col>
                     <Col>&nbsp;</Col>
                 </Row>
-                {tags.map((item) => (
+                {typeTender?.map((item) => (
                     <div
                         key={item.id}
                         style={{
@@ -133,11 +138,11 @@ const Tags = () => {
 
             <Modal show={showModal} onHide={() => setShowModal(false)}>
                 <Modal.Header closeButton>
-                    <Modal.Title>{isEditing ? 'Edit Type tag' : 'Create New Type tag'}</Modal.Title>
+                    <Modal.Title>{isEditing ? 'Edit Type tender' : 'Create New Type tender'}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={handleCreateOrUpdate}>
-                        <Form.Group controlId="name_ru" className="mb-3">
+                        <Form.Group controlId="name_ro" className="mb-3">
                             <Form.Label>Name RO</Form.Label>
                             <Form.Control
                                 type="text"
@@ -165,7 +170,7 @@ const Tags = () => {
                             />
                         </Form.Group>
                         <Button variant="primary" type="submit">
-                            {isEditing ? 'Update Tag' : 'Create Tag'}
+                            {isEditing ? 'Update TypeTender' : 'Create TypeTender'}
                         </Button>
                     </Form>
                 </Modal.Body>
@@ -174,4 +179,4 @@ const Tags = () => {
     );
 };
 
-export default Tags;
+export default TypeTender;

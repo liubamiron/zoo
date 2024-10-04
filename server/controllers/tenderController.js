@@ -5,29 +5,44 @@ const path = require('path');
 
 class TenderController {
     async create(req, res, next) {
-        try {
-            const {
-                title_ru, title_ro, title_en,
-                description_ru, description_ro, description_en,
-                typeTenderId
-            } = req.body;
 
-            const { pdf_file } = req.files;
+            try {
+                const {
+                    title_ru, title_ro, title_en,
+                    description_ru, description_ro, description_en,
+                    typeTenderId
+                } = req.body;
 
-            let fileName = uuid.v4() + ".pdf";
+                let fileName = null; // Initialize as null to handle cases without file upload
 
-            pdf_file.mv(path.resolve(__dirname, '..', 'static', fileName));
+                // Check if a PDF file was uploaded
+                if (req.files && req.files.pdf_file) {
+                    const { pdf_file } = req.files;
 
-            const tender = await Tender.create({
-                title_ru, title_ro, title_en,
-                description_ru, description_ro, description_en,
-                typeTenderId, pdf_file: fileName
-            });
+                    // Generate a unique filename for the uploaded PDF
+                    fileName = uuid.v4() + ".pdf";
 
-            return res.json(tender);
-        } catch (e) {
-            next(ApiError.badRequest('Failed to create Tender', e.message));
-        }
+                    // Define the path to store the file
+                    const filePath = path.resolve(__dirname, '..', 'static', fileName);
+
+                    // Move the uploaded file to the desired location
+                    await pdf_file.mv(filePath);
+                }
+
+                // Create the tender with or without the pdf_file
+                const tender = await Tender.create({
+                    title_ru, title_ro, title_en,
+                    description_ru, description_ro, description_en,
+                    typeTenderId,
+                    pdf_file: fileName // If no file is uploaded, this will be null
+                });
+
+                return res.json(tender);
+            } catch (e) {
+                console.error('Error while creating tender:', e);
+                return next(ApiError.badRequest(`Failed to create Tender: ${e.message}`));
+            }
+
     }
 
     async getAll(req, res) {
