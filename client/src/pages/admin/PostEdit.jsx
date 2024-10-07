@@ -23,6 +23,7 @@ function PostEdit() {
         long_description_ru: '',
         long_description_ro: '',
         long_description_en: '',
+        popular: '',
         types: [],
         img_1: '',
         img_2: '',
@@ -97,6 +98,7 @@ function PostEdit() {
         formData.append('long_description_ru', post.long_description_ru);
         formData.append('long_description_ro', post.long_description_ro);
         formData.append('long_description_en', post.long_description_en);
+        formData.append('popular', post.popular);
         formData.append('img_1', img1);
         formData.append('img_2', img2);
         formData.append('tags', JSON.stringify(post.tags)); // Handle array properly
@@ -198,7 +200,7 @@ function PostEdit() {
                             <Form.Label>short Description RO</Form.Label>
                             <Form.Control
                                 as="textarea"
-                                rows={4}
+                                rows={6}
                                 name="short_description_ro"
                                 placeholder="Enter short description"
                                 value={post.short_description_ro}
@@ -211,7 +213,7 @@ function PostEdit() {
                             <Form.Label>short Description RU</Form.Label>
                             <Form.Control
                                 as="textarea"
-                                rows={4}
+                                rows={6}
                                 name="short_description_ru"
                                 placeholder="Enter short Description RU"
                                 value={post.short_description_ru}
@@ -224,7 +226,7 @@ function PostEdit() {
                             <Form.Label>short Description EN</Form.Label>
                             <Form.Control
                                 as="textarea"
-                                rows={4}
+                                rows={6}
                                 name="short_description_en"
                                 placeholder="Enter short description en"
                                 value={post.short_description_en}
@@ -239,7 +241,7 @@ function PostEdit() {
                             <Form.Label>Long Description RO</Form.Label>
                             <Form.Control
                                 as="textarea"
-                                rows={4}
+                                rows={8}
                                 name="long_description_ro"
                                 placeholder="Long Description RO"
                                 value={post.long_description_ro}
@@ -252,7 +254,7 @@ function PostEdit() {
                             <Form.Label>Long Description RU</Form.Label>
                             <Form.Control
                                 as="textarea"
-                                rows={4}
+                                rows={8}
                                 name="long_description_ru"
                                 placeholder="Long Description RU"
                                 value={post.long_description_ru}
@@ -265,12 +267,29 @@ function PostEdit() {
                             <Form.Label>Long Description EN</Form.Label>
                             <Form.Control
                                 as="textarea"
-                                rows={4}
+                                rows={8}
                                 name="long_description_en"
                                 placeholder="Long Description EN"
                                 value={post.long_description_en}
                                 onChange={handleInputChange}
                             />
+                        </Form.Group>
+                    </Col>
+                </Row>
+                <Row className={'mt-4'}>
+                    <Col sx={12} md={4}>
+                        <Form.Group controlId="popular" className="mb-4">
+                            <Form.Label>Popular post</Form.Label>
+                            <Form.Control
+                                as="select"
+                                name="popular"
+                                value={post.popular === true ? 'true' : 'false'}  // ensure boolean handling
+                                onChange={(e) => setPost({ ...post, popular: e.target.value === 'true' })}  // convert to boolean
+                            >
+                                <option value="">Select True or False</option>
+                                <option value="true">True</option>
+                                <option value="false">False</option>
+                            </Form.Control>
                         </Form.Group>
                     </Col>
                 </Row>
@@ -296,21 +315,21 @@ function PostEdit() {
                 </Row>
                 <Row className={'mt-4'}>
                     <Col>
+                        <div>Img&nbsp;1</div>&nbsp;
                     <div className="d-flex align-items-center">
-                        <span>Img&nbsp;1</span>&nbsp;
                         <img
                             src={`${import.meta.env.VITE_URL}/${post.img_1}`}
-                            alt="Post Image 1"
+                            alt="img1"
                             className="img-fluid"
                         />
                     </div>
                     </Col>
                     <Col>
+                        <div>Img&nbsp;2</div>&nbsp;
                     <div className="d-flex align-items-center">
-                        <span>Img&nbsp;2</span>&nbsp;
                         <img
                             src={`${import.meta.env.VITE_URL}/${post.img_2}`}
-                            alt="Post Image 2"
+                            alt="img2"
                             className="img-fluid"
                         />
                     </div>

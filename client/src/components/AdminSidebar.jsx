@@ -37,6 +37,11 @@ function AdminSidebar() {
                     FAQ
                 </Nav.Link>
             </Nav.Item>
+            <Nav.Item>
+                <Nav.Link as={Link} to="/admin/week_hours" className={getLinkClass('/admin/week_hours')}>
+                    Week Hours
+                </Nav.Link>
+            </Nav.Item>
             <Nav.Item className={"mt-4"}>
                 <Accordion>
                     <Accordion.Item eventKey="0">

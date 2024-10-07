@@ -984,3 +984,64 @@ export const deleteFAQ = async (id) => {
         throw error;
     }
 };
+
+// week_hours
+export const createWeekHours = async (newHour) => {
+    try {
+        const token = getAuthCookie();
+        const response = await api.post(`/week_hours`, newHour, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error creating newHour data:', error);
+        throw error;
+    }
+};
+
+export const updateWeekHours = async (id, editHour) => {
+    console.log(id, editHour);
+    try {
+        const token = getAuthCookie();
+        const response = await api.put(`/week_hours/${id}`, editHour,{
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error updating editHour data:', error);
+        throw error;
+    }
+};
+
+export const fetchWeekHours = async () => {
+    try {
+        const response = await api.get('/week_hours', {
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error getting faq:', error);
+        throw error;
+    }
+};
+
+export const deleteWeekHours = async (id) => {
+    const token = getAuthCookie();  // Retrieve the token
+    try {
+        const response = await api.delete(`/week_hours/${id}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+        console.log('faq deleted response:', response.data);
+        return response.data;
+    } catch (error) {
+        console.error('Error deleting faq:', error);
+        throw error;
+    }
+};

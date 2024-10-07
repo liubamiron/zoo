@@ -47,6 +47,7 @@ import ContactUs from "./pages/ContactUs.jsx";
 import DonationPage from "./pages/DonationPage.jsx";
 import MapPage from "./pages/MapPage.jsx";
 import TypeTender from "./pages/admin/TypeTender.jsx";
+import WeekHours from "./pages/admin/WeekHours.jsx";
 
 
 
@@ -99,6 +100,7 @@ function AppRoutes() {
                     <Route path="activities/create" element={<ActivitiesCreate />} />
                     <Route path="activities/:id" element={<ActivitiesEdit />} />
                     <Route path="tags" element={<Tags />} />
+                    <Route path="week_hours" element={<WeekHours />} />
                     <Route path="type_animals" element={<TypeAnimals />} />
                     <Route path="faq" element={<FAQ />} />
                 </Route>

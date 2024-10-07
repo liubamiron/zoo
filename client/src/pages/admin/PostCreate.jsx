@@ -15,6 +15,7 @@ function PostCreate() {
         long_description_ru: '',
         long_description_ro: '',
         long_description_en: '',
+        popular: 'false',
         types: [],
         img_1: '',
         img_2: '',
@@ -51,7 +52,9 @@ function PostCreate() {
             setCreatePost({ ...createPost, [name]: selectedOptions });
         } else {
             // Handle boolean conversion for the new_animal and disappearing fields
-            const newValue = value === 'true' ? true : value === 'false' ? false : value;
+            // const newValue = value === 'true' ? true : value === 'false' ? false : value;
+            const newValue = (name === 'popular' && (value === 'true' || value === 'false')) ? value === 'true' : value;
+
             setCreatePost({ ...createPost, [name]: newValue });
         }
     };
@@ -69,6 +72,7 @@ function PostCreate() {
         formData.append('long_description_ru', createPost.long_description_ru);
         formData.append('long_description_ro', createPost.long_description_ro);
         formData.append('long_description_en', createPost.long_description_en);
+        formData.append('popular', createPost.popular);
 
         formData.append('types', JSON.stringify(createPost.types)); // Handle array properly
 
@@ -234,6 +238,23 @@ function PostCreate() {
                             />
                         </Form.Group>
                     </Col>
+                </Row>
+                <Row className={'mt-4'}>
+                        <Col sx={12} md={6}>
+                            <Form.Group controlId="popular" className="mb-4">
+                                <Form.Label>Popular</Form.Label>
+                                <Form.Control
+                                    as="select"
+                                    name="popular"
+                                    value={createPost.popular}
+                                    onChange={handleNewPostChange}
+                                >
+                                    <option value="">Select True or False</option>
+                                    <option value="true">True</option>
+                                    <option value="false">False</option>
+                                </Form.Control>
+                            </Form.Group>
+                        </Col>
                 </Row>
                 <Row className={'mt-4'}>
                     <Col>

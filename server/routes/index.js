@@ -14,6 +14,8 @@ const eventRouter = require('./eventRouter')
 const animalRouter = require('./animalRouter')
 const faqRouter = require('./faqRouter')
 const reviewRouter = require('./reviewRouter')
+const emailRouter = require('./emailRouter')
+const weekHoursRouter = require('./weekHoursRouter')
 const activitiesItemRouter = require('./activitiesItemRouter')
 
 router.use('/user', userRouter)
@@ -29,5 +31,8 @@ router.use('/animal', animalRouter)
 router.use('/activities_item', activitiesItemRouter)
 router.use('/faq', faqRouter)
 router.use('/review', reviewRouter)
+router.use('/email', emailRouter)
+router.use('/week_hours', weekHoursRouter)
+
 
 module.exports = router

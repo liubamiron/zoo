@@ -330,19 +330,19 @@ const HomePage = () => {
                     <div className={'background_white'}>
                         <Container>
                             <div style={{textAlign: 'center'}}>
-                                <h1 className={'f_montserrat title'}>
+                                <h1 className={'f_montserrat title pad_top_150_5'}>
                                     {t('GARDEN')} <br/> {t('ZOOLOGIC')}
                                 </h1>
                                 <div className={'pad_top_95'}>
-                                    <Button variant="outline-light" className={'btn_by'}>
+                                    <Button variant={isMobile ? 'outline-success' : 'outline-light'}  className={'btn_by'}>
                                         {t('BY_TICKET')}
                                     </Button>
-                                    <Button variant="outline-light" className={'btn_by'}>
-                                        Донат
-                                    </Button>
+                                   <Link to={'/donation'}> <Button variant={isMobile ? 'outline-success' : 'outline-light'}  className={'btn_by'}>
+                                        {t('DONATION')}
+                                    </Button></Link>
                                 </div>
                             </div>
-                            <div style={{margin: '180px 21px -20px'}}>
+                            <div className={'marg_180_25'}>
                                 <CardsContainer/>
                             </div>
                         </Container>

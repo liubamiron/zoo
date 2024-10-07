@@ -243,6 +243,8 @@ const Post = sequelize.define('post', {
     long_description_ro: {type: DataTypes.TEXT, allowNull: true},  // Romanian long description
     long_description_en: {type: DataTypes.TEXT, allowNull: true},  // English long description
 
+    popular:{type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false},
+
     img_1: {type: DataTypes.STRING, allowNull: true},
     img_2: {type: DataTypes.STRING, allowNull: true},
 })
@@ -354,6 +356,26 @@ const EmailList = sequelize.define('email_list', {
     },
 })
 
+const WeekHours = sequelize.define('week_hour', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
+    },
+    dayOfWeek: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    openTime: {
+        type: DataTypes.TIME,
+        allowNull: false,
+    },
+    closeTime: {
+        type: DataTypes.TIME,
+        allowNull: false,
+    },
+})
 
 const TypeAnimal = sequelize.define('type_animal', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
@@ -390,5 +412,6 @@ module.exports = {
     Review,
     HomePage,
     Faq,
-    EmailList
+    EmailList,
+    WeekHours
 }

@@ -19,6 +19,7 @@ class PostController {
                 long_description_ru,
                 long_description_ro,
                 long_description_en,
+                popular,
                 tags
             } = req.body;
 
@@ -52,6 +53,7 @@ class PostController {
                 long_description_ru,
                 long_description_ro,
                 long_description_en,
+                popular,
                 img_1: fileName1,
                 img_2: fileName2,
             });
@@ -120,6 +122,7 @@ class PostController {
                 long_description_ru,
                 long_description_ro,
                 long_description_en,
+                popular,
             } = req.body;
 
             // Parse tags from the request body
@@ -147,6 +150,7 @@ class PostController {
                 long_description_ru: long_description_ru || post.long_description_ru,
                 long_description_ro: long_description_ro || post.long_description_ro,
                 long_description_en: long_description_en || post.long_description_en,
+                popular:popular || post.popular,
             });
 
             // Update images if provided
