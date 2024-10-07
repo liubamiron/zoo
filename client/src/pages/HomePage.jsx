@@ -6,7 +6,7 @@ import {
     fetchEventsData,
     fetchHomePageDataById,
     fetchReviewsData,
-    fetchTypeAnimals
+    fetchTypeAnimals, fetchWeekHours
 } from "../utils/apiCalls.js";
 import {Swiper, SwiperSlide} from 'swiper/react';
 import 'swiper/css';
@@ -19,8 +19,6 @@ import {Link} from "react-router-dom";
 
 const HomePage = () => {
 
-    const [openingEvent, setOpeningEvent] = useState(null);
-    const [closeEvent, setCloseEvent] = useState(null);
     const [allEvents, setAllEvents] = useState([]);
     const [allAnimalsData, setAllAnimals] = useState([]);
     const [typeAnimals, setTypeAnimals] = useState([]);
@@ -36,13 +34,6 @@ const HomePage = () => {
         const getData = async () => {
             try {
                 const data = await fetchEventsData();
-                // Find the "Opening" and "Close" events
-                const opening = data.find(event => event.title_en === 'Opening');
-                const close = data.find(event => event.title_en === 'Close');
-
-                // Store the events in state
-                setOpeningEvent(opening);
-                setCloseEvent(close);
                 setAllEvents(data);  // Store the list of first event
             } catch (error) {
                 console.error('Error fetching events data:', error);
@@ -102,6 +93,34 @@ const HomePage = () => {
         getData().then(r => console.log(r, 'animals data'));
     }, []);
 
+    const [weekHours, setWeekHours] = useState([]);
+
+    // get all weekhours
+    useEffect(() => {
+        const getData = async () => {
+            try {
+                const data = await fetchWeekHours();
+
+                setWeekHours(data);  // Store the list of first event
+            } catch (error) {
+                console.error('Error fetching events data:', error);
+            }
+        };
+        getData();
+    }, []);
+
+    // Helper function to get today's hours
+    const getTodayWeekHours = (weekHours) => {
+        const today = new Date().toLocaleDateString('en-US', {weekday: 'long'}).toLowerCase();
+        return weekHours.find(day => day.dayOfWeek.toLowerCase() === today);
+    };
+
+    // Helper function to check if today is Monday
+    const isMonday = () => {
+        const today = new Date().toLocaleDateString('en-US', {weekday: 'long'}).toLowerCase();
+        return today === 'monday';
+    };
+
     // get animals numbers
     let totalAnimals = allAnimalsData.rows?.length;
     // Filter animals where disappearing is true
@@ -133,102 +152,30 @@ const HomePage = () => {
 
     // Filter the animals array where new_animal is true
     const newAnimals = allAnimalsData?.rows?.filter(animal => animal.new_animal === true);
-// Display the result
-    console.log('newAnimals', filteredAnimals, selectedType);
-
-    //
-    // const CardComponent = () => (
-    //     <>
-    //         <Card className="mb-3 h-100 card1_style">
-    //
-    //                 <Card.Title className={'d-flex justify-content-center color_green mb-4'}>
-    //                     <img src={'/icons/Vector.svg'} alt={'vector'} style={{width: '7%', height: 'auto'}} />
-    //                     &nbsp;{t('PLAN_VISIT')}
-    //                 </Card.Title>
-    //             <Card.Body className="text-center ">
-    //                 <Card.Text className={'height_27'}>
-    //                     {t('TODAY')}&nbsp;{new Date().toLocaleDateString(`${language}`, {
-    //                     month: 'long',
-    //                     day: 'numeric'
-    //                 })}
-    //                     <div className={'mt-4 color_carrot'}>
-    //                         {openingEvent?.time_event} : {closeEvent?.time_event}
-    //                     </div>
-    //                     <div className={'mt-4'}> {openingEvent?.[`short_description_${language}`]}</div>
-    //                 </Card.Text>
-    //             </Card.Body>
-    //             <Card.Footer className={'color_green'}>{t("PLAIN")}</Card.Footer>
-    //         </Card>
-    //     </>
-    // );
-    // const CardComponent2 = () => (
-    //     <>
-    //         <Card className="mb-4 card1_style h-100">
-    //             <Card.Body>
-    //                 <Card.Title
-    //                     className={'d-flex justify-content-center color_green  mb-4'}>
-    //                     <img src={'/icons/map.svg'} alt={'vector'}
-    //                          style={{width: '7%', height: 'auto'}}/>
-    //                     &nbsp;{t('MAP')}
-    //                 </Card.Title>
-    //                 <Card.Text className={'height_27'}>
-    //                     <img src={'/map_img.svg'} alt={'vector'}/>
-    //                 </Card.Text>
-    //             </Card.Body>
-    //             <Card.Footer>{t('ZOO_MAP')}</Card.Footer>
-    //         </Card>
-    //     </>
-    // )
-    // const CardComponent3 = () => (
-    //     <Card className="mb-4 card1_style h-100"
-    //         >
-    //             <Card.Body>
-    //                 <Card.Title
-    //                     className={'d-flex justify-content-center color_green mb-4'}>
-    //                     <img src={'/icons/apple-alt.svg'} alt={'apple-alt'}
-    //                          style={{width: '7%', height: 'auto'}}/>
-    //                     &nbsp;{t('NEW_ANIMALS')}
-    //                 </Card.Title>
-    //                 <Card.Text
-    //                     className={'height_27'}>{t('NEW_ANIMALS_INFO')}</Card.Text>
-    //             </Card.Body>
-    //             <Card.Footer>{t('MORE')}</Card.Footer>
-    //         </Card>
-    // )
-    // const CardComponent4 = () => (
-    //     <Card className="mb-4 card1_style h-100"
-    //     >
-    //         <Card.Body>
-    //             <Card.Title
-    //                 className={'d-flex justify-content-center color_green mb-4'}>
-    //                 <img src={'/icons/evernote.svg'} alt={'apple-alt'}
-    //                      style={{width: '7%', height: 'auto'}}/>
-    //                 &nbsp;{t('EVENTS')}
-    //             </Card.Title>
-    //             <Card.Text className={'height_27'}>{t('EVENTS_INFO')}</Card.Text>
-    //         </Card.Body>
-    //         <Card.Footer>{t('ALL_EVENTS')}</Card.Footer>
-    //     </Card>
-    // )
 
     const CardComponent = () => (
         <Card className="mb-3 h-100 card1_style">
             <Card.Body className="text-center">
-            <Card.Title className={'d-flex justify-content-center color_green mb-4'}>
-                <img src={'/icons/Vector.svg'} alt={'vector'} style={{width: '7%', height: 'auto'}} />
-                &nbsp;{t('PLAN_VISIT')}
-            </Card.Title>
-
+                <Card.Title className={'d-flex justify-content-center color_green mb-4'}>
+                    <img src={'/icons/Vector.svg'} alt={'vector'} style={{width: '7%', height: 'auto'}}/>
+                    &nbsp;{t('PLAN_VISIT')}
+                </Card.Title>
                 <Card.Text className={'height_27'}>
-                    {t('TODAY')}&nbsp;{new Date().toLocaleDateString(`${language}`, { month: 'long', day: 'numeric' })}
-                    <span className={'mt-4 color_carrot'} style={{display: 'block'}}>
-                        {openingEvent?.time_event || 'N/A'} : {closeEvent?.time_event || 'N/A'}
-                    </span>
-                    <span className={'mt-4'} style={{display: 'block'}}>
-                        {openingEvent?.[`short_description_${language}`] || t('NO_DESCRIPTION')}</span>
+                    {t('TODAY')}&nbsp;{new Date().toLocaleDateString(`${language}`, {month: 'long', day: 'numeric'})}
+                    <span style={{display: 'block'}}>{t(new Date().toLocaleDateString('en-US', {weekday: 'long'}))}</span>
+                    {isMonday() ? (
+                            <span className={'mt-4'} style={{display: 'block'}}>
+                                {t('SANITARY_DAY')} </span>) : (
+                        <>
+                        <span className={'mt-4 color_carrot'} style={{display: 'block'}}>
+                        {getTodayWeekHours(weekHours)?.openTime.slice(0, 5) || 'N/A'} : {getTodayWeekHours(weekHours)?.closeTime.slice(0, 5) || 'N/A'}
+                        </span>
+                            <span className={'mt-4'} style={{display: 'block'}}>{t('LAST_VISIT')}</span>
+                        </>
+                    )}
                 </Card.Text>
             </Card.Body>
-            <Card.Footer className={'color_green'}>{t("PLAIN")}</Card.Footer>
+            <Card.Footer className={'color_green'}><Link to={'/'}>{t("PLAIN")}</Link></Card.Footer>
         </Card>
     );
 
@@ -236,14 +183,16 @@ const HomePage = () => {
         <Card className="mb-4 card1_style h-100">
             <Card.Body>
                 <Card.Title className={'d-flex justify-content-center color_green mb-4'}>
-                    <img src={'/icons/map.svg'} alt={'map icon'} style={{width: '7%', height: 'auto'}} />
+                    <img src={'/icons/map.svg'} alt={'map icon'} style={{width: '7%', height: 'auto'}}/>
                     &nbsp;{t('MAP')}
                 </Card.Title>
                 <Card.Text className={'height_27'}>
-                    <img src={'/map_img.svg'} alt={'map'} />
+                    <img src={'/map_img.svg'} alt={'map'}/>
                 </Card.Text>
             </Card.Body>
-            <Card.Footer>{t('ZOO_MAP')}</Card.Footer>
+            <Card.Footer>
+                <Link to={'/map'}>{t('ZOO_MAP')}</Link>
+            </Card.Footer>
         </Card>
     );
 
@@ -251,12 +200,12 @@ const HomePage = () => {
         <Card className="mb-4 card1_style h-100">
             <Card.Body>
                 <Card.Title className={'d-flex justify-content-center color_green mb-4'}>
-                    <img src={'/icons/apple-alt.svg'} alt={'apple icon'} style={{width: '7%', height: 'auto'}} />
+                    <img src={'/icons/apple-alt.svg'} alt={'apple icon'} style={{width: '7%', height: 'auto'}}/>
                     &nbsp;{t('NEW_ANIMALS')}
                 </Card.Title>
-                <Card.Text className={'height_27'}>{t('NEW_ANIMALS_INFO')}</Card.Text>
+                <Card.Text className={'height_27 mt-5'}>{t('NEW_ANIMALS_INFO')}</Card.Text>
             </Card.Body>
-            <Card.Footer>{t('MORE')}</Card.Footer>
+           <Card.Footer> <Link to={'/animals'}>{t('MORE')}</Link></Card.Footer>
         </Card>
     );
 
@@ -264,12 +213,14 @@ const HomePage = () => {
         <Card className="mb-4 card1_style h-100">
             <Card.Body>
                 <Card.Title className={'d-flex justify-content-center color_green mb-4'}>
-                    <img src={'/icons/evernote.svg'} alt={'events icon'} style={{width: '7%', height: 'auto'}} />
+                    <img src={'/icons/evernote.svg'} alt={'events icon'} style={{width: '7%', height: 'auto'}}/>
                     &nbsp;{t('EVENTS')}
                 </Card.Title>
-                <Card.Text className={'height_27'}>{t('EVENTS_INFO')}</Card.Text>
+                <Card.Text className={'height_27 mt-5'}>{t('EVENTS_INFO')}</Card.Text>
             </Card.Body>
-            <Card.Footer>{t('ALL_EVENTS')}</Card.Footer>
+            <Card.Footer>
+                <Link to={'/events'}>{t('ALL_EVENTS')}</Link>
+            </Card.Footer>
         </Card>
     );
 
@@ -279,16 +230,16 @@ const HomePage = () => {
             backgroundColor: '#F1F3F0'
         }}>
             <Col xs='12' md='3' className={'no_padding mb-4'}>
-                <CardComponent />
+                <CardComponent/>
             </Col>
             <Col xs='12' md='3' className={'no_padding mb-4'}>
-                <CardComponent2 />
+                <CardComponent2/>
             </Col>
             <Col xs='12' md='3' className={'no_padding mb-4'}>
-                <CardComponent3 />
+                <CardComponent3/>
             </Col>
             <Col xs='12' md='3' className={'no_padding mb-4'}>
-                <CardComponent4 />
+                <CardComponent4/>
             </Col>
         </Row>
     );
@@ -299,27 +250,27 @@ const HomePage = () => {
             slidesPerView={1} // or 2 for a multi-card slider
             navigation={true}
             modules={[Navigation]}
-            style={{ padding: '0 16px' }} // Slider padding
+            style={{padding: '0 16px'}} // Slider padding
         >
             <SwiperSlide>
-                <CardComponent />
+                <CardComponent/>
             </SwiperSlide>
             <SwiperSlide>
-                <CardComponent2 />
+                <CardComponent2/>
             </SwiperSlide>
             <SwiperSlide>
-                <CardComponent3 />
+                <CardComponent3/>
             </SwiperSlide>
             <SwiperSlide>
-                <CardComponent4 />
+                <CardComponent4/>
             </SwiperSlide>
             {/* More SwiperSlides as needed */}
         </Swiper>
     );
 
     const CardsContainer = () => (
-        <div >
-            {isMobile ? <MobileSlider /> : <CardList />}
+        <div>
+            {isMobile ? <MobileSlider/> : <CardList/>}
         </div>
     );
 
@@ -334,10 +285,12 @@ const HomePage = () => {
                                     {t('GARDEN')} <br/> {t('ZOOLOGIC')}
                                 </h1>
                                 <div className={'pad_top_95'}>
-                                    <Button variant={isMobile ? 'outline-success' : 'outline-light'}  className={'btn_by'}>
+                                    <Button variant={isMobile ? 'outline-success' : 'outline-light'}
+                                            className={'btn_by'}>
                                         {t('BY_TICKET')}
                                     </Button>
-                                   <Link to={'/donation'}> <Button variant={isMobile ? 'outline-success' : 'outline-light'}  className={'btn_by'}>
+                                    <Link to={'/donation'}> <Button
+                                        variant={isMobile ? 'outline-success' : 'outline-light'} className={'btn_by'}>
                                         {t('DONATION')}
                                     </Button></Link>
                                 </div>
@@ -379,26 +332,27 @@ const HomePage = () => {
                             className="mySwiper"
                         >
                             {newAnimals?.map((item) => (
-                            <SwiperSlide key={item.id}>
-                                <Link to={`/animals/${item.id}`} style={{ textDecoration: 'none' }}> {/* Wrap Card with Link */}
-                                    <Card className="mb-3 h-100">
-                                    <Card.Img variant="top"
-                                     src={`${import.meta.env.VITE_URL}/${item.img_1}`} alt="animal"
-                                          style={{height: '400px', objectFit: 'cover'}}/>
-                                    <Card.Body className="text-center bg_green">
-                                        <Card.Title className={'mb-4 text_white'}>
-                                            {item[`name_${language}`]}
-                                        </Card.Title>
-                                        <Card.Text className={'height_27 text_white'}>
-                                            {item[`descr_short_${language}`]}
-                                        </Card.Text>
-                                    </Card.Body>
-                                    <Card.Footer className={'bg_green color_green'}>
-                                        {t("MORE_INFO")}
-                                    </Card.Footer>
-                                </Card>
-                                </Link>
-                            </SwiperSlide>
+                                <SwiperSlide key={item.id}>
+                                    <Link to={`/animals/${item.id}`}
+                                          style={{textDecoration: 'none'}}> {/* Wrap Card with Link */}
+                                        <Card className="mb-3 h-100">
+                                            <Card.Img variant="top"
+                                                      src={`${import.meta.env.VITE_URL}/${item.img_1}`} alt="animal"
+                                                      style={{height: '400px', objectFit: 'cover'}}/>
+                                            <Card.Body className="text-center bg_green">
+                                                <Card.Title className={'mb-4 text_white'}>
+                                                    {item[`name_${language}`]}
+                                                </Card.Title>
+                                                <Card.Text className={'height_27 text_white'}>
+                                                    {item[`descr_short_${language}`]}
+                                                </Card.Text>
+                                            </Card.Body>
+                                            <Card.Footer className={'bg_green color_green'}>
+                                                {t("MORE_INFO")}
+                                            </Card.Footer>
+                                        </Card>
+                                    </Link>
+                                </SwiperSlide>
                             ))}
                         </Swiper>
                     </div>
@@ -481,17 +435,18 @@ const HomePage = () => {
                                 style={{top: '-45px', right: '15px'}}
                             />
                             <h3>{t('TODAY_ON_ZOO')}</h3>
-                            <br />
+                            <br/>
+                            <div className="row">
+                                <div className="col-6">
+                                    <strong>{getTodayWeekHours(weekHours)?.openTime.slice(0, 5) || ''}</strong>
+                                </div>
+                                <div className="col-6">
+                                    <span> {t('OPENING')}</span>
+                                </div>
+                                <hr/>
+                            </div>
                             <div className="row">
                                 {activeEvents
-                                    .sort((a, b) => {
-                                        // Prioritize "Открытие" (Opening) to be first
-                                        if (a.title_ru === "Открытие") return -1;
-                                        if (b.title_ru === "Открытие") return 1;
-
-                                        // Otherwise, maintain the original order
-                                        return 0;
-                                    })
                                     .map((event) => (
                                         <div className="col-12 mb-3" key={event.id}>
                                             <div className="row">
@@ -499,15 +454,25 @@ const HomePage = () => {
                                                     <strong>{event.time_event}</strong>
                                                 </div>
                                                 <div className="col-6">
-                                                    <span>{event.title_ru}</span>
+                                                    <span>{event[`title_${language}`]}</span>
                                                 </div>
-                                                <hr />
+                                                <hr/>
                                             </div>
                                         </div>
                                     ))}
                             </div>
-                            <br />
-                            <span>{t('All_EVENTS_TODAY')}&nbsp;<img src={'/icons/arrow_green.svg'} alt={'arrow'} /></span>
+                            <div className="row">
+                                <div className="col-6">
+                                    <strong>{getTodayWeekHours(weekHours)?.closeTime.slice(0, 5) || ''}</strong>
+                                </div>
+                                <div className="col-6">
+                                    <span> {t('CLOSING')}</span>
+                                </div>
+                                <hr/>
+                            </div>
+                            <br/>
+                            <span>{t('All_EVENTS_TODAY')}&nbsp;<img src={'/icons/arrow_green.svg'}
+                                                                    alt={'arrow'}/></span>
                         </div>
                     </Col>
 
@@ -528,9 +493,12 @@ const HomePage = () => {
                                 style={{bottom: '0', right: '0'}}
                             />
                             <div>{t('INFO_BEFORE_VISIT')}</div>
-                            <div className={'color_yellow'}>{t('INFO_1')}&nbsp; <img src={'/icons/arrow_gold.svg'}/></div>
-                            <div className={'color_yellow'}>{t('INFO_2')}&nbsp; <img src={'/icons/arrow_gold.svg'}/></div>
-                            <div className={'color_yellow'}>{t('INFO_3')}&nbsp; <img src={'/icons/arrow_gold.svg'}/></div>
+                            <div className={'color_yellow'}>{t('INFO_1')}&nbsp; <img src={'/icons/arrow_gold.svg'}/>
+                            </div>
+                            <div className={'color_yellow'}>{t('INFO_2')}&nbsp; <img src={'/icons/arrow_gold.svg'}/>
+                            </div>
+                            <div className={'color_yellow'}>{t('INFO_3')}&nbsp; <img src={'/icons/arrow_gold.svg'}/>
+                            </div>
                             <br/>
                             <div><img src={'/icons/map-marker-alt.svg'} alt={'map'}/>&nbsp; {t('HOW_TO')}</div>
                             <br/>
@@ -552,7 +520,7 @@ const HomePage = () => {
 
                             const eventDate = new Date(event.start_date_event);
                             const day = eventDate.getDate(); // Extract day
-                            const month = eventDate.toLocaleDateString('ro-RO', { month: 'long' }); // Extract month with long format
+                            const month = eventDate.toLocaleDateString('ro-RO', {month: 'long'}); // Extract month with long format
 
 
                             return (
@@ -569,21 +537,21 @@ const HomePage = () => {
                                             'min-height-262'}>
                                         <Row>
                                             <div
-                                            style={{
-                                            backgroundColor: 'yellow',
-                                            backgroundImage: `url(${import.meta.env.VITE_URL}/${event.img})`,
-                                            backgroundSize: 'cover',
-                                            backgroundPosition: 'center',
-                                            height: '240px',
-                                            width: '100%'
-                                        }}>
-                                            <Col xs={7} md={5}>
-                                                &nbsp;
-                                            </Col>
-                                            <Col xs={5} md={6} className={'bg_yellow'}>
-                                                <strong>{day}<br/>{month}</strong>
-                                            </Col>
-                                                </div>
+                                                style={{
+                                                    backgroundColor: 'yellow',
+                                                    backgroundImage: `url(${import.meta.env.VITE_URL}/${event.img})`,
+                                                    backgroundSize: 'cover',
+                                                    backgroundPosition: 'center',
+                                                    height: '240px',
+                                                    width: '100%'
+                                                }}>
+                                                <Col xs={7} md={5}>
+                                                    &nbsp;
+                                                </Col>
+                                                <Col xs={5} md={6} className={'bg_yellow'}>
+                                                    <strong>{day}<br/>{month}</strong>
+                                                </Col>
+                                            </div>
                                         </Row>
                                         <br/>
                                         <strong style={{minHeight: '80px'}}>{event[`title_${language}`]}</strong>
@@ -624,18 +592,18 @@ const HomePage = () => {
                     <Row>
                         {filteredAnimals?.slice(0, 6).map((animal) => (
                             <Col xs={12} md={4} key={animal.id}>
-                                <Link to={`/animals/${animal.id}`} style={{ textDecoration: 'none' }}>
-                                <Card className={'bg_light_green mb-2'}
-                                >
-                                    <Card.Img variant="top"
-                                              src={`${import.meta.env.VITE_URL}/${animal.img_1}`} alt="animal"
-                                              className={'img-fluid'}
-                                              style={{ height: '230px' }}
-                                    />
-                                    <Card.Footer>
-                                        <div style={{ height: '60px' }}>{animal[`name_${language}`]}</div>
-                                    </Card.Footer>
-                                </Card>
+                                <Link to={`/animals/${animal.id}`} style={{textDecoration: 'none'}}>
+                                    <Card className={'bg_light_green mb-2'}
+                                    >
+                                        <Card.Img variant="top"
+                                                  src={`${import.meta.env.VITE_URL}/${animal.img_1}`} alt="animal"
+                                                  className={'img-fluid'}
+                                                  style={{height: '230px'}}
+                                        />
+                                        <Card.Footer>
+                                            <div style={{height: '60px'}}>{animal[`name_${language}`]}</div>
+                                        </Card.Footer>
+                                    </Card>
                                 </Link>
                             </Col>
                         ))}
@@ -650,7 +618,8 @@ const HomePage = () => {
                     <br/>
                     <h2>{t('BUY_TICKET')}</h2>
                     <div>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.
-                        Velit officia consequat duis enim velit mollit.</div>
+                        Velit officia consequat duis enim velit mollit.
+                    </div>
 
                     <Row className="mt-4 d-flex align-items-stretch">
                         <Col xs={12} md={4} className="p-2">
@@ -713,7 +682,10 @@ const HomePage = () => {
                                     <span className="mt-2">* - {t('PRICE_7')}</span>
                                 </div>
                                 <div className="d-flex justify-content-center mt-auto">
-                                    <Button className="mb-2" style={{ backgroundColor: '#FCC044', border:'none'}}>{t('BUY_TICKET')}</Button>
+                                    <Button className="mb-2" style={{
+                                        backgroundColor: '#FCC044',
+                                        border: 'none'
+                                    }}>{t('BUY_TICKET')}</Button>
                                 </div>
                             </div>
                             <br/>
@@ -735,7 +707,7 @@ const HomePage = () => {
                                         <img src="/quotes.svg" alt={'quotes'} width={'24px'} className={'img-fluid'}/>
                                     </div>
                                     <Card.Body>
-                                        <p>{item[`long_description_${language}`]}</p>
+                                        <div>{item[`long_description_${language}`]}</div>
                                         {/* Map the rating to star images */}
                                         {[...Array(5)].map((_, index) => (
                                             <img
@@ -747,11 +719,11 @@ const HomePage = () => {
                                         ))}
                                     </Card.Body>
                                 </Card>
-                                <div style={{ textDecoration: 'underline' }} className={'mt-3 text-center'}>
+                                <div style={{textDecoration: 'underline'}} className={'mt-3 text-center'}>
                                     {item[`title_${language}`]}</div>
-                                <div style={{ fontStyle: 'italic' }} className={'text-center'}>{t('VISITATOR')}</div>
+                                <div style={{fontStyle: 'italic'}} className={'text-center'}>{t('VISITATOR')}</div>
                             </Col>
-                            ))}
+                        ))}
                     </Row>
                 </div>
             </div>

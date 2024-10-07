@@ -8,7 +8,7 @@ export const dictionary = {
         ZOO_MAP: 'Zoo Map',
         NEW_ANIMALS: 'Новые животные',
         NEW_ANIMALS_INFO: 'Найдите всю информацию о новых поступлениях в зоопарк',
-        MORE: 'Больше',
+        MORE: 'Mai mult',
         EVENTS: 'Evenimente',
         EVENTS_INFO: 'Evenimente preconizate in Gradina Zoologica',
         ALL_EVENTS: "Toate evenimente",
@@ -142,13 +142,14 @@ export const dictionary = {
         PHONE: 'Telefon',
         PHONE_1: '(022) 76-37-33',
         PHONE_2: '(022) 56-73-31',
-        MONDAY: 'Luni',
-        TUESDAY: 'Marti',
-        WEDNESDAY: 'Miercuri',
+        Monday: 'Luni',
+        Tuesday: 'Marti',
+        Wednesday: 'Miercuri',
         THURSDAY: 'Joi',
-        FRIDAY: 'Vineri',
-        SATURDAY: 'Simbata',
-        SUNDAY: 'Duminica',
+        Thursday: 'Joi',
+        Friday: 'Vineri',
+        Saturday: 'Simbata',
+        Sunday: 'Duminica',
         TILL: 'pina la',
         DONATION: 'Donatii',
         DONAT_1: 'Участие в развитии зоопарка Кишинева',
@@ -167,6 +168,10 @@ export const dictionary = {
         DONAT_10: 'Я хочу помочь',
         DONAT_11: 'Добавить еды',
         DONAT_12: 'Слон',
+        SANITARY_DAY: 'zi sanitara',
+        LAST_VISIT: 'Ultima programare la 15.30',
+        OPENING: 'Deschidere',
+        CLOSING: 'Inchidere'
 
     },
     ru: {
@@ -335,6 +340,9 @@ export const dictionary = {
         DONAT_10: 'Я хочу помочь',
         DONAT_11: 'Добавить еды',
         DONAT_12: 'Слон',
+        LAST_VISIT: 'Последний прием 15.30',
+        OPENING: 'Открытие',
+        CLOSING: 'Закрытие'
 
     },
     en: {
@@ -503,6 +511,9 @@ export const dictionary = {
         DONAT_10: 'Я хочу помочь',
         DONAT_11: 'Добавить еды',
         DONAT_12: 'Слон',
+        LAST_VISIT: 'Last appointment at 15.30',
+        OPENING: 'Open',
+        CLOSING: 'Close'
 
     },
 }

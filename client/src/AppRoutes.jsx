@@ -4,7 +4,7 @@ import HomePage from "./pages/HomePage.jsx";
 import Auth from "./pages/Auth.jsx";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
 import Layout from "./components/Layout";
-import {Route, Routes} from "react-router-dom";
+import {Navigate, Outlet, Route, Routes} from "react-router-dom";
 import Login from "./pages/Login";
 import AdminAnimals from "./pages/admin/AdminAnimals";
 import AdminAnimalsDetails from "./pages/admin/AdminAnimalsDetails";
@@ -48,6 +48,41 @@ import DonationPage from "./pages/DonationPage.jsx";
 import MapPage from "./pages/MapPage.jsx";
 import TypeTender from "./pages/admin/TypeTender.jsx";
 import WeekHours from "./pages/admin/WeekHours.jsx";
+import Cookies from "js-cookie";
+import {useState} from "react";
+
+const ProtectedRoute = () => {
+    // Get the token from cookies
+    const token = Cookies.get('jwtToken');
+    const [errorMessage, setErrorMessage] = useState('');
+
+    // If no token is found, redirect to the login page
+    if (!token) {
+        return <Navigate to="/login" replace />;
+    }
+
+    try {
+        // Decode the JWT token to check the role
+        const decodedToken = JSON.parse(atob(token.split('.')[1]));
+
+        // Check if the role is 'ADMIN'
+        if (decodedToken.role !== 'ADMIN') {
+            setErrorMessage('You are not authorized to access this page.');
+            return (
+                <div>
+                    <h1>{errorMessage}</h1>
+                    <Navigate to="/" replace />
+                </div>
+            );
+        }
+    } catch (error) {
+        console.error('Error decoding token', error);
+        return <Navigate to="/login" replace />;
+    }
+
+    // If everything is valid, render the requested route
+    return <Outlet />;
+};
 
 
 
@@ -74,7 +109,9 @@ function AppRoutes() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/registration" element={<Auth />} />
 
-                <Route path="/admin" element={<AdminLayout />}>
+                <Route path="/admin" element={<ProtectedRoute />}>
+                    <Route path="" element={<AdminLayout />}>
+                {/*<Route path="/admin" element={<AdminLayout />}>*/}
                     <Route path="main_page" element={<AdminHomePage />} />
                     <Route path="main_page/:id" element={<AdminHomePageEdit />} />
                     <Route path="animals" element={<AdminAnimals />} />
@@ -103,6 +140,7 @@ function AppRoutes() {
                     <Route path="week_hours" element={<WeekHours />} />
                     <Route path="type_animals" element={<TypeAnimals />} />
                     <Route path="faq" element={<FAQ />} />
+                </Route>
                 </Route>
             </Route>
         </Routes>

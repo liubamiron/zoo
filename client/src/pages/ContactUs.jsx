@@ -1,9 +1,10 @@
 import {useTranslation} from "../providers/index.js";
 import {Link} from "react-router-dom";
 import {Button, Col, Form, Row} from "react-bootstrap";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import 'leaflet/dist/leaflet.css';
+import {fetchWeekHours, getAllFAQ} from "../utils/apiCalls.js";
 
 
 function ContactUs() {
@@ -14,6 +15,22 @@ function ContactUs() {
         email: '',
         message: ''
     });
+
+    const [weekHours, setWeekHours] = useState([]);
+
+    // get all weekhours
+    useEffect(() => {
+        const getData = async () => {
+            try {
+                const data = await fetchWeekHours();
+
+                setWeekHours(data);  // Store the list of first event
+            } catch (error) {
+                console.error('Error fetching events data:', error);
+            }
+        };
+        getData();
+    }, []);
 
     const position = [46.97302, 28.86761];
 
@@ -27,6 +44,12 @@ function ContactUs() {
         console.log('Form data submitted:', formData);
         // Add form submission logic here (API call, etc.)
     };
+
+    const weekOrder = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+
+    const sortedWeekHours = weekHours.sort((a, b) => {
+        return weekOrder.indexOf(a.dayOfWeek.toLowerCase()) - weekOrder.indexOf(b.dayOfWeek.toLowerCase());
+    });
 
     return (
         <>
@@ -150,16 +173,50 @@ function ContactUs() {
                         </Form>
                     </Col>
                     <Col xs={12} md={4}>
+                        {/*<div className={'bg_green color_white p-4'}*/}
+                        {/*     style={{lineHeight: '50px'}}>*/}
+                        {/*    <h3 className={'mb-4'}>{t('HOURS')}</h3>*/}
+                        {/*    <div>{t('MONDAY')} 10:00 {t('TILL')} 18:00</div>*/}
+                        {/*    <div>{t('TUESDAY')} 10:00 {t('TILL')} 16:00</div>*/}
+                        {/*    <div>{t('WEDNESDAY')} 10:00 {t('TILL')} 16:00</div>*/}
+                        {/*    <div>{t('THURSDAY')} 10:00 {t('TILL')} 16:00</div>*/}
+                        {/*    <div>{t('FRIDAY')} 10:00 {t('TILL')} 16:00</div>*/}
+                        {/*    <div>{t('SATURDAY')} 10:00 {t('TILL')} 16:00</div>*/}
+                        {/*    <div>{t('SUNDAY')} 10:00 {t('TILL')} 16:00</div>*/}
+                        {/*</div>*/}
                         <div className={'bg_green color_white p-4'}
                              style={{lineHeight: '50px'}}>
                             <h3 className={'mb-4'}>{t('HOURS')}</h3>
-                            <div>{t('MONDAY')} 10:00 {t('TILL')} 18:00</div>
-                            <div>{t('TUESDAY')} 10:00 {t('TILL')} 16:00</div>
-                            <div>{t('WEDNESDAY')} 10:00 {t('TILL')} 16:00</div>
-                            <div>{t('THURSDAY')} 10:00 {t('TILL')} 16:00</div>
-                            <div>{t('FRIDAY')} 10:00 {t('TILL')} 16:00</div>
-                            <div>{t('SATURDAY')} 10:00 {t('TILL')} 16:00</div>
-                            <div>{t('SUNDAY')} 10:00 {t('TILL')} 16:00</div>
+                            {/*{weekHours.length > 0 ? (*/}
+                            {/*    weekHours.map((day, index) => (*/}
+                            {/*        <div key={index}>*/}
+                            {/*            {t(day.dayOfWeek)} {day.openTime.slice(0, 5)} {t('TILL')} {day.closeTime.slice(0, 5)}*/}
+                            {/*        </div>*/}
+                            {/*    ))*/}
+                            {/*) : (*/}
+                            {/*    <div>{t('LOADING')}</div>*/}
+                            {/*)}*/}
+                            {sortedWeekHours.length > 0 ? (
+                                sortedWeekHours.map((day, index) => {
+                                    // Check if the day is Monday and show a special message
+                                    if (day.dayOfWeek.toLowerCase() === 'monday') {
+                                        return (
+                                            <div key={index}>
+                                                {t(day.dayOfWeek)} - {t('SANITARY_DAY')}
+                                            </div>
+                                        );
+                                    } else {
+                                        // For other days, show the open and close times
+                                        return (
+                                            <div key={index}>
+                                                {t(day.dayOfWeek)} {day.openTime.slice(0, 5)} {t('TILL')} {day.closeTime.slice(0, 5)}
+                                            </div>
+                                        );
+                                    }
+                                })
+                            ) : (
+                                <div>{t('LOADING')}</div>
+                            )}
                         </div>
                     </Col>
                 </Row>
