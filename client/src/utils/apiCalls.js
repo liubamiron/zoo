@@ -1045,3 +1045,19 @@ export const deleteWeekHours = async (id) => {
         throw error;
     }
 };
+
+//emails
+export const createEmailSubscribe = async (email) => {
+    try {
+        const response = await api.post(`/email`, email, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error creating newHour data:', error);
+        throw error;
+    }
+};
+

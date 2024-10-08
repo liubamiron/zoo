@@ -107,10 +107,7 @@ const EventCreate = () => {
                                 value={timeEvent}
                                 onChange={(event) => {
                                     const value = event.target.value;
-                                    const timeFormat = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
-                                    if (timeFormat.test(value)) {
                                         setTimeEvent(value);
-                                    }
                                 }}
                                 placeholder="Enter time (hh:mm)"
                             />

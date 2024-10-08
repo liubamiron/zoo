@@ -1,7 +1,7 @@
 import {Link, useNavigate, useParams} from "react-router-dom";
 import {useTranslation} from "../providers/index.js";
 import {useEffect, useState} from "react";
-import {fetchPostsById, fetchPostsData, getAllTags} from "../utils/apiCalls.js";
+import {createEmailSubscribe, fetchPostsById, fetchPostsData} from "../utils/apiCalls.js";
 import {Button, Col, Form, Image, InputGroup, Row} from "react-bootstrap";
 
 
@@ -9,11 +9,12 @@ function PostPage() {
     const {t, language} = useTranslation();
     const [post, setPost] = useState([]);
     const [allNews, setAllNews] = useState([]);
-    const [allTags, setAllTags] = useState([]);
+    // const [allTags, setAllTags] = useState([]);
     const [filteredNews, setFilteredNews] = useState([]);
     const [emailUser, setEmailUser] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
     const navigate = useNavigate();
+    const [responseMessage, setResponseMessage] = useState('');
 
     const {id} = useParams();
 
@@ -28,9 +29,7 @@ function PostPage() {
         };
         getData().then(r => console.log(r, 'animals data'));
     }, [id]);
-
     // Fetch all posts
-
     useEffect(() => {
         const getData = async () => {
             try {
@@ -44,25 +43,13 @@ function PostPage() {
         getData().then(r => console.log(r, 'animals data'));
     }, []);
 
-    // Fetch all tags
-    useEffect(() => {
-        const getData = async () => {
-            try {
-                const data = await getAllTags();
-                setAllTags(data);
-            } catch (error) {
-                console.error('Error fetching posts data:', error);
-            }
-        };
-        getData();
-    }, []);
 
     // Extract unique tags from the animals array
-    const uniqueTags = [
-        ...new Map(
-            allNews.flatMap(item => item.tags.map(tag => [tag.id, tag]))
-        ).values()
-    ];
+    // const uniqueTags = [
+    //     ...new Map(
+    //         allNews.flatMap(item => item.tags.map(tag => [tag.id, tag]))
+    //     ).values()
+    // ];
 
     const handleSearch = () => {
         if (searchQuery === '') {
@@ -81,7 +68,20 @@ function PostPage() {
             }
         }
     };
-    console.log('news, tags', filteredNews, uniqueTags);
+
+    // send email address for subscribe
+    const handleSubmit = async (e) => {
+        e.preventDefault(); // Prevent default form submission behavior
+        try {
+            const data = await createEmailSubscribe({email: emailUser}); // Call the createEmailSubscribe function
+            setResponseMessage(data.message || 'Email sent successfully!'); // Set the response message
+        } catch (error) {
+            console.error('Error:', error);
+            setResponseMessage('Failed to send email. Please try again.');
+        }
+    };
+
+    console.log(filteredNews)
 
     return (
         <div>
@@ -138,79 +138,84 @@ function PostPage() {
                             <br/>
                             <div className={'f_weight_700 color_green f_size_18 mb-3'}>
                                 {t('CATEGORIES')}</div>
-                            <div className={'color_green mt-2 mb-3 border-bottom'}>{t('ALL')}</div>
-                            <div className={'color_green mt-2 mb-3 border-bottom'}>{t('EVENTS')}</div>
-                            <div className={'color_green mt-2 mb-3 border-bottom'}>{t('NEWS')}</div>
-                            <div className={'color_green mt-2 mb-3 border-bottom'}>{t('ANIMALS')}</div>
+                            <div className={'color_green mt-2 mb-3 border-bottom'}><Link to={'/'}>{t('ALL')}</Link></div>
+                            <div className={'color_green mt-2 mb-3 border-bottom'}><Link to={'/events'}>{t('EVENTS')}</Link></div>
+                            <div className={'color_green mt-2 mb-3 border-bottom'}><Link to={'/news'}>{t('NEWS')}</Link></div>
+                            <div className={'color_green mt-2 mb-3 border-bottom'}><Link to={'/animals'}>{t('ANIMALS')}</Link></div>
                             <br/>
                             <div className={'color_green mb-3'}>
                                 <h4 className={'mt-2 mb-3'}>{t('POPULAR_TAGS')}</h4>
                                 <br/>
-                                {/*<br/>*/}
-                                {allTags.map((item) => (
-                                    <span key={item.id}>
-                                    <Button
-                                        variant={"outline-success"}
-                                        className={'p-2'}
-                                        style={{margin: '5px'}}
-                                        onClick={() => navigate(`/news?tag=${item.id}`)}
-                                    >
-                                        <span>{item[`name_${language}`]}</span>
-                                        </Button>
-                                </span>
-                                ))}
+                                {allNews
+                                    .filter(news => news.popular === true) // Filter popular news
+                                    .flatMap(item =>
+                                            item.tags.map(tag => (
+                                                <span key={`${item.id}-${tag.id}`}>
+                <Button
+                    variant={"outline-success"}
+                    className={'p-2'}
+                    style={{margin: '5px'}}
+                    onClick={() => navigate(`/news?tag=${tag.id}`)} // Use tag.id for navigation
+                >
+                    <span>{tag[`name_${language}`]}</span> {/* Display tag name based on language */}
+                </Button>
+            </span>
+                                            ))
+                                    )
+                                }
                             </div>
                             <br/>
                             <div className={'color_green  mb-3'}>
                                 <h4 className={'mt-2 mb-3'}>{t('POPULAR_POSTS')}</h4>
                                 <br/>
-                                {allNews.map((item) => {
-                                    const day = new Date(item.createdAt).toLocaleDateString('RO', {
-                                        day: 'numeric',
-                                    });
-                                    const month = new Date(item.createdAt).toLocaleDateString('RO', {
-                                        month: 'long',
-                                    });
+                                {allNews
+                                    .filter(news => news.popular === true)
+                                    .map((item) => {
+                                        const day = new Date(item.createdAt).toLocaleDateString('RO', {
+                                            day: 'numeric',
+                                        });
+                                        const month = new Date(item.createdAt).toLocaleDateString('RO', {
+                                            month: 'long',
+                                        });
 
-                                    return (
-                                        <div
-                                            className="col-12 mb-3 bg_light_green"
-                                            key={item.id}
-                                            onClick={() => navigate(`/news/${item.id}`)}
-                                            style={{cursor: 'pointer'}}
-                                        >
-                                            <div className={'p-2 f_size_13'} style={{margin: '5px'}}>
-                                                {day} {month}
-                                            </div>
-                                            <h4 className={'p-2'} style={{margin: '5px'}}>
-                                                {item[`title_${language}`]}
-                                            </h4>
-                                            {/* Displaying Tags */}
-                                            <div>
-                                                {item.tags.map((tag) => (
-                                                <span
-                                                    key={tag.id}
-                                                    onClick={(e) => {
-                                                        e.stopPropagation(); // Prevent the click from propagating to the news item
-                                                        navigate(`/news/${item.id}`);
-                                                    }}
-                                                    style={{
-                                                        cursor: 'pointer',
-                                                        margin: '0 5px',
-                                                        padding: '2px',
-                                                        fontSize: '13px',
-                                                        textTransform: 'lowercase',
-                                                        fontStyle: 'italic',
-                                                    }}
-                                                >
-                                    {tag.name_ro}
+                                        return (
+                                            <div
+                                                className="col-12 mb-3 bg_light_green"
+                                                key={item.id}
+                                                onClick={() => navigate(`/news/${item.id}`)}
+                                                style={{cursor: 'pointer'}}
+                                            >
+                                                <div className={'p-2 f_size_13'} style={{margin: '5px'}}>
+                                                    {day} {month}
+                                                </div>
+                                                <h4 className={'p-2'} style={{margin: '5px'}}>
+                                                    {item[`title_${language}`]}
+                                                </h4>
+                                                {/* Displaying Tags */}
+                                                <div>
+                                                    {item.tags.map((tag) => (
+                                                        <span
+                                                            key={tag.id}
+                                                            onClick={(e) => {
+                                                                e.stopPropagation(); // Prevent the click from propagating to the news item
+                                                                navigate(`/news/${item.id}`);
+                                                            }}
+                                                            style={{
+                                                                cursor: 'pointer',
+                                                                margin: '0 5px',
+                                                                padding: '2px',
+                                                                fontSize: '13px',
+                                                                textTransform: 'lowercase',
+                                                                fontStyle: 'italic',
+                                                            }}
+                                                        >
+                                                    {tag[`name_${language}`]}
                                 </span>
-                                            ))}
+                                                    ))}
+                                                </div>
                                             </div>
-                                        </div>
-                                    );
-                                })}
-
+                                        );
+                                    })}
                                 <br/>
                             </div>
                         </div>
@@ -222,23 +227,28 @@ function PostPage() {
                         <h1 className={'color_white'}>{t('SUBSCRIBE_NEWS')}</h1>
                     </Col>
                     <Col>
-                        <Row className={'color_white mt-4'}>
-                            <Col>
-                                <Form.Group controlId="nameEN">
-                                    <Form.Control
-                                        type="email"
-                                        value={emailUser}
-                                        onChange={(e) => setEmailUser(e.target.value)} // Use a function to update state
-                                        placeholder={t('ENTER_EMAIL')}
-                                    />
-                                </Form.Group>
-                            </Col>
-                            <Col>
-                                <Button variant={'outline-warning'}>{t('SUBSCRIBE')}</Button>
-                            </Col>
-                            <div className={'mt-2 '} style={{fontSize: '12px'}}>{t('ADDITIONAL_TEXT_1')}</div>
-                            <div style={{fontSize: '12px'}}>{t('ADDITIONAL_TEXT_2')}</div>
-                        </Row>
+                        <Form onSubmit={handleSubmit}>
+                            <Row className={'color_white mt-4'}>
+                                <Col>
+                                    <Form.Group controlId="email">
+                                        <Form.Control
+                                            type="email"
+                                            value={emailUser}
+                                            onChange={(e) => setEmailUser(e.target.value)} // Update state with the email input
+                                            placeholder={t('ENTER_EMAIL')} // Placeholder from translations
+                                            required // Make sure the input is required
+                                        />
+                                    </Form.Group>
+                                    {responseMessage && <p>{responseMessage}</p>}
+                                </Col>
+                                <Col>
+                                    <Button variant={'outline-warning'} type="submit">{t('SUBSCRIBE')}</Button>
+                                </Col>
+
+                                <div className={'mt-2 '} style={{fontSize: '12px'}}>{t('ADDITIONAL_TEXT_1')}</div>
+                                <div style={{fontSize: '12px'}}>{t('ADDITIONAL_TEXT_2')}</div>
+                            </Row>
+                        </Form>
                     </Col>
                 </Row>
             </div>

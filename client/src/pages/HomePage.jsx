@@ -285,14 +285,17 @@ const HomePage = () => {
                                     {t('GARDEN')} <br/> {t('ZOOLOGIC')}
                                 </h1>
                                 <div className={'pad_top_95'}>
+                                    <br/>
                                     <Button variant={isMobile ? 'outline-success' : 'outline-light'}
                                             className={'btn_by'}>
                                         {t('BY_TICKET')}
                                     </Button>
-                                    <Link to={'/donation'}> <Button
-                                        variant={isMobile ? 'outline-success' : 'outline-light'} className={'btn_by'}>
-                                        {t('DONATION')}
-                                    </Button></Link>
+                                    {/*<Link to={'/donation'}>*/}
+                                    {/*    <Button*/}
+                                    {/*    variant={isMobile ? 'outline-success' : 'outline-light'} className={'btn_by'}>*/}
+                                    {/*    {t('DONATION')}*/}
+                                    {/*</Button>*/}
+                                    {/*</Link>*/}
                                 </div>
                             </div>
                             <div className={'marg_180_25'}>
@@ -310,7 +313,6 @@ const HomePage = () => {
                     <Card>
                         <Card.Body className="text-center ">
                             <Card.Title
-                                // className={'d-flex justify-content-center color_green mb-4'}>
                                 className={'color_green mb-4'}>
                                 {homePageData[`title1_${language}`]}
                             </Card.Title>
@@ -339,11 +341,19 @@ const HomePage = () => {
                                             <Card.Img variant="top"
                                                       src={`${import.meta.env.VITE_URL}/${item.img_1}`} alt="animal"
                                                       style={{height: '400px', objectFit: 'cover'}}/>
-                                            <Card.Body className="text-center bg_green">
-                                                <Card.Title className={'mb-4 text_white'}>
+                                            <Card.Body className="d-flex flex-column text-center bg_green" style={{
+                                                    minHeight: '100px'}}>
+                                                <Card.Title className="mb-4 text_white">
                                                     {item[`name_${language}`]}
                                                 </Card.Title>
-                                                <Card.Text className={'height_27 text_white'}>
+                                                {/* Limit Card.Text to 3 lines with ellipsis */}
+                                                <Card.Text className="text_white flex-grow-1" style={{
+                                                    overflow: 'hidden',
+                                                    display: '-webkit-box',
+                                                    WebkitBoxOrient: 'vertical',
+                                                    WebkitLineClamp: 3,
+                                                    height: 'auto',
+                                                }}>
                                                     {item[`descr_short_${language}`]}
                                                 </Card.Text>
                                             </Card.Body>
@@ -725,6 +735,13 @@ const HomePage = () => {
                             </Col>
                         ))}
                     </Row>
+                    <br/>
+                    <div className={'text-center'}>
+                        <Link to={'/reviews'}>
+                            {t('SEE_ALL')}&nbsp;
+                            <img src={'/icons/arrow_green.svg'} alt={'arrow'}/>
+                        </Link>
+                    </div>
                 </div>
             </div>
         </>

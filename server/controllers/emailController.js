@@ -5,12 +5,6 @@ class EmailController {
     async create(req, res, next) {
         try {
             const { email } = req.body;
-
-            // Basic email format validation (Optional)
-            if (!email || !this.isValidEmail(email)) {
-                return next(ApiError.badRequest('Invalid email format'));
-            }
-
             const emailList = await EmailList.create({ email });
             return res.json(emailList);
         } catch (error) {

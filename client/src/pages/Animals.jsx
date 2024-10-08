@@ -1,6 +1,6 @@
 import {useTranslation} from "../providers/index.js";
 import {useEffect, useState} from "react";
-import {fetchAnimalData, fetchTypeAnimals} from "../utils/apiCalls.js";
+import {createEmailSubscribe, fetchAnimalData, fetchTypeAnimals} from "../utils/apiCalls.js";
 import {Link} from "react-router-dom";
 import {Button, Card, Col, Form, Row} from "react-bootstrap";
 import PaginationComponent from "../components/PaginationComponent.jsx";
@@ -11,6 +11,7 @@ const Animals = () => {
     const [typeAnimals, setTypeAnimals] = useState([]);
     const [selectedType, setSelectedType] = useState(null);
     const [emailUser, setEmailUser] = useState([]);
+    const [responseMessage, setResponseMessage] = useState('');
     // Pagination states
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 9; // Show 9 animals per page
@@ -53,6 +54,19 @@ const Animals = () => {
 
     // Calculate total pages
     const totalPages = Math.ceil((filteredAnimals?.length || 0) / itemsPerPage);
+
+    // send email addres for subscribe
+    const handleSubmit = async (e) => {
+        e.preventDefault(); // Prevent default form submission behavior
+
+        try {
+            const data = await createEmailSubscribe({ email: emailUser }); // Call the createEmailSubscribe function
+            setResponseMessage(data.message || 'Email sent successfully!'); // Set the response message
+        } catch (error) {
+            console.error('Error:', error);
+            setResponseMessage('Failed to send email. Please try again.');
+        }
+    };
 
     return (
         <div className={"bg_banner"}>
@@ -195,23 +209,28 @@ const Animals = () => {
                         <h1 className={'color_white'}>{t('SUBSCRIBE_NEWS')}</h1>
                     </Col>
                     <Col>
-                        <Row className={'color_white mt-4'}>
-                            <Col>
-                                <Form.Group controlId="nameEN">
-                                    <Form.Control
-                                        type="email"
-                                        value={emailUser}
-                                        onChange={(e) => setEmailUser(e.target.value)} // Use a function to update state
-                                        placeholder={t('ENTER_EMAIL')}
-                                    />
-                                </Form.Group>
-                            </Col>
-                            <Col>
-                                <Button variant={'outline-warning'}>{t('SUBSCRIBE')}</Button>
-                            </Col>
-                            <div className={'mt-2 '} style={{fontSize: '12px'}}>{t('ADDITIONAL_TEXT_1')}</div>
-                            <div style={{fontSize: '12px'}}>{t('ADDITIONAL_TEXT_2')}</div>
-                        </Row>
+                        <Form onSubmit={handleSubmit}>
+                            <Row className={'color_white mt-4'}>
+                                <Col>
+                                    <Form.Group controlId="email">
+                                        <Form.Control
+                                            type="email"
+                                            value={emailUser}
+                                            onChange={(e) => setEmailUser(e.target.value)} // Update state with the email input
+                                            placeholder={t('ENTER_EMAIL')} // Placeholder from translations
+                                            required // Make sure the input is required
+                                        />
+                                    </Form.Group>
+                                    {responseMessage && <p>{responseMessage}</p>}
+                                </Col>
+                                <Col>
+                                    <Button variant={'outline-warning'} type="submit">{t('SUBSCRIBE')}</Button>
+                                </Col>
+
+                                <div className={'mt-2 '} style={{fontSize: '12px'}}>{t('ADDITIONAL_TEXT_1')}</div>
+                                <div style={{fontSize: '12px'}}>{t('ADDITIONAL_TEXT_2')}</div>
+                            </Row>
+                        </Form>
                     </Col>
                 </Row>
             </div>

@@ -173,29 +173,9 @@ function ContactUs() {
                         </Form>
                     </Col>
                     <Col xs={12} md={4}>
-                        {/*<div className={'bg_green color_white p-4'}*/}
-                        {/*     style={{lineHeight: '50px'}}>*/}
-                        {/*    <h3 className={'mb-4'}>{t('HOURS')}</h3>*/}
-                        {/*    <div>{t('MONDAY')} 10:00 {t('TILL')} 18:00</div>*/}
-                        {/*    <div>{t('TUESDAY')} 10:00 {t('TILL')} 16:00</div>*/}
-                        {/*    <div>{t('WEDNESDAY')} 10:00 {t('TILL')} 16:00</div>*/}
-                        {/*    <div>{t('THURSDAY')} 10:00 {t('TILL')} 16:00</div>*/}
-                        {/*    <div>{t('FRIDAY')} 10:00 {t('TILL')} 16:00</div>*/}
-                        {/*    <div>{t('SATURDAY')} 10:00 {t('TILL')} 16:00</div>*/}
-                        {/*    <div>{t('SUNDAY')} 10:00 {t('TILL')} 16:00</div>*/}
-                        {/*</div>*/}
                         <div className={'bg_green color_white p-4'}
                              style={{lineHeight: '50px'}}>
                             <h3 className={'mb-4'}>{t('HOURS')}</h3>
-                            {/*{weekHours.length > 0 ? (*/}
-                            {/*    weekHours.map((day, index) => (*/}
-                            {/*        <div key={index}>*/}
-                            {/*            {t(day.dayOfWeek)} {day.openTime.slice(0, 5)} {t('TILL')} {day.closeTime.slice(0, 5)}*/}
-                            {/*        </div>*/}
-                            {/*    ))*/}
-                            {/*) : (*/}
-                            {/*    <div>{t('LOADING')}</div>*/}
-                            {/*)}*/}
                             {sortedWeekHours.length > 0 ? (
                                 sortedWeekHours.map((day, index) => {
                                     // Check if the day is Monday and show a special message

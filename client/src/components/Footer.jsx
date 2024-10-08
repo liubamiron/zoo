@@ -1,8 +1,10 @@
-import {Button, Col, Container, Row} from "react-bootstrap";
+import {Col, Container, Row} from "react-bootstrap";
 import {Link} from "react-router-dom";
+import {useTranslation} from "../providers/index.js";
 
 
 function Footer() {
+    const {t} = useTranslation();
 
     return (
 
@@ -20,43 +22,43 @@ function Footer() {
                             </Link>
                             <br/>
                             <br/>
-                            <p>Grădină zoologică mun.Chișinău</p>
+                            <p>Grădină Zoologică mun.Chișinău</p>
                         </Col>
 
                         {/* Column 2 */}
                         <Col xs={12} md={2} className="mb-4 mb-md-0">
-                            <h5 style={{color: '#0A4D1EFC'}}>Навигация</h5>
+                            <h5 style={{color: '#0A4D1EFC'}}>{t('NAVIGATION')}</h5>
                             <ul className="list-unstyled">
-                                <li><Link to="/questions" >Правила зоопарка</Link></li>
-                                <li><Link to="/map" >Как добраться</Link></li>
-                                <li><Link to ="/contacts" >Вакансии</Link></li>
-                                <li><Link to ="/questions" >Частые вопросы</Link></li>
+                                <li><Link to="/questions" >{t('RULES_ZOO')}</Link></li>
+                                <li><Link to="/map" >{t('DIRECTION')}</Link></li>
+                                <li><Link to ="/contacts" >{t('VACANCY')}</Link></li>
+                                <li><Link to ="/questions" >{t('FAQ')}</Link></li>
                             </ul>
                         </Col>
 
                         {/* Column 3 */}
                         <Col xs={12} md={2} className="mb-4 mb-md-0">
-                            <h5 style={{color: '#0A4D1EFC'}}>Ресурсы</h5>
+                            <h5 style={{color: '#0A4D1EFC'}}>{t('RESOURCES')}</h5>
                             <ul className="list-unstyled">
-                                <li><Link to="/tender" >Госзакупки</Link></li>
-                                <li><Link to="/tender" >Публичная информация</Link></li>
-                                <li><Link to="/" >Сайты государственных учереждении</Link></li>
+                                <li><Link to="/tender" >{t('GOS_BUY')}</Link></li>
+                                <li><Link to="/tender" >{t('PUB_INFO')}</Link></li>
+                                <li><Link to="/" >{t('SITES_GOUVERMENT')}</Link></li>
 
                             </ul>
                         </Col>
 
                         {/* Column 4 */}
                         <Col xs={12} md={2}>
-                            <h5 style={{color: '#0A4D1EFC'}}>Контакты</h5>
+                            <h5 style={{color: '#0A4D1EFC'}}>{t('CONTACTS')}</h5>
                             <ul className="list-unstyled">
-                                <li>Кишинёв, бульвар Дачия, 50/7 MD-2072</li>
+                                <li>{t('ADDRESS_ZOO')}</li>
                                 <li>zookishinev@mail.ru</li>
                                 <li>(022) 76-37-33</li>
                             </ul>
                         </Col>
                     </Row>
                     <hr/>
-                    <h6 className={'text-center'}> © 2024 Gradina Zoologica. Все права защищены </h6>
+                    <h6 className={'text-center'}> © 2024 Gradina Zoologica. {t('Все права защищены')} </h6>
                     <br/>
                 </div>
 

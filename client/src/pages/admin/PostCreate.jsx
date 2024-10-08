@@ -52,7 +52,6 @@ function PostCreate() {
             setCreatePost({ ...createPost, [name]: selectedOptions });
         } else {
             // Handle boolean conversion for the new_animal and disappearing fields
-            // const newValue = value === 'true' ? true : value === 'false' ? false : value;
             const newValue = (name === 'popular' && (value === 'true' || value === 'false')) ? value === 'true' : value;
 
             setCreatePost({ ...createPost, [name]: newValue });
@@ -66,6 +65,9 @@ function PostCreate() {
         formData.append('name_ro', createPost.name_ro);
         formData.append('name_ru', createPost.name_ru);
         formData.append('name_en', createPost.name_en);
+        formData.append('title_ro', createPost.title_ro);
+        formData.append('title_ru', createPost.title_ru);
+        formData.append('title_en', createPost.title_en);
         formData.append('short_description_ru', createPost.short_description_ru);
         formData.append('short_description_ro', createPost.short_description_ro);
         formData.append('short_description_en', createPost.short_description_en);

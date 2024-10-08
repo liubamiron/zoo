@@ -90,10 +90,10 @@ function WeekHours() {
             <br />
             <br />
             {/* Create Form */}
-            <h5>Create New Hour</h5>
+            <h5>Create Week Hour/ Orarul de lucru</h5>
             <Form onSubmit={handleCreate}>
-                <Form.Label>Day of the Week (e.g., Monday/Luni, Tuesday/Marti, Wednesday/Miercuri, Thursday/Joi, Friday/Vineri, Saturday/Simbata, Sunday/Duminica)</Form.Label>
-
+                <Form.Label className={'mb-5'}>Day of the Week (e.g., Monday/Luni, Tuesday/Marti, Wednesday/Miercuri, Thursday/Joi, Friday/Vineri, Saturday/Simbata, Sunday/Duminica)</Form.Label>
+                <br/>
                 <Row className="mb-3">
                     <Col>
                         <Form.Group controlId="dayOfWeek">

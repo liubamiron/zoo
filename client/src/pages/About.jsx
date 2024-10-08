@@ -1,9 +1,8 @@
-
 import {useTranslation} from "../providers/index.js";
 import {Button, Card, Col, Form, Row} from "react-bootstrap";
 import {zoo_facilities} from "../components/Constants.jsx";
 import {useEffect, useState} from "react";
-import {fetchAnimalData, fetchReviewsData, fetchTypeAnimals} from "../utils/apiCalls.js";
+import {createEmailSubscribe, fetchAnimalData, fetchReviewsData, fetchTypeAnimals} from "../utils/apiCalls.js";
 import {Navigation} from "swiper/modules";
 import {Swiper, SwiperSlide} from "swiper/react";
 import {Link} from "react-router-dom";
@@ -14,10 +13,10 @@ const About = () => {
     const [diasappearingAnimals, setDiasappearingAnimals] = useState([]);
     const [typeAnimals, setTypeAnimals] = useState([]);
     const [reviews, setReviews] = useState([]);
-    const [emailUser, setEmailUser] = useState([]);
+    const [emailUser, setEmailUser] = useState('');
+    const [responseMessage, setResponseMessage] = useState(''); // To store the server response
 
     const isMobile = window.matchMedia("only screen and (max-width: 575.98px)").matches;
-
 
     // get all animals
     useEffect(() => {
@@ -67,6 +66,18 @@ const About = () => {
     let disappearingAnimalsCount = disappearingAnimals?.length;
     //get number of type animals
     let nrType = typeAnimals?.length
+
+    // send email address for subscribe
+    const handleSubmit = async (e) => {
+        e.preventDefault(); // Prevent default form submission behavior
+        try {
+            const data = await createEmailSubscribe({email: emailUser}); // Call the createEmailSubscribe function
+            setResponseMessage(data.message || 'Email sent successfully!'); // Set the response message
+        } catch (error) {
+            console.error('Error:', error);
+            setResponseMessage('Failed to send email. Please try again.');
+        }
+    };
 
     return (
         <div>
@@ -192,25 +203,28 @@ const About = () => {
                     <div className={'margin_top_40'}>
                         <Swiper
                             spaceBetween={30}
-                            slidesPerView={isMobile ? 1 : 4} // or 2 for a multi-card slider
+                            slidesPerView={isMobile ? 1 : 4}
                             navigation={true}
                             modules={[Navigation]}
-                            style={{ padding: '0 16px' }} // Slider padding
+                            style={{padding: '0 16px'}} // Slider padding
                         >
                             <Row>
                                 {diasappearingAnimals.map((animal) => (
                                     <Col xs={12} md={4} key={animal.id}>
-                                        <SwiperSlide>
-                                        <Card className={'bg_light_green'} >
-                                            <Card.Img variant="top"
-                                                      src={`${import.meta.env.VITE_URL}/${animal.img_1}`} alt="animal"
-                                                      className={'img-fluid'}
-                                                      style={{ height: '230px' }}
-                                            />
-                                            <Card.Footer>
-                                                <p style={{ height: '60px' }}>{animal[`name_${language}`]}</p>
-                                            </Card.Footer>
-                                        </Card>
+                                        <SwiperSlide key={`slide-${animal.id}`}>
+                                            <Link to={`/animals/${animal.id}`}>
+                                                <Card className={'bg_light_green'}>
+                                                    <Card.Img variant="top"
+                                                              src={`${import.meta.env.VITE_URL}/${animal.img_1}`}
+                                                              alt="animal"
+                                                              className={'img-fluid'}
+                                                              style={{height: '230px'}}
+                                                    />
+                                                    <Card.Footer>
+                                                        <p style={{height: '60px'}}>{animal[`name_${language}`]}</p>
+                                                    </Card.Footer>
+                                                </Card>
+                                            </Link>
                                         </SwiperSlide>
                                     </Col>
                                 ))}
@@ -227,52 +241,57 @@ const About = () => {
                         <Col xs={12} md={4} key={item.id}>
                             <Card className={'bg_light_green p-4 text-center'}>
                                 <div className={'d-flex align-items-center justify-content-center'}>
-                                <img src="/quotes.svg" alt={'quotes'} width={'24px'} className={'img-fluid'}/>
+                                    <img src="/quotes.svg" alt={'quotes'} width={'24px'} className={'img-fluid'}/>
                                 </div>
                                 <Card.Body>
                                     <p>{item[`long_description_${language}`]}</p>
-                                {/* Map the rating to star images */}
-                                {[...Array(5)].map((_, index) => (
-                                    <img
-                                        key={index}
-                                        src={index < item.rating ? '/icons/star.svg' : '/icons/star_empty.svg'}
-                                        alt={index < item.rating ? 'full star' : 'empty star'}
-                                        style={{width: '20px', height: '20px', marginRight: '5px'}}
-                                    />
-                                ))}
+                                    {/* Map the rating to star images */}
+                                    {[...Array(5)].map((_, index) => (
+                                        <img
+                                            key={index}
+                                            src={index < item.rating ? '/icons/star.svg' : '/icons/star_empty.svg'}
+                                            alt={index < item.rating ? 'full star' : 'empty star'}
+                                            style={{width: '20px', height: '20px', marginRight: '5px'}}
+                                        />
+                                    ))}
                                 </Card.Body>
                             </Card>
-                                <div style={{ textDecoration: 'underline' }} className={'mt-3 text-center'}>
-                                    {item[`title_${language}`]}</div>
-                                <div style={{ fontStyle: 'italic' }} className={'text-center'}>{t('VISITATOR')}</div>
+                            <div style={{textDecoration: 'underline'}} className={'mt-3 text-center'}>
+                                {item[`title_${language}`]}</div>
+                            <div style={{fontStyle: 'italic'}} className={'text-center'}>{t('VISITATOR')}</div>
                         </Col>
                     ))}
                 </Row>
                 <br/>
-                    <Row  className={'bg_green p-3 mt-5'}>
-                        <Col>
-                            <h1 className={'color_white'}>{t('SUBSCRIBE_NEWS')}</h1>
-                        </Col>
-                        <Col>
+                <Row className={'bg_green p-3 mt-5'}>
+                    <Col>
+                        <h1 className={'color_white'}>{t('SUBSCRIBE_NEWS')}</h1>
+                    </Col>
+                    <Col>
+                        <Form onSubmit={handleSubmit}>
                             <Row className={'color_white mt-4'}>
                                 <Col>
-                                    <Form.Group controlId="nameEN">
+                                    <Form.Group controlId="email">
                                         <Form.Control
                                             type="email"
                                             value={emailUser}
-                                            onChange={(e) => setEmailUser(e.target.value)} // Use a function to update state
-                                            placeholder={t('ENTER_EMAIL')}
+                                            onChange={(e) => setEmailUser(e.target.value)} // Update state with the email input
+                                            placeholder={t('ENTER_EMAIL')} // Placeholder from translations
+                                            required // Make sure the input is required
                                         />
                                     </Form.Group>
+                                    {responseMessage && <p>{responseMessage}</p>}
                                 </Col>
                                 <Col>
-                                    <Button variant={'outline-warning'}>{t('SUBSCRIBE')}</Button>
+                                    <Button variant={'outline-warning'} type="submit">{t('SUBSCRIBE')}</Button>
                                 </Col>
+
                                 <div className={'mt-2 '} style={{fontSize: '12px'}}>{t('ADDITIONAL_TEXT_1')}</div>
                                 <div style={{fontSize: '12px'}}>{t('ADDITIONAL_TEXT_2')}</div>
                             </Row>
-                        </Col>
-                    </Row>
+                        </Form>
+                    </Col>
+                </Row>
             </div>
 
         </div>

@@ -2,39 +2,39 @@ import {useTranslation} from "../providers/index.js";
 import {Link, useNavigate} from "react-router-dom";
 import {Button, Col, Form, InputGroup, Row} from "react-bootstrap";
 import {useEffect, useState} from "react";
-import {fetchPostsData, getAllTags} from "../utils/apiCalls.js";
+import {createEmailSubscribe, fetchPostsData, getAllTags} from "../utils/apiCalls.js";
 import PaginationComponent from "../components/PaginationComponent.jsx";
 
 function PostsPage() {
     const {t, language} = useTranslation();
     const [allNews, setAllNews] = useState([]);
-    const [filteredNews, setFilteredNews] = useState([]); // State for filtered news
+    const [filteredNews, setFilteredNews] = useState([]);
     const [allTags, setAllTags] = useState([]);
     const [emailUser, setEmailUser] = useState('');
-    const [selectedTag, setSelectedTag] = useState(null); // State for the selected tag
-    const [searchQuery, setSearchQuery] = useState(''); // State for search query
+    const [selectedTag, setSelectedTag] = useState(null);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [responseMessage, setResponseMessage] = useState('');
 
     const navigate = useNavigate();
 
-    const [currentPage, setCurrentPage] = useState(1); // Pagination state
-    const itemsPerPage = 6; // Number of tenders to display per page
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 6;
 
     const query = new URLSearchParams(location.search);
-    const tagId = query.get('tag'); // Get the tag ID from the URL
+    const tagId = query.get('tag');
 
     // Fetch all posts
-
     useEffect(() => {
         const getData = async () => {
             try {
                 const data = await fetchPostsData();
-                setAllNews(data);  // Store the list of animals
+                setAllNews(data);
                 setFilteredNews(data);
             } catch (error) {
-                console.error('Error fetching animals data:', error);
+                console.error('Error fetching posts data:', error);
             }
         };
-        getData().then(r => console.log(r, 'animals data'));
+        getData();
     }, []);
 
     // Fetch all tags
@@ -44,7 +44,7 @@ function PostsPage() {
                 const data = await getAllTags();
                 setAllTags(data);
             } catch (error) {
-                console.error('Error fetching posts data:', error);
+                console.error('Error fetching tags data:', error);
             }
         };
         getData();
@@ -57,9 +57,9 @@ function PostsPage() {
                 news.tags && news.tags.some(tag => tag.id.toString() === tagId)
             );
             setFilteredNews(filtered);
-            setCurrentPage(1); // Reset to the first page when filtering
+            setCurrentPage(1);
         } else {
-            setFilteredNews(allNews); // Show all news if no tag is selected
+            setFilteredNews(allNews);
         }
     }, [tagId, allNews]);
 
@@ -85,18 +85,38 @@ function PostsPage() {
 
     // Handle tag click
     const handleTagClick = (tagId) => {
-        setSelectedTag(tagId); // Update the selected tag
+        setSelectedTag(tagId);
         const filtered = allNews.filter((item) =>
             item.tags && item.tags.some(tag => tag.id === tagId)
         );
         setFilteredNews(filtered);
     };
 
+    // Filter news by popularity
+    const popularNews = allNews.filter(news => news.popular === true);
+
+    // Extract unique tags from popular news
+    const popularTags = Array.from(new Set(popularNews.flatMap(news => news.tags.map(tag => tag.id))))
+        .map(id => allTags.find(tag => tag.id === id));
+
     // Pagination calculations
     const indexOfLastTender = currentPage * itemsPerPage;
     const indexOfFirstTender = indexOfLastTender - itemsPerPage;
     const currentNews = filteredNews.slice(indexOfFirstTender, indexOfLastTender);
     const totalPages = Math.ceil(filteredNews.length / itemsPerPage);
+
+    // send email address for subscribe
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            const data = await createEmailSubscribe({ email: emailUser });
+            setResponseMessage(data.message || 'Email sent successfully!');
+        } catch (error) {
+            console.error('Error:', error);
+            setResponseMessage('Failed to send email. Please try again.');
+        }
+    };
 
     return (
         <div>
@@ -107,12 +127,15 @@ function PostsPage() {
                 <div className={'mt-4 text-center d-flex justify-content-center align-items-center mb-4'}>
                 <span> <Link to={'/'}>
                     <img src={'/house.svg'} className={'img-fluid'} alt={'house'} style={{marginRight: '5px'}}/>
-                    ZOO</Link>&nbsp;&#62;&nbsp;<Link to={'/news'} onClick={handleResetFilters}>{t('NEWS')}</Link>
+                    ZOO</Link>&nbsp;&#62;&nbsp;
+                    <Link to={'/news'} onClick={handleResetFilters}>{t('NEWS')}</Link>
                 </span>
                 </div>
             </div>
             <div className={"container"}>
-            <h1 className={'text-center color_green'}><Link to={'/news'} onClick={handleResetFilters}>{t('NEWS')}</Link></h1>
+            <h1 className={'text-center color_green'}>
+                <Link to={'/news'} onClick={handleResetFilters}>{t('NEWS')}</Link>
+            </h1>
             <p className={'text-center color_green'}>{t('ALL_NEWS_EVENTS')}</p>
                 <br/>
                 <Row>
@@ -198,10 +221,11 @@ function PostsPage() {
                             {t('POPULAR_TAGS')}
                             <br/>
                             <br/>
-                            {allTags.map((item) => (
+                            {/*{allTags.map((item) => (*/}
+                            {popularTags.map((item) => (
                                 <span key={item.id}>
                                     <Button
-                                        variant={selectedTag === item.id ? "success" : "outline-success"}
+                                        variant={"outline-success"}
                                         className={'p-2'}
                                         style={{ margin: '5px' }}
                                         onClick={() => handleTagClick(item.id)} // Handle tag click
@@ -217,7 +241,10 @@ function PostsPage() {
                             <br/>
                             <br/>
                         </div>
-                            {allNews.map((item) => {
+                            {/*{allNews*/}
+                            {/*    .filter((item) => item.popular === 'true')*/}
+                            {/*    .map((item) => {*/}
+                            {popularNews.map((item) => {
                                 {
                                     const day = new Date(item.createdAt).toLocaleDateString('RO', {
                                         day: 'numeric',
@@ -251,31 +278,35 @@ function PostsPage() {
                     />
                 </Row>
                 <br/>
-                <Row className={'bg_green p-3 mt-5'}>
-                <Col>
+                <Row  className={'bg_green p-3 mt-5'}>
+                    <Col>
                         <h1 className={'color_white'}>{t('SUBSCRIBE_NEWS')}</h1>
                     </Col>
                     <Col>
-                        <Row className={'color_white mt-4'}>
-                            <Col>
-                                <Form.Group controlId="nameEN">
-                                    <Form.Control
-                                        type="email"
-                                        value={emailUser}
-                                        onChange={(e) => setEmailUser(e.target.value)} // Use a function to update state
-                                        placeholder={t('ENTER_EMAIL')}
-                                    />
-                                </Form.Group>
-                            </Col>
-                            <Col>
-                                <Button variant={'outline-warning'}>{t('SUBSCRIBE')}</Button>
-                            </Col>
-                            <div className={'mt-2 '} style={{fontSize: '12px'}}>{t('ADDITIONAL_TEXT_1')}</div>
-                            <div style={{fontSize: '12px'}}>{t('ADDITIONAL_TEXT_2')}</div>
-                        </Row>
+                        <Form onSubmit={handleSubmit}>
+                            <Row className={'color_white mt-4'}>
+                                <Col>
+                                    <Form.Group controlId="email">
+                                        <Form.Control
+                                            type="email"
+                                            value={emailUser}
+                                            onChange={(e) => setEmailUser(e.target.value)} // Update state with the email input
+                                            placeholder={t('ENTER_EMAIL')} // Placeholder from translations
+                                            required // Make sure the input is required
+                                        />
+                                    </Form.Group>
+                                    {responseMessage && <p>{responseMessage}</p>}
+                                </Col>
+                                <Col>
+                                    <Button variant={'outline-warning'} type="submit">{t('SUBSCRIBE')}</Button>
+                                </Col>
+
+                                <div className={'mt-2 '} style={{fontSize: '12px'}}>{t('ADDITIONAL_TEXT_1')}</div>
+                                <div style={{fontSize: '12px'}}>{t('ADDITIONAL_TEXT_2')}</div>
+                            </Row>
+                        </Form>
                     </Col>
                 </Row>
-
             </div>
         </div>
     );

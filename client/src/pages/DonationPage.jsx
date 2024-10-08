@@ -2,16 +2,30 @@ import {Link} from "react-router-dom";
 import {useTranslation} from "../providers/index.js";
 import {Button, Carousel, Col, Form, Row} from "react-bootstrap";
 import {useState} from "react";
+import {createEmailSubscribe} from "../utils/apiCalls.js";
 
 
 function DonationPage() {
-    const {t, language} = useTranslation();
+    const {t} = useTranslation();
     const [emailUser, setEmailUser] = useState([]);
-    const [rangeValue, setRangeValue] = useState(10); // Add state for the range slider
+    const [rangeValue, setRangeValue] = useState(10);
+    const [responseMessage, setResponseMessage] = useState('');
 
     // Function to handle slider change
     const handleRangeChange = (e) => {
         setRangeValue(e.target.value); // Update the state with the new value
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault(); // Prevent default form submission behavior
+
+        try {
+            const data = await createEmailSubscribe({ email: emailUser }); // Call the createEmailSubscribe function
+            setResponseMessage(data.message || 'Email sent successfully!'); // Set the response message
+        } catch (error) {
+            console.error('Error:', error);
+            setResponseMessage('Failed to send email. Please try again.');
+        }
     };
 
 
@@ -177,28 +191,33 @@ function DonationPage() {
                                 </div>
                             </Col>
                         </Row>
-                        <Row className={'bg_green p-3 mt-5'}>
+                        <Row  className={'bg_green p-3 mt-5'}>
                             <Col>
                                 <h1 className={'color_white'}>{t('SUBSCRIBE_NEWS')}</h1>
                             </Col>
                             <Col>
-                                <Row className={'color_white mt-4'}>
-                                    <Col>
-                                        <Form.Group controlId="nameEN">
-                                            <Form.Control
-                                                type="email"
-                                                value={emailUser}
-                                                onChange={(e) => setEmailUser(e.target.value)} // Use a function to update state
-                                                placeholder={t('ENTER_EMAIL')}
-                                            />
-                                        </Form.Group>
-                                    </Col>
-                                    <Col>
-                                        <Button variant={'outline-warning'}>{t('SUBSCRIBE')}</Button>
-                                    </Col>
-                                    <div className={'mt-2 '} style={{fontSize: '12px'}}>{t('ADDITIONAL_TEXT_1')}</div>
-                                    <div style={{fontSize: '12px'}}>{t('ADDITIONAL_TEXT_2')}</div>
-                                </Row>
+                                <Form onSubmit={handleSubmit}>
+                                    <Row className={'color_white mt-4'}>
+                                        <Col>
+                                            <Form.Group controlId="email">
+                                                <Form.Control
+                                                    type="email"
+                                                    value={emailUser}
+                                                    onChange={(e) => setEmailUser(e.target.value)} // Update state with the email input
+                                                    placeholder={t('ENTER_EMAIL')} // Placeholder from translations
+                                                    required // Make sure the input is required
+                                                />
+                                            </Form.Group>
+                                            {responseMessage && <p>{responseMessage}</p>}
+                                        </Col>
+                                        <Col>
+                                            <Button variant={'outline-warning'} type="submit">{t('SUBSCRIBE')}</Button>
+                                        </Col>
+
+                                        <div className={'mt-2 '} style={{fontSize: '12px'}}>{t('ADDITIONAL_TEXT_1')}</div>
+                                        <div style={{fontSize: '12px'}}>{t('ADDITIONAL_TEXT_2')}</div>
+                                    </Row>
+                                </Form>
                             </Col>
                         </Row>
                     </div>

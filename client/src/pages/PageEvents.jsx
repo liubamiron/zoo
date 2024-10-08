@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useTranslation } from "../providers/index.js";
 import { Button, Col, Form, InputGroup, Row } from "react-bootstrap";
-import { fetchEventsData } from "../utils/apiCalls.js";
+import {createEmailSubscribe, fetchEventsData} from "../utils/apiCalls.js";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import PaginationComponent from "../components/PaginationComponent.jsx";
@@ -14,6 +14,7 @@ function PageEvents() {
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredEvents, setFilteredEvents] = useState([]);
     const [emailUser, setEmailUser] = useState([]);
+    const [responseMessage, setResponseMessage] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const eventsPerPage = 8; // Set events per page
 
@@ -67,6 +68,19 @@ function PageEvents() {
 
     // Total pages
     const totalPages = Math.ceil(filteredEvents.length / eventsPerPage);
+
+    // send email addres for subscribe
+    const handleSubmit = async (e) => {
+        e.preventDefault(); // Prevent default form submission behavior
+
+        try {
+            const data = await createEmailSubscribe({ email: emailUser }); // Call the createEmailSubscribe function
+            setResponseMessage(data.message || 'Email sent successfully!'); // Set the response message
+        } catch (error) {
+            console.error('Error:', error);
+            setResponseMessage('Failed to send email. Please try again.');
+        }
+    };
 
     return (
         <div>
@@ -191,6 +205,7 @@ function PageEvents() {
                         <h1 className={'color_white'}>{t('SUBSCRIBE_NEWS')}</h1>
                     </Col>
                     <Col>
+                        <Form onSubmit={handleSubmit}>
                         <Row className={'color_white mt-4'}>
                             <Col>
                                 <Form.Group controlId="nameEN">
@@ -201,13 +216,15 @@ function PageEvents() {
                                         placeholder={t('ENTER_EMAIL')}
                                     />
                                 </Form.Group>
+                                {responseMessage && <p>{responseMessage}</p>}
                             </Col>
                             <Col>
-                                <Button variant={'outline-warning'}>{t('SUBSCRIBE')}</Button>
+                                <Button variant={'outline-warning'} type={'submit'}>{t('SUBSCRIBE')}</Button>
                             </Col>
                             <div className={'mt-2 '} style={{fontSize: '12px'}}>{t('ADDITIONAL_TEXT_1')}</div>
                             <div style={{fontSize: '12px'}}>{t('ADDITIONAL_TEXT_2')}</div>
                         </Row>
+                        </Form>
                     </Col>
                 </Row>
             </div>
