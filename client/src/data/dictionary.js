@@ -179,7 +179,7 @@ PRICE_7: 'Zone de odihnă pentru grup',
     ru: {
         MAIN: 'Главная',
         BY_TICKET: "Купить билет",
-        TODAY: "Astazi",
+        TODAY: "Сегодня",
         PLAIN: "Запланировать",
         MAP: "Карта зоопарка",
         ZOO_MAP: 'Zoo Map',
