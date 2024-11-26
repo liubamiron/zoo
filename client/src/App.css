@@ -116,11 +116,6 @@
     background-color: #0A4D1E;
 }
 
-.language_button .dropdown-item:hover {
-    background-color: lightgray; /* Green background color on hover */
-    color: #fff; /* White text color on hover */
-}
-
 .language_button .dropdown-menu {
     min-width: 90px; /* Ensure the menu does not shrink below this width */
 }
@@ -156,35 +151,46 @@
 }
 
 .z2 {
-    background: url('/main_banner.png') no-repeat;
+    background: url('/main_banner.JPG') no-repeat;
     background-size:cover;
     /*background-size:contain;*/
 }
 
 .background_green {
     background: url('/home_green.svg') no-repeat center top;
+    background-size: contain;
 }
 
 .background_white {
     background: url('/home_white_1.png') no-repeat center bottom;
+    background-size: contain;
 }
 
 .background_white2 {
     background: url('/home_white.png') no-repeat center top;
+    background-size: cover;
 }
 
 .bg_banner {
-    background: url("/banner.svg") no-repeat center top;
+    /*background: url("/banner.svg") no-repeat center top;*/
+    background: url("/main_banner_3.JPG") no-repeat center top;
+    /*background: url("/zoo-3-home.svg") no-repeat center top;*/
+    background-size:cover;
+    /*background-size:contain;*/
 }
 
 .bg_banner_green {
     background: url("/bg_green_baner.png") no-repeat center bottom;
+    background-size:contain;
 }
 
 .bg_green {
     background: #0A4D1EFC;
 }
 
+.bg_bone {
+    background: #e7ece6;
+}
 .bg_yellow_green {
     background: #0A4D1EFC url("/yellow_bg.png") no-repeat center bottom;
     background-size: cover;
@@ -229,6 +235,7 @@
 
 .bg_shape2 {
     background: url('/shape2.png') no-repeat;
+    background-size: cover;
 }
 
 .card1_style {
@@ -434,11 +441,11 @@
     }
 
     .show-desktop {
-        display: none;
+        display: none!important;
     }
 
     .show_mobile {
-        display: block;
+        display: block!important;
     }
 
     .pad_top_55_15 {

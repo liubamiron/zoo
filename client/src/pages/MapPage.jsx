@@ -10,15 +10,15 @@ function MapPage() {
                 <div className="bg_banner_green height_280">
                     &nbsp;
                 </div>
-                <div className={'mt-4 text-center d-flex justify-content-center align-items-center mb-4'}>
-                <span>
-                    <Link to={'/'}>
+            </div>
+            <div className="mt-4 text-center d-flex justify-content-center align-items-center mb-4 color_green">
+                <span className="d-flex align-items-center">
+                    <Link to="/" className="d-flex align-items-center">
                         <img src={'/house.svg'} className={'img-fluid'} alt={'house'} style={{marginRight: '5px'}}/>
                         ZOO
                     </Link>&nbsp;&#62;&nbsp;
                     <Link to={'/news'}>{t('MAP')}</Link>
                 </span>
-                </div>
             </div>
             <div className="d-flex justify-content-center align-items-center mt-5">
                 <img

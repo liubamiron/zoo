@@ -2,17 +2,20 @@ import {Link, useNavigate, useParams} from "react-router-dom";
 import {useTranslation} from "../providers/index.js";
 import {useEffect, useState} from "react";
 import {fetchAnimalData, fetchAnimalDataById, fetchEventsData} from "../utils/apiCalls.js";
-import {Accordion, Button, Col, Form, Image, Row} from "react-bootstrap";
+import {Accordion, Button, Card, Col, Image, Row} from "react-bootstrap";
+import SubscribeNewsForm from "../components/SubscribeNewsForm.jsx";
+import {Swiper, SwiperSlide} from "swiper/react";
+import {Navigation} from "swiper/modules";
 
 
 const Animal = () => {
     const {id} = useParams(); // Get the animal ID from the URL
     const [allEvents, setAllEvents] = useState([]);
     const {t, language} = useTranslation();
-    const [emailUser, setEmailUser] = useState([]);
     const [animalsData, setAnimalsData] = useState([]);
     const [groupedAnimals, setGroupedAnimals] = useState([]);
     const navigate = useNavigate();
+    const isMobile = window.matchMedia("only screen and (max-width: 575.98px)").matches;
 
     // Get animal by id
     useEffect(() => {
@@ -81,12 +84,13 @@ const Animal = () => {
                 <div className="bg_banner_green height_280">
                     &nbsp;
                 </div>
-                <div className={'mt-4 text-center d-flex justify-content-center align-items-center mb-4'}>
-                <span> <Link to={'/'}>
+            </div>
+            <div className={'mt-4 text-center d-flex justify-content-center align-items-center mb-4 color_green'}>
+                <span className="d-flex align-items-center">
+                    <Link to={'/'} className="d-flex align-items-center">
                     <img src={'/house.svg'} className={'img-fluid'} alt={'house'} style={{marginRight: '5px'}}/>
                     ZOO</Link>&nbsp;&#62;&nbsp;<Link to={'/animals'}>{t('ANIMALS')}</Link>
                 </span>
-                </div>
             </div>
             <div className="container">
                 <h2 className={'text-center mt-5 color_green f_size_42'}>{animalsData[`name_${language}`]}</h2>
@@ -188,7 +192,7 @@ const Animal = () => {
                             <br/>
                             {activeEvents.map((event) => (
                                 <div key={event.id}
-                                     // onClick={() => navigate(`/events/${event.id}`)}
+                                    // onClick={() => navigate(`/events/${event.id}`)}
                                      onClick={() => navigate(`/events`)}
                                 >
                                     <Row>
@@ -206,7 +210,7 @@ const Animal = () => {
                                             <div className="text-center color_green mt-2">{event.start_date_event}</div>
                                         </Col>
                                     </Row>
-                                    <hr />
+                                    <hr/>
                                 </div>
                             ))}
                         </div>
@@ -221,46 +225,42 @@ const Animal = () => {
                         <h2 className={'mt-5 mb-5 text-center'}>
                             {t('OTHER_SPECIES_FROM')}&nbsp;{groupedAnimals[0]?.[`clas_${language}`]}
                         </h2>
-                        {groupedAnimals?.map((animal) => (
-                            <Col xs={12} md={4} key={animal.id}>
-                                <Image
-                                    src={`${import.meta.env.VITE_URL}/${animal.img_1}`}
-                                    alt={animal[`name_${language}`]}
-                                    fluid
-                                    style={{height: '100%', objectFit: 'cover'}}
-                                />
-                                <i className={'color_green'}>{animal[`name_${language}`]}</i>
-                                <p className={'mt-1'}>{animal[`descr_short_${language}`]}</p>
-                            </Col>
-                        ))}
+                        <div className={'margin_top_40'}>
+                            <Swiper
+                                spaceBetween={30}
+                                slidesPerView={isMobile ? 1 : 4}
+                                navigation={true}
+                                modules={[Navigation]}
+                                style={{padding: '0 16px'}} // Slider padding
+                            >
+                                <Row>
+                                    {groupedAnimals?.map((animal) => (
+                                        <Col xs={12} md={4} key={animal.id}>
+                                            <SwiperSlide key={`slide-${animal.id}`}>
+                                                <Link to={`/animals/${animal.id}`}>
+                                                    <Card className={'bg_light_green'}>
+                                                        <Card.Img variant="top"
+                                                                  src={`${import.meta.env.VITE_URL}/${animal.img_1}`}
+                                                                  alt="animal"
+                                                                  className={'img-fluid'}
+                                                                  style={{height: '230px'}}
+                                                        />
+                                                        <Card.Footer>
+                                                            <i className={'color_green'}>{animal[`name_${language}`]}</i>
+                                                        </Card.Footer>
+                                                    </Card>
+                                                </Link>
+                                            </SwiperSlide>
+                                        </Col>
+                                    ))}
+                                </Row>
+                            </Swiper>
+                        </div>
                     </Row>
                     <br/>
                     <br/>
                     <br/>
-                    <Row className={'bg_green p-3 mt-5'}>
-                        <Col>
-                            <h1 className={'color_white'}>{t('SUBSCRIBE_NEWS')}</h1>
-                        </Col>
-                        <Col>
-                            <Row className={'color_white mt-4'}>
-                                <Col>
-                                    <Form.Group controlId="nameEN">
-                                        <Form.Control
-                                            type="email"
-                                            value={emailUser}
-                                            onChange={(e) => setEmailUser(e.target.value)} // Use a function to update state
-                                            placeholder={t('ENTER_EMAIL')}
-                                        />
-                                    </Form.Group>
-                                </Col>
-                                <Col>
-                                    <Button variant={'outline-warning'}>{t('SUBSCRIBE')}</Button>
-                                </Col>
-                                <div className={'mt-2 '} style={{fontSize: '12px'}}>{t('ADDITIONAL_TEXT_1')}</div>
-                                <div style={{fontSize: '12px'}}>{t('ADDITIONAL_TEXT_2')}</div>
-                            </Row>
-                        </Col>
-                    </Row>
+                    <SubscribeNewsForm/>
                 </div>
             </div>
         </>

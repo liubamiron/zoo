@@ -87,26 +87,6 @@ const Animal = sequelize.define('animal', {
     habitat_long_ro: {type: DataTypes.TEXT, allowNull: true},
     habitat_long_en: {type: DataTypes.TEXT, allowNull: true},
 
-    // General info in multiple languages
-    general_info_ru: {type: DataTypes.TEXT, allowNull: true},
-    general_info_ro: {type: DataTypes.TEXT, allowNull: true},
-    general_info_en: {type: DataTypes.TEXT, allowNull: true},
-
-    // Nutrition in multiple languages
-    nutrition_ru: {type: DataTypes.TEXT, allowNull: true},
-    nutrition_ro: {type: DataTypes.TEXT, allowNull: true},
-    nutrition_en: {type: DataTypes.TEXT, allowNull: true},
-
-    // Protection in multiple languages
-    protection_ru: {type: DataTypes.TEXT, allowNull: true},
-    protection_ro: {type: DataTypes.TEXT, allowNull: true},
-    protection_en: {type: DataTypes.TEXT, allowNull: true},
-
-    // Facts in multiple languages
-    facts_ru: {type: DataTypes.TEXT, allowNull: true},
-    facts_ro: {type: DataTypes.TEXT, allowNull: true},
-    facts_en: {type: DataTypes.TEXT, allowNull: true},
-
     // Non-translatable fields
     new_animal: {type: DataTypes.BOOLEAN, defaultValue: false},
     disappearing: {type: DataTypes.BOOLEAN, defaultValue: false},

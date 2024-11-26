@@ -4,11 +4,11 @@ import {Button, Col, Form, Row} from "react-bootstrap";
 import {useEffect, useState} from "react";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import 'leaflet/dist/leaflet.css';
-import {fetchWeekHours, getAllFAQ} from "../utils/apiCalls.js";
+import {fetchWeekHours} from "../utils/apiCalls.js";
 
 
 function ContactUs() {
-    const {t, language} = useTranslation();
+    const {t} = useTranslation();
 
     const [formData, setFormData] = useState({
         name: '',
@@ -53,17 +53,18 @@ function ContactUs() {
 
     return (
         <>
-        <div className={"bg_banner"}>
-            <div className="bg_banner_green height_280">
-                &nbsp;
+            <div className={"bg_banner"}>
+                <div className="bg_banner_green height_280">
+                    &nbsp;
+                </div>
             </div>
-            <div className={'mt-4 text-center d-flex justify-content-center align-items-center mb-4'}>
-                <span> <Link to={'/'}>
+            <div className={'mt-4 text-center d-flex justify-content-center align-items-center mb-4 color_green'}>
+                <span className="d-flex align-items-center">
+                    <Link to={'/'} className="d-flex align-items-center">
                     <img src={'/house.svg'} className={'img-fluid'} alt={'house'} style={{marginRight: '5px'}}/>
                     ZOO</Link>&nbsp;&#62;&nbsp;<Link to={'/contact_us'}>{t('CONTACTS')}</Link>
                 </span>
             </div>
-        </div>
             <div className={"container"}>
                 <h3 className={'text-center'}> {t('CONTACTS_TITLE')}</h3>
                 <br/>
@@ -82,7 +83,7 @@ function ContactUs() {
                 </Row>
                 <div>
                     {/*<MapContainer center={position} zoom={15} style={{ height: '400px', width: '1000px' }}>*/}
-                    <MapContainer center={position} zoom={15} style={{ height: '400px', width: '100%' }}>
+                    <MapContainer center={position} zoom={15} style={{height: '400px', width: '100%'}}>
                         <TileLayer
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

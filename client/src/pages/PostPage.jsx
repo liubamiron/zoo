@@ -89,12 +89,13 @@ function PostPage() {
                 <div className="bg_banner_green height_280">
                     &nbsp;
                 </div>
-                <div className={'mt-4 text-center d-flex justify-content-center align-items-center mb-4'}>
-                <span> <Link to={'/'}>
+            </div>
+            <div className="mt-4 text-center d-flex justify-content-center align-items-center mb-4 color_green">
+                <span className="d-flex align-items-center">
+                    <Link to="/" className="d-flex align-items-center">
                     <img src={'/house.svg'} className={'img-fluid'} alt={'house'} style={{marginRight: '5px'}}/>
                     ZOO</Link>&nbsp;&#62;&nbsp;<Link to={'/news'}>{t('NEWS')}</Link>
                 </span>
-                </div>
             </div>
             <div className={"container"}>
                 <h2 className={'text-center color_green mt-2 mb-2'}>{post[`title_${language}`]}</h2>
@@ -138,10 +139,14 @@ function PostPage() {
                             <br/>
                             <div className={'f_weight_700 color_green f_size_18 mb-3'}>
                                 {t('CATEGORIES')}</div>
-                            <div className={'color_green mt-2 mb-3 border-bottom'}><Link to={'/'}>{t('ALL')}</Link></div>
-                            <div className={'color_green mt-2 mb-3 border-bottom'}><Link to={'/events'}>{t('EVENTS')}</Link></div>
-                            <div className={'color_green mt-2 mb-3 border-bottom'}><Link to={'/news'}>{t('NEWS')}</Link></div>
-                            <div className={'color_green mt-2 mb-3 border-bottom'}><Link to={'/animals'}>{t('ANIMALS')}</Link></div>
+                            <div className={'color_green mt-2 mb-3 border-bottom'}><Link to={'/'}>{t('ALL')}</Link>
+                            </div>
+                            <div className={'color_green mt-2 mb-3 border-bottom'}><Link
+                                to={'/events'}>{t('EVENTS')}</Link></div>
+                            <div className={'color_green mt-2 mb-3 border-bottom'}><Link to={'/news'}>{t('NEWS')}</Link>
+                            </div>
+                            <div className={'color_green mt-2 mb-3 border-bottom'}><Link
+                                to={'/animals'}>{t('ANIMALS')}</Link></div>
                             <br/>
                             <div className={'color_green mb-3'}>
                                 <h4 className={'mt-2 mb-3'}>{t('POPULAR_TAGS')}</h4>

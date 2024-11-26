@@ -2,7 +2,7 @@ import {useState} from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import axios from "axios";
 import Cookies from 'js-cookie';
-import { Navigate } from 'react-router-dom';
+import {Link, Navigate} from 'react-router-dom';
 import {jwtDecode} from "jwt-decode";
 
 
@@ -57,41 +57,53 @@ const Login = () => {
 
     return (
         <>
-            <img src={'banner.svg'} className={'img-fluid'} alt={'banner'}/>
-            <Container style={{marginTop: "40px"}}>
-            <Row className="justify-content-md-center">
-                <Col md={6}>
-                    <h2 className="text-center">Login</h2>
-                    {error && <div className="alert alert-danger">{error}</div>}
-                    <Form onSubmit={handleSubmit}>
-                        <Form.Group controlId="formBasicEmail">
-                            <Form.Label>Email address</Form.Label>
-                            <Form.Control
-                                type="email"
-                                placeholder="Enter email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
-                        </Form.Group>
+            <div className={"bg_banner"}>
+                <div className="bg_banner_green height_280">
+                    &nbsp;
+                </div>
+            </div>
+            <div className="mt-4 text-center d-flex justify-content-center align-items-center mb-4 color_green">
+                <span className="d-flex align-items-center">
+                    <Link to="/" className="d-flex align-items-center">
+                        <img src={'/house.svg'} className={'img-fluid'} alt={'house'} style={{marginRight: '5px'}}/>
+                        ZOO
+                    </Link>&nbsp;&#62;&nbsp;Login Page
+                </span>
+            </div>
+            <Container style={{marginTop: "40px"}} className={'mb-5'}>
+                <Row className="justify-content-md-center">
+                    <Col md={6}>
+                        <h2 className="text-center">Authorize</h2>
+                        {error && <div className="alert alert-danger">{error}</div>}
+                        <Form onSubmit={handleSubmit}>
+                            <Form.Group controlId="formBasicEmail">
+                                <Form.Label>Email address</Form.Label>
+                                <Form.Control
+                                    type="email"
+                                    placeholder="Enter email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                />
+                            </Form.Group>
 
-                        <Form.Group controlId="formBasicPassword">
-                            <Form.Label>Password</Form.Label>
-                            <Form.Control
-                                type="password"
-                                placeholder="Password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                        </Form.Group>
-                        <br/>
-                        <br/>
-                        <Button variant="primary" type="submit" className="w-100">
-                            Login
-                        </Button>
-                    </Form>
-                </Col>
-            </Row>
-        </Container>
+                            <Form.Group controlId="formBasicPassword">
+                                <Form.Label>Password</Form.Label>
+                                <Form.Control
+                                    type="password"
+                                    placeholder="Password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                />
+                            </Form.Group>
+                            <br/>
+                            <br/>
+                            <Button variant="success" type="submit" className="w-100">
+                                Login
+                            </Button>
+                        </Form>
+                    </Col>
+                </Row>
+            </Container>
         </>
     );
 };

@@ -1,47 +1,34 @@
 import {Link} from "react-router-dom";
 import {useTranslation} from "../providers/index.js";
-import {Button, Carousel, Col, Form, Row} from "react-bootstrap";
+import {Button, Carousel, Col, Row} from "react-bootstrap";
 import {useState} from "react";
-import {createEmailSubscribe} from "../utils/apiCalls.js";
+import SubscribeNewsForm from "../components/SubscribeNewsForm.jsx";
 
 
 function DonationPage() {
     const {t} = useTranslation();
-    const [emailUser, setEmailUser] = useState([]);
     const [rangeValue, setRangeValue] = useState(10);
-    const [responseMessage, setResponseMessage] = useState('');
 
     // Function to handle slider change
     const handleRangeChange = (e) => {
         setRangeValue(e.target.value); // Update the state with the new value
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault(); // Prevent default form submission behavior
-
-        try {
-            const data = await createEmailSubscribe({ email: emailUser }); // Call the createEmailSubscribe function
-            setResponseMessage(data.message || 'Email sent successfully!'); // Set the response message
-        } catch (error) {
-            console.error('Error:', error);
-            setResponseMessage('Failed to send email. Please try again.');
-        }
-    };
-
 
     return (
         <>
-        <div className={"bg_banner"}>
-            <div className="bg_banner_green height_280">
-                &nbsp;
+            <div className={"bg_banner"}>
+                <div className="bg_banner_green height_280">
+                    &nbsp;
+                </div>
             </div>
-            <div className={'mt-4 text-center d-flex justify-content-center align-items-center mb-4'}>
-                <span> <Link to={'/'}>
+            <div className={'mt-4 text-center d-flex justify-content-center align-items-center mb-4 color_green'}>
+                <span className="d-flex align-items-center">
+                    <Link to={'/'} className="d-flex align-items-center">
                     <img src={'/house.svg'} className={'img-fluid'} alt={'house'} style={{marginRight: '5px'}}/>
                     ZOO</Link>&nbsp;&#62;&nbsp;<Link to={'/donation'}>{t('DONATION')}</Link>
                 </span>
             </div>
-        </div>
 
             <div className={"container"}>
                 <h2 className={'text-center mt-5'}>{t('DONAT_1')}</h2>
@@ -163,16 +150,16 @@ function DonationPage() {
                         {/* 3 Columns with Images and Text Underneath */}
                         <h2 className={'mt-4 mb-4 text-center'}>{t('DONAT_6')}</h2>
                         <Row className="text-center mt-5">
-                            <Col xs={12} md={4} >
+                            <Col xs={12} md={4}>
                                 <div className={'bg_light_green'}>
-                                <div className={'bg_green p-1'}>
-                                    <img src={'/donat.jpg'} className={'img-fluid mb-2'} alt={'Elephant'}/>
-                                </div>
-                                <p>{t('DONAT_7')}</p> {/* Text under the image */}
-                                <p>{t('DONAT_7_1')}</p> {/* Text under the image */}
+                                    <div className={'bg_green p-1'}>
+                                        <img src={'/donat.jpg'} className={'img-fluid mb-2'} alt={'Elephant'}/>
+                                    </div>
+                                    <p>{t('DONAT_7')}</p> {/* Text under the image */}
+                                    <p>{t('DONAT_7_1')}</p> {/* Text under the image */}
                                 </div>
                             </Col>
-                            <Col xs={12} md={4} >
+                            <Col xs={12} md={4}>
                                 <div className={'bg_light_green'}>
                                     <div className={'bg_green p-1'}>
                                         <img src={'/donat2.jpg'} className={'img-fluid mb-2'} alt={'Elephant'}/>
@@ -191,35 +178,7 @@ function DonationPage() {
                                 </div>
                             </Col>
                         </Row>
-                        <Row  className={'bg_green p-3 mt-5'}>
-                            <Col>
-                                <h1 className={'color_white'}>{t('SUBSCRIBE_NEWS')}</h1>
-                            </Col>
-                            <Col>
-                                <Form onSubmit={handleSubmit}>
-                                    <Row className={'color_white mt-4'}>
-                                        <Col>
-                                            <Form.Group controlId="email">
-                                                <Form.Control
-                                                    type="email"
-                                                    value={emailUser}
-                                                    onChange={(e) => setEmailUser(e.target.value)} // Update state with the email input
-                                                    placeholder={t('ENTER_EMAIL')} // Placeholder from translations
-                                                    required // Make sure the input is required
-                                                />
-                                            </Form.Group>
-                                            {responseMessage && <p>{responseMessage}</p>}
-                                        </Col>
-                                        <Col>
-                                            <Button variant={'outline-warning'} type="submit">{t('SUBSCRIBE')}</Button>
-                                        </Col>
-
-                                        <div className={'mt-2 '} style={{fontSize: '12px'}}>{t('ADDITIONAL_TEXT_1')}</div>
-                                        <div style={{fontSize: '12px'}}>{t('ADDITIONAL_TEXT_2')}</div>
-                                    </Row>
-                                </Form>
-                            </Col>
-                        </Row>
+                        <SubscribeNewsForm/>
                     </div>
                 </Row>
             </div>

@@ -28,6 +28,7 @@ function Layout() {
         <div>
             {!isAdminCategoryPage && <NavbarPage />}
             <Outlet />
+            <br/>
             {!isAdminCategoryPage && <Footer />}
         </div>
     );

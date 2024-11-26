@@ -18,11 +18,9 @@ const getAuthCookie = () => {
 
 // Base configuration for axios requests
 const api = axios.create({
-    // baseURL: 'http://localhost:5000/api',
     baseURL: import.meta.env.VITE_API_URL,
-    headers: {
-        "Access-Control-Allow-Credentials": true,
-    }
+    // baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
+    withCredentials: true, // Ensure credentials (e.g., cookies) are included
 });
 
 // Fetch all animal data
