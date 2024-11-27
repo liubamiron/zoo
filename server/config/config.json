@@ -1,23 +1,23 @@
 {
   "development": {
     "username": "postgres",
-    "password": "realME99cat",
+    "password": "root",
     "database": "zoo_md",
-    "host": "195.178.106.227",
+    "host": "localhost",
     "dialect": "postgres"
   },
   "test": {
     "username": "postgres",
-    "password": "realME99cat",
+    "password": "root",
     "database": "zoo_md",
-    "host": "195.178.106.227",
+    "host": "localhost",
     "dialect": "postgres"
   },
   "production": {
     "username": "postgres",
-    "password": "realME99cat",
+    "password": "root",
     "database": "zoo_md",
-    "host": "195.178.106.227",
+    "host": "localhost",
     "dialect": "postgres"
   }
 }

@@ -18,8 +18,8 @@ const getAuthCookie = () => {
 
 // Base configuration for axios requests
 const api = axios.create({
-    baseURL: import.meta.env.VITE_API_URL,
-    // baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
+    // baseURL: import.meta.env.VITE_API_URL,
+    baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
     withCredentials: true, // Ensure credentials (e.g., cookies) are included
 });
 
