@@ -310,6 +310,7 @@ const HomePage = () => {
             <div className={'background_white2'} style={{height: '124px'}}>&nbsp;
             </div>
             {/*new animals block*/}
+            <div className={'container-fluid'}>
             <Row>
                 <Col xs={12} md={3}>
                     <Card>
@@ -370,6 +371,7 @@ const HomePage = () => {
                     </div>
                 </Col>
             </Row>
+            </div>
             {/*about zoo*/}
             <div className={'bg_shape2'}>
                 <div className={'container'}>
