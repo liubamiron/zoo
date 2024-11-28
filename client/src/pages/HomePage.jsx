@@ -343,7 +343,7 @@ const HomePage = () => {
                                 <SwiperSlide key={item.id}>
                                     <Link to={`/animals/${item.id}`}
                                           style={{textDecoration: 'none'}}> {/* Wrap Card with Link */}
-                                        <Card className="mb-3 h-100">
+                                        <Card className="mb-3 h-100 card-hover-effect">
                                             <Card.Img variant="top"
                                                       src={`${import.meta.env.VITE_URL}/${item.img_1}`} alt="animal"
                                                       style={{height: '400px', objectFit: 'cover'}}/>
@@ -363,7 +363,7 @@ const HomePage = () => {
                                                     {item[`descr_short_${language}`]}
                                                 </Card.Text>
                                             </Card.Body>
-                                            <Card.Footer className={'bg_green color_green'}>
+                                            <Card.Footer className={'bg_green white'}>
                                                 {t("MORE_INFO")}
                                             </Card.Footer>
                                         </Card>
