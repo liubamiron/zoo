@@ -15,7 +15,7 @@ const app = express();
 
 // Define CORS options
 const corsOptions = {
- origin: ['http://localhost:5173', 'https://zoo-two-tau.vercel.app/'], // Array of allowed origins
+ origin: ['https://zoo-two-tau.vercel.app'], // Array of allowed origins
  methods: ["*"], // Allowed HTTP methods
  allowedHeaders: ["*"], // Allowed headers
  credentials: true, // Allow credentials (e.g., cookies, authorization headers)
