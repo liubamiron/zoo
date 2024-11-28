@@ -284,7 +284,7 @@ const HomePage = () => {
                 <div className={'background_green'}>
                     <div className={'background_white'}>
                         <Container>
-                                <h2 className={'f_montserrat title pad_top_150_5 center'}>
+                                <h2 className={'f_montserrat title pad_top_150_5 text-center'}>
                                     {t('GARDEN')} <br/> {t('ZOOLOGIC')}
                                 </h2>
                                 <div className={'pad_top_95'}>
