@@ -319,7 +319,7 @@ const HomePage = () => {
                     <Card>
                         <Card.Body>
                             <Card.Title
-                                className={'color_green mb-4'} style={{fontWeight: 'bold'}}>
+                                className={'color_green mb-4'} style={{fontWeight: 'bold', fontSize: '32px'}}>
                                 {homePageData[`title1_${language}`]}
                             </Card.Title>
                             <Card.Text className={'height_27'}>
@@ -378,7 +378,7 @@ const HomePage = () => {
             {/*about zoo*/}
             <div className={'bg_shape2'}>
                 <div className={'container'}>
-                    <h3 className={'color_green text-center padtop_125_25'}>{homePageData[`title_${language}`]}</h3>
+                    <h1 className={'color_green text-center padtop_125_25'} style={{fontWeight: "800"}}>{homePageData[`title_${language}`]}</h1>
                     <Row>
                         <Col sx={12} md={6}>
                             <Row className={'pad_top_55_15'}>
@@ -595,7 +595,7 @@ const HomePage = () => {
             </div>
             <div className="bg_shape2 mt-5">
                 <div className="container">
-                    <h2 className="text-center">Animal Gallery</h2>
+                    <h2 className="text-center color_green mb-4" style={{fontWeight: 'bold', fontSize: '32px'}}>Animal Gallery</h2>
                     <br/>
                     <div className="text-center mb-4">
                         {typeAnimals.map((type) => (
@@ -643,8 +643,10 @@ const HomePage = () => {
                         </Link>
                     </div>
                     <br/>
-                    <h2>{t('BUY_TICKET')}</h2>
-                    <div>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.
+                    <br/>
+                    <br/>
+                    <h2 className={'color_green mb-4 text-center'} style={{fontWeight: 'bold', fontSize: '32px'}}>{t('BUY_TICKET')}</h2>
+                    <div className={'text-center'}>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.
                         Velit officia consequat duis enim velit mollit.
                     </div>
 
@@ -719,11 +721,12 @@ const HomePage = () => {
                         </Col>
                     </Row>
                     <br/>
+                    <br/>
                     <Row>
-                        <h2 className={'text-center mt-5'}>
+                        <h2 className={'text-center color_green mt-5'} style={{fontWeight: "800"}}>
                             <Link to={'/reviews'}>{t('REVIEWS')}</Link>
                         </h2>
-                        <div className={'text-center mb-4'}>
+                        <div className={'text-center color_green mb-4'}>
                             <Link to={'/reviews'}> {t('REVIEWS_LOCAL')}</Link>
                         </div>
 

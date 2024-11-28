@@ -58,8 +58,9 @@ function Gallery() {
     // Prepare photos for PhotoAlbum component with different sizes for different rows
     const photos = currentAnimals.map((item, index) => ({
         src: `${import.meta.env.VITE_URL}/${item.img_1}`,
-        width: (index % 1 === 0) ? 200 : 300,  // Set varying width based on index
-        height: (index % 3 === 0) ? 100 : 200,  // Set varying height based on index
+        width: (index % 2 === 0) ? 80 : 300,  // Set varying width based on index
+        height: (index % 2 === 0) ? 80 : 200,  // Set varying height based on index
+        className: 'img-fluid',
         alt: item[`name_${language}`],
     }));
 
