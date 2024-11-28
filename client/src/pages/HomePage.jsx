@@ -134,7 +134,7 @@ const HomePage = () => {
     // Get today's date in the 'YYYY-MM-DD' format
     const today = new Date().toISOString().split('T')[0];
 
-    
+
 // Filter events where today's date is within the start and end date
     const activeEvents = allEvents
         .filter(event => {
@@ -284,16 +284,19 @@ const HomePage = () => {
                 <div className={'background_green'}>
                     <div className={'background_white'}>
                         <Container>
-                                <h2 className={'f_montserrat title pad_top_150_5 text-center'}>
+                            <div style={{textAlign: 'center'}}>
+                                <h1 className={'f_montserrat title pad_top_150_5'}>
                                     {t('GARDEN')} <br/> {t('ZOOLOGIC')}
-                                </h2>
-                                <div className={'d-flex justify-content-center flex-nowrap'}>
+                                </h1>
+
                                     <br/>
                                     <Button variant={isMobile ? 'outline-success' : 'outline-light'}
-                                            className={'btn_by'}>
+                                            // className={'btn_by'}
+                                    >
                                         {t('BY_TICKET')}
                                     </Button>
-                                </div>
+
+                            </div>
                                     {/*<Link to={'/donation'}>*/}
                                     {/*    <Button*/}
                                     {/*    variant={isMobile ? 'outline-success' : 'outline-light'} className={'btn_by'}>*/}
