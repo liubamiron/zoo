@@ -317,9 +317,9 @@ const HomePage = () => {
             <Row>
                 <Col xs={12} md={3}>
                     <Card>
-                        <Card.Body className="text-center ">
+                        <Card.Body>
                             <Card.Title
-                                className={'color_green mb-4'}>
+                                className={'color_green mb-4'} style={{fontWeight: 'bold'}}>
                                 {homePageData[`title1_${language}`]}
                             </Card.Title>
                             <Card.Text className={'height_27'}>
