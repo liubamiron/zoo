@@ -300,6 +300,7 @@ const HomePage = () => {
                                     {/*    {t('DONATION')}*/}
                                     {/*</Button>*/}
                                     {/*</Link>*/}
+                                    <div>&nbsp;</div>
                                 </div>
                             </div>
                             <div className={'marg_180_25'}>
