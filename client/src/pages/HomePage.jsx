@@ -287,19 +287,19 @@ const HomePage = () => {
                                 <h2 className={'f_montserrat title pad_top_150_5 text-center'}>
                                     {t('GARDEN')} <br/> {t('ZOOLOGIC')}
                                 </h2>
-                                <div className={'pad_top_95'}>
+                                <div className={'d-flex justify-content-center flex-nowrap'}>
                                     <br/>
                                     <Button variant={isMobile ? 'outline-success' : 'outline-light'}
                                             className={'btn_by'}>
                                         {t('BY_TICKET')}
                                     </Button>
+                                </div>
                                     {/*<Link to={'/donation'}>*/}
                                     {/*    <Button*/}
                                     {/*    variant={isMobile ? 'outline-success' : 'outline-light'} className={'btn_by'}>*/}
                                     {/*    {t('DONATION')}*/}
                                     {/*</Button>*/}
                                     {/*</Link>*/}
-                            </div>
                             <div className={'marg_180_25'}>
                                 <CardsContainer/>
                             </div>
