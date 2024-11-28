@@ -284,10 +284,9 @@ const HomePage = () => {
                 <div className={'background_green'}>
                     <div className={'background_white'}>
                         <Container>
-                            <div style={{textAlign: 'center'}}>
-                                <h1 className={'f_montserrat title pad_top_150_5'}>
+                                <h2 className={'f_montserrat title pad_top_150_5 center'}>
                                     {t('GARDEN')} <br/> {t('ZOOLOGIC')}
-                                </h1>
+                                </h2>
                                 <div className={'pad_top_95'}>
                                     <br/>
                                     <Button variant={isMobile ? 'outline-success' : 'outline-light'}
@@ -300,8 +299,6 @@ const HomePage = () => {
                                     {/*    {t('DONATION')}*/}
                                     {/*</Button>*/}
                                     {/*</Link>*/}
-                                    <div>&nbsp;</div>
-                                </div>
                             </div>
                             <div className={'marg_180_25'}>
                                 <CardsContainer/>
