@@ -262,12 +262,17 @@
     padding-top: 95px;
 }
 
+.pad_top_35_bottom_35 {
+    padding-bottom: 35px;
+    padding-top: 35px;
+}
+
 .pad_top_55_15 {
     padding-top: 55px;
 }
 
 .marg_180_25 {
-    margin: 180px 21px -20px;
+    margin: 100px 21px -20px;
     /*margin: 0;*/
 }
 
@@ -454,7 +459,7 @@
 
     .marg_180_25 {
         /*margin: 180px 21px -20px;*/
-        margin: 25px 0 0 0;
+        margin: 0 0 0 0;
     }
 
     .z2 {
