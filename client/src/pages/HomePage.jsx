@@ -16,7 +16,6 @@ import {Navigation} from 'swiper/modules';
 import {zoo_facilities} from "../components/Constants.jsx";
 import {Link} from "react-router-dom";
 import events from "./admin/Events.jsx";
-import {Class} from "leaflet/dist/leaflet-src.esm";
 
 
 const HomePage = () => {
@@ -135,7 +134,7 @@ const HomePage = () => {
     // Get today's date in the 'YYYY-MM-DD' format
     const today = new Date().toISOString().split('T')[0];
 
-
+    
 // Filter events where today's date is within the start and end date
     const activeEvents = allEvents
         .filter(event => {
@@ -166,10 +165,9 @@ const HomePage = () => {
                 </Card.Title>
                 <Card.Text className={'height_27'}>
                     {t('TODAY')}&nbsp;{new Date().toLocaleDateString(`${language}`, {month: 'long', day: 'numeric'})}
-                    <span
-                        style={{display: 'block'}}>{t(new Date().toLocaleDateString('en-US', {weekday: 'long'}))}</span>
+                    <span style={{display: 'block'}}>{t(new Date().toLocaleDateString('en-US', {weekday: 'long'}))}</span>
                     {isMonday() ? (
-                        <span className={'mt-4'} style={{display: 'block'}}>
+                            <span className={'mt-4'} style={{display: 'block'}}>
                                 {t('SANITARY_DAY')} </span>) : (
                         <>
                         <span className={'mt-4 color_carrot'} style={{display: 'block'}}>
@@ -210,7 +208,7 @@ const HomePage = () => {
                 </Card.Title>
                 <Card.Text className={'height_27 mt-5'}>{t('NEW_ANIMALS_INFO')}</Card.Text>
             </Card.Body>
-            <Card.Footer> <Link to={'/animals'}>{t('MORE')}</Link></Card.Footer>
+           <Card.Footer> <Link to={'/animals'}>{t('MORE')}</Link></Card.Footer>
         </Card>
     );
 
@@ -287,40 +285,22 @@ const HomePage = () => {
                     <div className={'background_white'}>
                         <Container>
                             <div style={{textAlign: 'center'}}>
-                                <br/>
                                 <h1 className={'f_montserrat title pad_top_150_5'}>
                                     {t('GARDEN')} <br/> {t('ZOOLOGIC')}
                                 </h1>
-                                    {/*<Row>*/}
-                                    {/*    <Col xs={12} md={6}>*/}
-                                    {/*        <Button*/}
-                                    {/*            variant={isMobile ? 'outline-success' : 'outline-light'}*/}
-                                    {/*            className="btn_by"*/}
-                                    {/*        >*/}
-                                    {/*            {t('DONATION')}*/}
-                                    {/*        </Button>*/}
-                                    {/*    </Col>*/}
-                                    {/*    <Col xs={12} md={6}>*/}
-                                    {/*        <Link to="/donation">*/}
-                                    {/*            <Button*/}
-                                    {/*                variant={isMobile ? 'outline-success' : 'outline-light'}*/}
-                                    {/*                className="btn_by"*/}
-                                    {/*            >*/}
-                                    {/*                {t('BY_TICKET')}*/}
-                                    {/*            </Button>*/}
-                                    {/*        </Link>*/}
-                                    {/*    </Col>*/}
-                                    {/*</Row>*/}
-                                            <Link to="#">
-                                                <Button
-                                                    variant={isMobile ? 'outline-success' : 'outline-light'}
-                                                    className="btn_by"
-                                                >
-                                                    {t('BY_TICKET')}
-                                                </Button>
-                                            </Link>
-                                <br/>
-                                <br/>
+                                <div className={'pad_top_95'}>
+                                    <br/>
+                                    <Button variant={isMobile ? 'outline-success' : 'outline-light'}
+                                            className={'btn_by'}>
+                                        {t('BY_TICKET')}
+                                    </Button>
+                                    {/*<Link to={'/donation'}>*/}
+                                    {/*    <Button*/}
+                                    {/*    variant={isMobile ? 'outline-success' : 'outline-light'} className={'btn_by'}>*/}
+                                    {/*    {t('DONATION')}*/}
+                                    {/*</Button>*/}
+                                    {/*</Link>*/}
+                                </div>
                             </div>
                             <div className={'marg_180_25'}>
                                 <CardsContainer/>
@@ -332,70 +312,66 @@ const HomePage = () => {
             <div className={'background_white2'} style={{height: '124px'}}>&nbsp;
             </div>
             {/*new animals block*/}
-            <div className={'container-fluid'}>
-                <Row>
-                    <Col xs={12} md={3}>
-                        <Card>
-                            <Card.Body className="text-center ">
-                                <Card.Title
-                                    className={'color_green mb-4'}>
-                                    {homePageData[`title1_${language}`]}
-                                </Card.Title>
-                                <Card.Text className={'height_27'}>
-                                    {homePageData[`description1_${language}`]}
-                                </Card.Text>
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                    <Col xs={12} md={9}>
-                        <div>
-                            <Swiper
-                                slidesPerView={isMobile ? 1 : 2.5}
-                                spaceBetween={10}
-                                navigation={true}
-                                mousewheel={true}
-                                keyboard={true}
-                                modules={[Navigation]}
-                                className="mySwiper"
-                            >
-                                {newAnimals?.map((item) => (
-                                    <SwiperSlide key={item.id}>
-                                        <Link to={`/animals/${item.id}`}
-                                              style={{textDecoration: 'none'}}> {/* Wrap Card with Link */}
-                                            <Card className="mb-3 h-100">
-                                                <Card.Img variant="top"
-                                                          src={`${import.meta.env.VITE_URL}/${item.img_1}`} alt="animal"
-                                                          style={{height: '400px', objectFit: 'cover'}}/>
-                                                <Card.Body className="d-flex flex-column text-center bg_green" style={{
-                                                    minHeight: '100px'
+            <Row>
+                <Col xs={12} md={3}>
+                    <Card>
+                        <Card.Body className="text-center ">
+                            <Card.Title
+                                className={'color_green mb-4'}>
+                                {homePageData[`title1_${language}`]}
+                            </Card.Title>
+                            <Card.Text className={'height_27'}>
+                                {homePageData[`description1_${language}`]}
+                            </Card.Text>
+                        </Card.Body>
+                    </Card>
+                </Col>
+                <Col xs={12} md={9}>
+                    <div>
+                        <Swiper
+                            slidesPerView={isMobile ? 1 : 2.5}
+                            spaceBetween={10}
+                            navigation={true}
+                            mousewheel={true}
+                            keyboard={true}
+                            modules={[Navigation]}
+                            className="mySwiper"
+                        >
+                            {newAnimals?.map((item) => (
+                                <SwiperSlide key={item.id}>
+                                    <Link to={`/animals/${item.id}`}
+                                          style={{textDecoration: 'none'}}> {/* Wrap Card with Link */}
+                                        <Card className="mb-3 h-100">
+                                            <Card.Img variant="top"
+                                                      src={`${import.meta.env.VITE_URL}/${item.img_1}`} alt="animal"
+                                                      style={{height: '400px', objectFit: 'cover'}}/>
+                                            <Card.Body className="d-flex flex-column text-center bg_green" style={{
+                                                    minHeight: '100px'}}>
+                                                <Card.Title className="mb-4 text_white">
+                                                    {item[`name_${language}`]}
+                                                </Card.Title>
+                                                {/* Limit Card.Text to 3 lines with ellipsis */}
+                                                <Card.Text className="text_white flex-grow-1" style={{
+                                                    overflow: 'hidden',
+                                                    display: '-webkit-box',
+                                                    WebkitBoxOrient: 'vertical',
+                                                    WebkitLineClamp: 3,
+                                                    height: 'auto',
                                                 }}>
-                                                    <Card.Title className="mb-4 text_white">
-                                                        {item[`name_${language}`]}
-                                                    </Card.Title>
-                                                    {/* Limit Card.Text to 3 lines with ellipsis */}
-                                                    <Card.Text className="text_white flex-grow-1" style={{
-                                                        overflow: 'hidden',
-                                                        display: '-webkit-box',
-                                                        WebkitBoxOrient: 'vertical',
-                                                        WebkitLineClamp: 3,
-                                                        height: 'auto',
-                                                    }}>
-                                                        {item[`descr_short_${language}`]}
-                                                    </Card.Text>
-                                                </Card.Body>
-                                                <Card.Footer className={'bg_green color_green'}>
-                                                    {t("MORE_INFO")}
-                                                </Card.Footer>
-                                            </Card>
-                                        </Link>
-                                    </SwiperSlide>
-                                ))}
-                            </Swiper>
-                        </div>
-                    </Col>
-                </Row>
-            </div>
-
+                                                    {item[`descr_short_${language}`]}
+                                                </Card.Text>
+                                            </Card.Body>
+                                            <Card.Footer className={'bg_green color_green'}>
+                                                {t("MORE_INFO")}
+                                            </Card.Footer>
+                                        </Card>
+                                    </Link>
+                                </SwiperSlide>
+                            ))}
+                        </Swiper>
+                    </div>
+                </Col>
+            </Row>
             {/*about zoo*/}
             <div className={'bg_shape2'}>
                 <div className={'container'}>
@@ -518,26 +494,24 @@ const HomePage = () => {
                         <div className={'bg_green p-5 color_white position-relative w-100'}>
                             <h3 className={'text-center '}>{t('VISITORS')}</h3>
                             <br/>
-                            <div style={{top: '0', right: '0', position: 'absolute', width: '20%'}}>
-                                <img
-                                    src="/snake.png"
-                                    alt="corner image"
-                                    className={'img-fluid'}
-                                />
+                            <div  style={{top: '0', right: '0', position: 'absolute', width:'20%'}} >
+                            <img
+                                src="/snake.png"
+                                alt="corner image"
+                                className={'img-fluid'}
+                            />
                             </div>
-                            <div style={{bottom: '0', right: '0', position: 'absolute', width: '25%'}}>
-                                <img
-                                    src="/giraf.png"
-                                    alt="corner image"
-                                    className={'img-fluid'}
-                                />
+                            <div  style={{bottom: '0', right: '0', position: 'absolute', width:'25%'}}>
+                            <img
+                                src="/giraf.png"
+                                alt="corner image"
+                                className={'img-fluid'}
+                            />
                             </div>
                             <div className={'mb-2'}>{t('INFO_BEFORE_VISIT')}</div>
-                            <div className={'color_yellow mb-2'}>{t('INFO_1')}&nbsp; <img
-                                src={'/icons/arrow_gold.svg'}/>
+                            <div className={'color_yellow mb-2'}>{t('INFO_1')}&nbsp; <img src={'/icons/arrow_gold.svg'}/>
                             </div>
-                            <div className={'color_yellow mb-2'}>{t('INFO_2')}&nbsp; <img
-                                src={'/icons/arrow_gold.svg'}/>
+                            <div className={'color_yellow mb-2'}>{t('INFO_2')}&nbsp; <img src={'/icons/arrow_gold.svg'}/>
                             </div>
                             <div className={'color_yellow mb-2'}>
                                 <Link to={'/questions'}>{t('INFO_3')}&nbsp; <img src={'/icons/arrow_gold.svg'}/></Link>
@@ -550,8 +524,7 @@ const HomePage = () => {
                             </div>
                             <br/>
                             <br/>
-                            <div><Link to={'/map'}>{t('MAP_DIRECTIONS')}&nbsp; <img
-                                src={'/icons/arrow_gold.svg'}/></Link></div>
+                            <div> <Link to={'/map'}>{t('MAP_DIRECTIONS')}&nbsp; <img src={'/icons/arrow_gold.svg'}/></Link></div>
                         </div>
                     </Col>
                 </Row>
@@ -599,19 +572,17 @@ const HomePage = () => {
                                             </div>
                                         </div>
                                         <br/>
-                                        <strong style={{
-                                            minHeight: '80px',
+                                        <strong style={{minHeight: '80px',
                                             display: 'flex',
                                             alignItems: 'center',
-                                            justifyContent: 'center'
-                                        }}>
+                                            justifyContent: 'center'}}>
                                             {event[`title_${language}`]}
                                         </strong>
                                     </div>
                                 </Col>
                             );
                         })}
-                    <br/>
+                    <br />
                 </Row>
 
                 <br/>
