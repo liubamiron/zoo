@@ -56,10 +56,13 @@ const Animals = () => {
     const totalPages = Math.ceil((filteredAnimals?.length || 0) / itemsPerPage);
 
     return (<>
-            <div className={"bg_banner"}>
-                <div className="bg_banner_green height_280">
-                    &nbsp;
-                </div>
+            {/*<div className={"bg_banner"}>*/}
+            {/*    <div className="bg_banner_green height_280">*/}
+            {/*        &nbsp;*/}
+            {/*    </div>*/}
+            {/*</div>*/}
+            <div>
+                <img src={'/zoo_banners_1.jpg'} className={'width_height_250'}/>
             </div>
             <div className="mt-4 text-center d-flex justify-content-center align-items-center mb-4 color_green">
                 <span className="d-flex align-items-center">
