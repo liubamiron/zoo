@@ -157,7 +157,7 @@ const HomePage = () => {
     const newAnimals = allAnimalsData?.rows?.filter(animal => animal.new_animal === true);
 
     const CardComponent = () => (
-        <Card className="mb-3 h-100 card1_style">
+        <Card className="mb-3 h-100 card1_style color_green">
             <Card.Body className="text-center">
                 <Card.Title className={'d-flex justify-content-center color_green mb-4'}>
                     <img src={'/icons/Vector.svg'} alt={'vector'} style={{width: '7%', height: 'auto'}}/>
@@ -178,12 +178,14 @@ const HomePage = () => {
                     )}
                 </Card.Text>
             </Card.Body>
-            <Card.Footer className={'color_green'}><Link to={'/'}>{t("PLAIN")}</Link></Card.Footer>
+            <Card.Footer className={'color_green'}>
+                <Link to={'/'} className="fw-bold">{t("PLAIN")}</Link>
+            </Card.Footer>
         </Card>
     );
 
     const CardComponent2 = () => (
-        <Card className="mb-4 card1_style h-100">
+        <Card className="mb-4 card1_style h-100 color_green">
             <Card.Body>
                 <Card.Title className={'d-flex justify-content-center color_green mb-4'}>
                     <img src={'/icons/map.svg'} alt={'map icon'} style={{width: '7%', height: 'auto'}}/>
@@ -194,13 +196,13 @@ const HomePage = () => {
                 </Card.Text>
             </Card.Body>
             <Card.Footer>
-                <Link to={'/map'}>{t('ZOO_MAP')}</Link>
+                <Link to={'/map'} className="fw-bold">{t('ZOO_MAP')}</Link>
             </Card.Footer>
         </Card>
     );
 
     const CardComponent3 = () => (
-        <Card className="mb-4 card1_style h-100">
+        <Card className="mb-4 card1_style h-100 color_green">
             <Card.Body>
                 <Card.Title className={'d-flex justify-content-center color_green mb-4'}>
                     <img src={'/icons/apple-alt.svg'} alt={'apple icon'} style={{width: '7%', height: 'auto'}}/>
@@ -208,12 +210,12 @@ const HomePage = () => {
                 </Card.Title>
                 <Card.Text className={'height_27 mt-5'}>{t('NEW_ANIMALS_INFO')}</Card.Text>
             </Card.Body>
-           <Card.Footer> <Link to={'/animals'}>{t('MORE')}</Link></Card.Footer>
+           <Card.Footer> <Link to={'/animals'} className="fw-bold">{t('MORE')}</Link></Card.Footer>
         </Card>
     );
 
     const CardComponent4 = () => (
-        <Card className="mb-4 card1_style h-100">
+        <Card className="mb-4 card1_style h-100 color_green">
             <Card.Body>
                 <Card.Title className={'d-flex justify-content-center color_green mb-4'}>
                     <img src={'/icons/evernote.svg'} alt={'events icon'} style={{width: '7%', height: 'auto'}}/>
@@ -222,7 +224,7 @@ const HomePage = () => {
                 <Card.Text className={'height_27 mt-5'}>{t('EVENTS_INFO')}</Card.Text>
             </Card.Body>
             <Card.Footer>
-                <Link to={'/events'}>{t('ALL_EVENTS')}</Link>
+                <Link to={'/events'} className="fw-bold">{t('ALL_EVENTS')}</Link>
             </Card.Footer>
         </Card>
     );
@@ -395,7 +397,7 @@ const HomePage = () => {
                             </Row>
                         </Col>
                         <Col sx={12} md={6}>
-                            <Row className={'pad_top_55_15'}>
+                            <Row className={'pad_top_55_15 color_green'}>
                                 <Col>
                                     <h3 className={'color_green mb-4'}>{homePageData[`short_description_${language}`]}</h3>
                                     <div>{homePageData[`long_description_${language}`]}</div>
@@ -441,7 +443,7 @@ const HomePage = () => {
             <br/>
             <br/>
             {/*today in zoo*/}
-            <div className={'container'}>
+            <div className={'container color_green'}>
                 <Row className={'mt-5 mb-5'}>
                     <Col xs={12} md={6} className="d-flex align-items-stretch">
                         <div className={'bg_gray text-center p-5 position-relative w-100'}>
@@ -488,8 +490,8 @@ const HomePage = () => {
                                 <hr/>
                             </div>
                             <br/>
-                            <span>{t('ALL_EVENTS_TODAY')}&nbsp;<img src={'/icons/arrow_green.svg'}
-                                                                    alt={'arrow'}/></span>
+                            <Link to={'/events'}><span>{t('ALL_EVENTS_TODAY')}&nbsp;<img src={'/icons/arrow_green.svg'}
+                                                                                            alt={'arrow'}/></span></Link>
                         </div>
                     </Col>
 
@@ -512,13 +514,13 @@ const HomePage = () => {
                             />
                             </div>
                             <div className={'mb-2'}>{t('INFO_BEFORE_VISIT')}</div>
-                            <div className={'color_yellow mb-2'}>{t('INFO_1')}&nbsp; <img src={'/icons/arrow_gold.svg'}/>
-                            </div>
-                            <div className={'color_yellow mb-2'}>{t('INFO_2')}&nbsp; <img src={'/icons/arrow_gold.svg'}/>
-                            </div>
-                            <div className={'color_yellow mb-2'}>
-                                <Link to={'/questions'}>{t('INFO_3')}&nbsp; <img src={'/icons/arrow_gold.svg'}/></Link>
-                            </div>
+                            <Link to={'/questions'}><div className={'color_yellow mb-2'}>{t('INFO_1')}&nbsp; <img src={'/icons/arrow_gold.svg'}/>
+                            </div></Link>
+                            <Link to={'/questions'}><div className={'color_yellow mb-2'}>{t('INFO_2')}&nbsp; <img src={'/icons/arrow_gold.svg'}/>
+                            </div></Link>
+                            <Link to={'/questions'}><div className={'color_yellow mb-2'}>
+                                {t('INFO_3')}&nbsp; <img src={'/icons/arrow_gold.svg'}/>
+                            </div></Link>
                             <br/>
                             <div>
                                 <Link to={'/contacts'}>
@@ -527,7 +529,7 @@ const HomePage = () => {
                             </div>
                             <br/>
                             <br/>
-                            <div> <Link to={'/map'}>{t('MAP_DIRECTIONS')}&nbsp; <img src={'/icons/arrow_gold.svg'}/></Link></div>
+                            <Link to={'/map'}>{t('MAP_DIRECTIONS')}&nbsp; <img src={'/icons/arrow_gold.svg'}/></Link>
                         </div>
                     </Col>
                 </Row>
@@ -620,7 +622,7 @@ const HomePage = () => {
                         {filteredAnimals?.slice(0, 6).map((animal) => (
                             <Col xs={12} md={4} key={animal.id}>
                                 <Link to={`/animals/${animal.id}`} style={{textDecoration: 'none'}}>
-                                    <Card className={'bg_light_green mb-2'}
+                                    <Card className={'bg_light_green mb-2 color_green'}
                                     >
                                         <Card.Img variant="top"
                                                   src={`${import.meta.env.VITE_URL}/${animal.img_1}`} alt="animal"
@@ -636,7 +638,7 @@ const HomePage = () => {
                         ))}
                     </Row>
                     <br/>
-                    <div className={'text-center'}>
+                    <div className={'text-center color_green'}>
                         <Link to={'/animals'}>
                             {t('SEE_ALL')}&nbsp;
                             <img src={'/icons/arrow_green.svg'} alt={'arrow'}/>
@@ -646,7 +648,7 @@ const HomePage = () => {
                     <br/>
                     <br/>
                     <h2 className={'color_green mb-4 text-center'} style={{fontWeight: 'bold', fontSize: '32px'}}>{t('BUY_TICKET')}</h2>
-                    <div className={'text-center'}>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.
+                    <div className={'text-center color_green'}>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.
                         Velit officia consequat duis enim velit mollit.
                     </div>
 
@@ -732,7 +734,7 @@ const HomePage = () => {
 
                         {reviews?.slice(0, 3).map((item) => (
                             <Col xs={12} md={4} key={item.id} className={'mt-4'}>
-                                <Card className={'bg_light_green p-4 text-center'}>
+                                <Card className={'bg_light_green p-4 text-center color_green'}>
                                     <div className={'d-flex align-items-center justify-content-center'}>
                                         <img src="/quotes.svg" alt={'quotes'} width={'24px'} className={'img-fluid'}/>
                                     </div>
@@ -749,14 +751,14 @@ const HomePage = () => {
                                         ))}
                                     </Card.Body>
                                 </Card>
-                                <div style={{textDecoration: 'underline'}} className={'mt-3 text-center'}>
+                                <div style={{textDecoration: 'underline'}} className={'mt-3 text-center color_green'}>
                                     {item[`title_${language}`]}</div>
-                                <div style={{fontStyle: 'italic'}} className={'text-center'}>{t('VISITATOR')}</div>
+                                <div style={{fontStyle: 'italic'}} className={'text-center color_green'}>{t('VISITATOR')}</div>
                             </Col>
                         ))}
                     </Row>
                     <br/>
-                    <div className={'text-center'}>
+                    <div className={'text-center color_green'}>
                         <Link to={'/reviews'}>
                             {t('SEE_ALL_REVIEWS')}&nbsp;
                             <img src={'/icons/arrow_green.svg'} alt={'arrow'}/>
