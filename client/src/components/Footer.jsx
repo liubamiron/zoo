@@ -11,7 +11,7 @@ function Footer() {
                 <br />
                 <Container>
                     <br />
-                    <div className={'pad_top_55_15'}>
+                    <div className={'pad_top_55_15 color_green'}>
                         <Row>
                             {/* Column 1 */}
                             <Col xs={12} md={6} className="mb-4 mb-md-0">
