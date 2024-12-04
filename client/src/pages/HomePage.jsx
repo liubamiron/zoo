@@ -318,7 +318,7 @@ const HomePage = () => {
             <div className={'container-fluid'}>
             <Row>
                 <Col xs={12} md={3}>
-                    <Card>
+                    <Card className={'color_green'}>
                         <Card.Body>
                             <Card.Title
                                 className={'color_green mb-4'} style={{fontWeight: 'bold', fontSize: '32px'}}>
@@ -380,7 +380,7 @@ const HomePage = () => {
             {/*about zoo*/}
             <div className={'bg_shape2'}>
                 <div className={'container'}>
-                    <h1 className={'color_green text-center padtop_125_25'} style={{fontWeight: "800"}}>{homePageData[`title_${language}`]}</h1>
+                    <h1 className={'color_green text-center padtop_125_25 fw-bold'}>{homePageData[`title_${language}`]}</h1>
                     <Row>
                         <Col sx={12} md={6}>
                             <Row className={'pad_top_55_15'}>
@@ -399,8 +399,8 @@ const HomePage = () => {
                         <Col sx={12} md={6}>
                             <Row className={'pad_top_55_15 color_green'}>
                                 <Col>
-                                    <h3 className={'color_green mb-4'}>{homePageData[`short_description_${language}`]}</h3>
-                                    <div>{homePageData[`long_description_${language}`]}</div>
+                                    <h2 className={'color_green mb-4 fw-bold'}>{homePageData[`short_description_${language}`]}</h2>
+                                    <div className="mt-4 mb-4">{homePageData[`long_description_${language}`]}</div>
                                     {zoo_facilities.map((facility, index) => (
                                         <span key={index}
                                               style={{
@@ -418,20 +418,20 @@ const HomePage = () => {
                                             <h5 className={'color_green'}><img src={'/icons/evernote2.svg'} alt={"icon"}
                                                                                className={'img-fluid'}/>
                                                 &nbsp;&nbsp;{totalAnimals}</h5>
-                                            {t('ALL_ANIMALS')}
+                                            <span className={'fw-bolder'}>{t('ALL_ANIMALS')}</span>
                                         </Col>
                                         <Col md={4} xs={4}>
                                             <h5 className={'color_green'}><img src={'/icons/users.svg'} alt={"icon"}
                                                                                className={'img-fluid'}/>
                                                 &nbsp;&nbsp;{nrType}</h5>
-                                            {t('TYPE_ANIMALS')}
+                                            <span className={'fw-bolder'}>{t('TYPE_ANIMALS')}</span>
 
                                         </Col>
                                         <Col md={4} xs={4}>
                                             <h5 className={'color_green'}><img src={'/icons/user-friends.svg'}
                                                                                alt={"icon"} className={'img-fluid'}/>
                                                 &nbsp;{disappearingAnimalsCount}</h5>
-                                            <span>{t('DISAPPEARING_ANIMALS')}</span>
+                                            <span className={'fw-bolder'}>{t('DISAPPEARING_ANIMALS')}</span>
                                         </Col>
                                     </Row>
                                 </Col>
