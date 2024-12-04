@@ -41,7 +41,7 @@ const HomePage = () => {
             }
         };
 
-        getData().then(r => console.log(r));
+        getData();
     }, []);
 // get homepage data by id = 1
     useEffect(() => {
@@ -54,7 +54,7 @@ const HomePage = () => {
             }
         };
 
-        getData().then(r => console.log(r, 'homepage data'));
+        getData();
     }, []);
 // get all animals
     useEffect(() => {
@@ -78,7 +78,7 @@ const HomePage = () => {
                 console.error('Error fetching animals data:', error);
             }
         };
-        getData().then(r => console.log(r, 'animals data'));
+        getData();
     }, []);
 
     //get all reviews
@@ -91,7 +91,7 @@ const HomePage = () => {
                 console.error('Error fetching animals data:', error);
             }
         };
-        getData().then(r => console.log(r, 'animals data'));
+        getData();
     }, []);
 
     const [weekHours, setWeekHours] = useState([]);
@@ -278,8 +278,7 @@ const HomePage = () => {
             {isMobile ? <MobileSlider/> : <CardList/>}
         </div>
     );
-
-    console.log('events', allEvents, activeEvents)
+    
     return (
         <>
             <div className={'z2'}>
