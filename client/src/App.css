@@ -177,12 +177,12 @@
     background: url("/zoo_banners_1.jpg") no-repeat;
     width: 100%;
     /*background: url("/zoo-3-home.svg") no-repeat center top;*/
-    /*background-size:cover;*/
-    background-size:contain;
+    background-size:cover;
+    /*background-size:contain;*/
 }
 
 .bg_banner_green {
-    /*background: url("/bg_green_baner.png") no-repeat center bottom;*/
+    background: url("/bg_green_baner.png") no-repeat center bottom;
     /*background: darkgreen no-repeat center bottom;*/
     background-size:contain;
 }
