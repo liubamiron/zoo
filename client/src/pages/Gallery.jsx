@@ -56,18 +56,18 @@ function Gallery() {
     const totalPages = Math.ceil((filteredAnimals?.length || 0) / itemsPerPage);
 
     // Prepare photos for PhotoAlbum component with different sizes for different rows
+
     const photos = currentAnimals.map((item, index) => ({
         src: `${import.meta.env.VITE_URL}/${item.img_1}`,
-        width: (index % 2 === 0) ? 80 : 300,  // Set varying width based on index
-        height: (index % 2 === 0) ? 80 : 200,  // Set varying height based on index
-        className: 'img-fluid',
+        width: (index % 2 === 0) ? 150 : 250,  // Set varying width based on index
+        height: (index % 4  === 0) ? 90 : 160,  // Set varying height based on index
         alt: item[`name_${language}`],
     }));
 
     return (
         <div>
             <div className={"bg_banner"}>
-                <div className="bg_banner_green height_280">
+                <div className="bg_banner_green" style={{height: '400px'}}>
                     &nbsp;
                 </div>
             </div>
