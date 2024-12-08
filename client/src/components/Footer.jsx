@@ -22,7 +22,7 @@ function Footer() {
                                         className={'img-fluid'}
                                         style={{ marginRight: '10px' }}
                                     />
-                                    <span style={{ color: '#0A4D1E', fontWeight: '600', fontSize: '18px' }}>
+                                    <span style={{ color: '#0A4D1E', fontWeight: '800', fontSize: '18px' }}>
                                         ZOO Chisinau
                                     </span>
                                 </Link>
@@ -33,7 +33,7 @@ function Footer() {
 
                             {/* Column 2 */}
                             <Col xs={12} md={2} className="mb-4 mb-md-0">
-                                <h5 style={{ color: '#0A4D1EFC' }}>{t('NAVIGATION')}</h5>
+                                <h5 style={{ color: '#0A4D1EFC', fontWeight: '600' }}>{t('NAVIGATION')}</h5>
                                 <ul className="list-unstyled">
                                     <li><Link to="/about">{t('ABOUT')}</Link></li>
                                     <li><Link to="/contacts">{t('CONTACTS_TITLE')}</Link></li>
@@ -43,7 +43,7 @@ function Footer() {
 
                             {/* Column 3 */}
                             <Col xs={12} md={2} className="mb-4 mb-md-0">
-                                <h5 style={{ color: '#0A4D1EFC' }}>{t('RESOURCES')}</h5>
+                                <h5 style={{ color: '#0A4D1EFC', fontWeight: '600' }}>{t('RESOURCES')}</h5>
                                 <ul className="list-unstyled">
                                     <li><Link to="/tender">{t('GOS_BUY')}</Link></li>
                                     <li><Link to="/gallery">{t('GALLERY')}</Link></li>
@@ -53,7 +53,7 @@ function Footer() {
 
                             {/* Column 4 */}
                             <Col xs={12} md={2}>
-                                <h5 style={{ color: '#0A4D1EFC' }}>{t('CONTACTS')}</h5>
+                                <h5 style={{ color: '#0A4D1EFC', fontWeight: '600' }}>{t('CONTACTS')}</h5>
                                 <ul className="list-unstyled">
                                     <li>{t('ADDRESS_ZOO')}</li>
                                     <li>zookishinev@mail.ru</li>
