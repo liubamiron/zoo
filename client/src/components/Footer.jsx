@@ -63,7 +63,7 @@ function Footer() {
                         </Row>
                         <hr />
                         <div className="d-flex justify-content-between align-items-center flex-wrap">
-                            <h6 className="text-start mb-0">© 2024 Gradina Zoologica. {t('RESERVED')}</h6>
+                            <div className="text-start mb-0 fst-italic" style={{opacity: '0.75'}}>© 2024 Gradina Zoologica. {t('RESERVED')}</div>
                             <div className="text-end text-black">
                                 Developed by <Link to="https://www.cyberfolks.md/" target="_blank"><strong>CyberFolks</strong></Link>
                             </div>
