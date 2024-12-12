@@ -1,7 +1,13 @@
 import {Link, useNavigate, useParams} from "react-router-dom";
-import {useTranslation} from "../providers/index.js";
+import {useTranslation} from "../providers";
 import {useEffect, useState} from "react";
-import {createEmailSubscribe, fetchPostsById, fetchPostsData} from "../utils/apiCalls.js";
+import {
+    createEmailSubscribe,
+    fetchAnimalData,
+    fetchEventsData,
+    fetchPostsById,
+    fetchPostsData
+} from "../utils/apiCalls.js";
 import {Button, Col, Form, Image, InputGroup, Row} from "react-bootstrap";
 
 
@@ -9,8 +15,8 @@ function PostPage() {
     const {t, language} = useTranslation();
     const [post, setPost] = useState([]);
     const [allNews, setAllNews] = useState([]);
-    // const [allTags, setAllTags] = useState([]);
-    const [filteredNews, setFilteredNews] = useState([]);
+    const [allAnimalsData, setAllAnimals] = useState([]);
+    const [allEvents, setAllEvents] = useState([]);
     const [emailUser, setEmailUser] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
     const navigate = useNavigate();
@@ -19,52 +25,37 @@ function PostPage() {
     const {id} = useParams();
 
     useEffect(() => {
-        const getData = async () => {
+        const fetchData = async () => {
             try {
-                const data = await fetchPostsById(id);
-                setPost(data)
+                const [events, animals, post, news] = await Promise.all([
+                    fetchEventsData(),
+                    fetchAnimalData(),
+                    fetchPostsById(id),
+                    fetchPostsData(),
+                ]);
+                setAllEvents(events);
+                setAllAnimals(animals.rows);
+                setPost(post);
+                setAllNews(news);
             } catch (error) {
-                console.error('Error fetching animals data:', error);
+                console.error('Error fetching data:', error);
             }
         };
-        getData().then(r => console.log(r, 'animals data'));
+        fetchData();
     }, [id]);
-    // Fetch all posts
-    useEffect(() => {
-        const getData = async () => {
-            try {
-                const data = await fetchPostsData();
-                setAllNews(data);
-                setFilteredNews(data);
-            } catch (error) {
-                console.error('Error fetching animals data:', error);
-            }
-        };
-        getData().then(r => console.log(r, 'animals data'));
-    }, []);
-
-
-    // Extract unique tags from the animals array
-    // const uniqueTags = [
-    //     ...new Map(
-    //         allNews.flatMap(item => item.tags.map(tag => [tag.id, tag]))
-    //     ).values()
-    // ];
 
     const handleSearch = () => {
         if (searchQuery === '') {
-            setFilteredNews([...allNews]);
         } else {
             const filtered = allNews.filter((item) =>
                 item[`title_${language}`].toLowerCase().includes(searchQuery.toLowerCase())
             );
-
-            setFilteredNews(filtered);
-
             // If exactly one match, navigate to its detail page
             if (filtered.length === 1) {
                 const matchedNews = filtered[0];
                 navigate(`/news/${matchedNews.id}`);
+            }else if (filtered.length === 0) {
+                setResponseMessage(t('NO_RESULTS_FOUND'));
             }
         }
     };
@@ -81,12 +72,12 @@ function PostPage() {
         }
     };
 
-    console.log(filteredNews)
 
     return (
         <div>
-            <div className={"bg_banner"}>
-                <div className="bg_banner_green height_280">
+            <div className={"bg_banner_news"}>
+                <div className={'pt-5 pb-5'}>&nbsp;</div>
+                <div className="bg_banner_green height_280_no_mob">
                     &nbsp;
                 </div>
             </div>
@@ -109,17 +100,32 @@ function PostPage() {
                                 className={'img-fluid'}
                             />
                         </div>
-                        <div className={'bg_light_green p-4'}>
+                        <div className={'bg_light_green p-4 color_green'}>
                             <div className={'f_size_13'}>{post[`name_${language}`]}</div>
                             <br/>
-                            <h2>{post[`title_${language}`]}</h2>
+                            <h2 className="f_weight_700">{post[`title_${language}`]}</h2>
                             <br/>
-                            <p>{post[`short_description_${language}`]}</p>
+                            <p className={'f_size_18 pb-5'}>{post[`short_description_${language}`]}</p>
                             <p>{post[`long_description_${language}`]}</p>
-                            <h6 className={'color_green'}>Tags:</h6>
-                            {post?.tags?.map((item) => (
-                                <span key={item.id} className={'p-2 color_green'}>{item[`name_${language}`]}</span>
-                            ))}
+                            <div style={{display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '8px'}}>
+                                {post?.tags?.length > 0 ? (
+                                    <>
+                                        <h4 className="f_weight_700" style={{margin: 0}}>Tags:</h4>
+                                        {post?.tags?.map((item) => (
+                                            <span
+                                                key={item.id}
+                                                className="p-2 color_green"
+                                                style={{fontStyle: 'italic', textTransform: 'capitalize'}}
+                                            >
+                    #{item[`name_${language}`]}
+                </span>
+                                        ))}
+                                    </>
+                                ) : (
+                                    <div>&nbsp;</div>
+                                )}
+                            </div>
+
                         </div>
                     </Col>
                     <Col xs={12} md={4} className={'mt-4'}>
@@ -137,20 +143,18 @@ function PostPage() {
                                 </Button>
                             </InputGroup>
                             <br/>
-                            <div className={'f_weight_700 color_green f_size_18 mb-3'}>
+                            <div className={'f_weight_700 color_green f_size_24 mb-3'}>
                                 {t('CATEGORIES')}</div>
-                            <div className={'color_green mt-2 mb-3 border-bottom'}><Link to={'/'}>{t('ALL')}</Link>
+                            <div className={'color_green mt-2 mb-3 border-bottom f_size_18'}><Link
+                                to={'/events'}>{t('EVENTS')}</Link>&nbsp;({allEvents?.length})</div>
+                            <div className={'color_green mt-2 mb-3 border-bottom f_size_18'}><Link
+                                to={'/news'}>{t('NEWS')}</Link>&nbsp;({allNews?.length})
                             </div>
-                            <div className={'color_green mt-2 mb-3 border-bottom'}><Link
-                                to={'/events'}>{t('EVENTS')}</Link></div>
-                            <div className={'color_green mt-2 mb-3 border-bottom'}><Link to={'/news'}>{t('NEWS')}</Link>
-                            </div>
-                            <div className={'color_green mt-2 mb-3 border-bottom'}><Link
-                                to={'/animals'}>{t('ANIMALS')}</Link></div>
+                            <div className={'color_green mt-2 mb-3 border-bottom f_size_18'}><Link
+                                to={'/animals'}>{t('ANIMALS')}</Link>&nbsp;({allAnimalsData?.length})</div>
                             <br/>
                             <div className={'color_green mb-3'}>
-                                <h4 className={'mt-2 mb-3'}>{t('POPULAR_TAGS')}</h4>
-                                <br/>
+                                <h4 className={'mt-2 mb-3 f_size_24 f_weight_700'}>{t('POPULAR_TAGS')}</h4>
                                 {allNews
                                     .filter(news => news.popular === true) // Filter popular news
                                     .flatMap(item =>
@@ -162,7 +166,7 @@ function PostPage() {
                     style={{margin: '5px'}}
                     onClick={() => navigate(`/news?tag=${tag.id}`)} // Use tag.id for navigation
                 >
-                    <span>{tag[`name_${language}`]}</span> {/* Display tag name based on language */}
+                    <span>#{tag[`name_${language}`]}</span> {/* Display tag name based on language */}
                 </Button>
             </span>
                                             ))
@@ -171,8 +175,7 @@ function PostPage() {
                             </div>
                             <br/>
                             <div className={'color_green  mb-3'}>
-                                <h4 className={'mt-2 mb-3'}>{t('POPULAR_POSTS')}</h4>
-                                <br/>
+                                <h4 className={'mt-2 mb-4 f_size_24 f_weight_700'}>{t('POPULAR_POSTS')}</h4>
                                 {allNews
                                     .filter(news => news.popular === true)
                                     .map((item) => {
@@ -190,14 +193,15 @@ function PostPage() {
                                                 onClick={() => navigate(`/news/${item.id}`)}
                                                 style={{cursor: 'pointer'}}
                                             >
-                                                <div className={'p-2 f_size_13'} style={{margin: '5px'}}>
+                                                <div className={'p-2 f_size_16'}
+                                                     style={{margin: '5px', fontStyle: 'italic'}}>
                                                     {day} {month}
                                                 </div>
-                                                <h4 className={'p-2'} style={{margin: '5px'}}>
+                                                <h5 className={'p-2 f_weight_700'} style={{margin: '5px'}}>
                                                     {item[`title_${language}`]}
-                                                </h4>
+                                                </h5>
                                                 {/* Displaying Tags */}
-                                                <div>
+                                                <div className={'p-2'}>
                                                     {item.tags.map((tag) => (
                                                         <span
                                                             key={tag.id}
@@ -208,13 +212,13 @@ function PostPage() {
                                                             style={{
                                                                 cursor: 'pointer',
                                                                 margin: '0 5px',
-                                                                padding: '2px',
+                                                                // padding: '2px',
                                                                 fontSize: '13px',
                                                                 textTransform: 'lowercase',
                                                                 fontStyle: 'italic',
                                                             }}
                                                         >
-                                                    {tag[`name_${language}`]}
+                                                    #{tag[`name_${language}`]}
                                 </span>
                                                     ))}
                                                 </div>

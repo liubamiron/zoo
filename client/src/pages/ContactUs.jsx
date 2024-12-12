@@ -54,7 +54,7 @@ function ContactUs() {
     return (
         <>
             <div className={"bg_banner"}>
-                <div className="bg_banner_green height_280">
+                <div className="bg_banner_green height_330">
                     &nbsp;
                 </div>
             </div>
@@ -65,7 +65,7 @@ function ContactUs() {
                     ZOO</Link>&nbsp;&#62;&nbsp;<Link to={'/contact_us'}>{t('CONTACTS')}</Link>
                 </span>
             </div>
-            <div className={"container"}>
+            <div className={"container color_green"}>
                 <h3 className={'text-center'}> {t('CONTACTS_TITLE')}</h3>
                 <br/>
                 <Row className={'mb-5'}>

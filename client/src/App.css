@@ -3,6 +3,10 @@
     font-family: ' Montserrat Alternates', sans-serif;
 }
 
+.pagination .page-item.active .page-link {
+    color: white;
+}
+
 .f_size_42 {
     font-size: 42px;
     font-weight: 700;
@@ -30,6 +34,10 @@
 
 .f_size_14 {
     font-size: 14px;
+}
+
+.f_size_24 {
+    font-size: 24px;
 }
 
 .f_size_13 {
@@ -64,8 +72,12 @@
     color: white !important;
 }
 
-.height_280 {
-    height: 280px;
+.height_330 {
+    height: 330px;
+}
+
+.height_280_no_mob {
+    height: 330px;
 }
 
 .navbar-custom {
@@ -174,16 +186,40 @@
 .bg_banner {
     /*background: url("/banner.svg") no-repeat center top;*/
     /*background: url("/main_banner_3.JPG") no-repeat center top;*/
-    background: url("/zoo_banners_1.jpg") no-repeat;
+    background: url("/zoo_banner_1.png") no-repeat center top;
+    /*background: url("/zoo_banners_1.jpg") no-repeat center top;*/
     width: 100%;
     /*background: url("/zoo-3-home.svg") no-repeat center top;*/
     background-size:cover;
     /*background-size:contain;*/
 }
 
+.bg_banner_news {
+    background: url("/bg_banner_news.jpg") no-repeat center top;
+    width: 100%;
+    background-size:cover;
+}
+
+.bg_banner_animals {
+    background: url("/zoo_banners_1.jpg") no-repeat center top;
+    width: 100%;
+    background-size:cover;
+}
+
+.bg_banner_gallery {
+    background: url("/bg_gallery.jpg") no-repeat center top;
+    width: 100%;
+    background-size:cover;
+}
+
+.bg_banner_events {
+    background: url("/news_item_banner.jpg") no-repeat center top;
+    width: 100%;
+    background-size:cover;
+}
+
 .bg_banner_green {
     background: url("/bg_green_baner.png") no-repeat center bottom;
-    /*background: darkgreen no-repeat center bottom;*/
     background-size:contain;
 }
 
@@ -535,6 +571,15 @@
 
     .pad_top_55_15 {
         padding-top: 15px;
+    }
+
+    .bg_banner_green {
+        background: none!important;
+        background-size:contain;
+    }
+
+    .height_280_no_mob {
+        height: auto;
     }
 }
 

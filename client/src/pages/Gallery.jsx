@@ -66,8 +66,9 @@ function Gallery() {
 
     return (
         <div>
-            <div className={"bg_banner"}>
-                <div className="bg_banner_green" style={{height: '400px'}}>
+            <div className={"bg_banner_gallery"}>
+                <div className={'pt-5 pb-5'}>&nbsp;</div>
+                <div className="bg_banner_green height_280_no_mob">
                     &nbsp;
                 </div>
             </div>

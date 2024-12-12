@@ -1,10 +1,10 @@
 
-import './App.css'
 import AppRoutes from "./AppRoutes";
 import {useEffect} from 'react';
 import { useLocation} from "react-router-dom";
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
 
 
 function App() {

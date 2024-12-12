@@ -26,9 +26,9 @@ function QuestionsPage() {
 
 
     return (
-        <div>
+        <div className={'color_green'}>
             <div className={"bg_banner"}>
-                <div className="bg_banner_green height_280">
+                <div className="bg_banner_green height_330">
                     &nbsp;
                 </div>
             </div>
@@ -58,7 +58,7 @@ function QuestionsPage() {
                             <Accordion defaultActiveKey={['1']} alwaysOpen className="custom-accordion">
                                 <Accordion.Item eventKey={item.id}>
                                     <Accordion.Header>{item[`question_${language}`]}</Accordion.Header>
-                                    <Accordion.Body>
+                                    <Accordion.Body className={'color_green'}>
                                         {item[`answer_${language}`]}
                                     </Accordion.Body>
                                 </Accordion.Item>

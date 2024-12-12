@@ -621,7 +621,7 @@ const HomePage = () => {
                         {filteredAnimals?.slice(0, 6).map((animal) => (
                             <Col xs={12} md={4} key={animal.id}>
                                 <Link to={`/animals/${animal.id}`} style={{textDecoration: 'none'}}>
-                                    <Card className={'bg_light_green mb-2 color_green'}
+                                    <Card className={'bg_light_green mb-2 color_green border-0'}
                                     >
                                         <Card.Img variant="top"
                                                   src={`${import.meta.env.VITE_URL}/${animal.img_1}`} alt="animal"
@@ -655,17 +655,15 @@ const HomePage = () => {
                         <Col xs={12} md={4} className="p-2">
                             <div className="color_green ticket_bg d-flex flex-column h-100">
                                 <div className="p-4">
-                                    <h3>{t('ADULTS')}</h3>
-                                    <br/>
-                                    {t('PRICE')}
+                                    <h2 style={{fontWeight: '700'}} className={'mb-4'}>{t('ADULTS')}</h2>
+                                    <span style={{fontWeight: '700'}}>{t('PRICE')}</span>
                                     <span style={{display: 'flex', alignItems: 'center'}} className="mt-2">
-                    <h2 style={{marginRight: '8px'}}>30</h2>
-                                        {t('LEI')}/{t('HUMAN')}
+                    <h2 style={{marginRight: '8px', fontWeight: '700'}}>30&nbsp;
+                                        {t('LEI')}</h2>/{t('HUMAN')}
                 </span>
                                     <br/>
-                                    <span className="mt-2">* - {t('PRICE_1')}</span>
-                                    <br/>
-                                    <span className="mt-2">* - {t('PRICE_2')}</span>
+                                    <div className="mt-2 mb-4">* {t('PRICE_1')}</div>
+                                    <div className="mt-2">* {t('PRICE_2')}</div>
                                     <br/>
                                 </div>
                                 <div className="d-flex justify-content-center mt-auto">
@@ -677,17 +675,15 @@ const HomePage = () => {
                         <Col xs={12} md={4} className="p-2">
                             <div className="color_green d-flex flex-column h-100 ticket_bg">
                                 <div className="p-4">
-                                    <h3>{t('CHILD')}</h3>
-                                    <br/>
-                                    {t('PRICE')}
+                                    <h2 style={{fontWeight: '700'}} className={'mb-4'}>{t('CHILD')}</h2>
+                                    <span style={{fontWeight: '700'}}>{t('PRICE')}</span>
                                     <span style={{display: 'flex', alignItems: 'center'}} className="mt-2">
-                    <h2 style={{marginRight: '8px'}}>30</h2>
-                                        {t('LEI')}/{t('CHILD_1')}
+                    <h2 style={{marginRight: '8px', fontWeight: '700'}}>15&nbsp;
+                                        {t('LEI')}</h2>/{t('CHILD_1')}
                 </span>
                                     <br/>
-                                    <span className="mt-2">* - {t('PRICE_3')}</span>
-                                    <br/>
-                                    <span className="mt-2">* - {t('PRICE_4')}</span>
+                                    <div className="mt-2 mb-4">* {t('PRICE_3')}</div>
+                                    <div className="mt-2">* {t('PRICE_4')}</div>
                                     <br/>
                                 </div>
                                 <div className="d-flex justify-content-center mt-auto">
@@ -699,17 +695,14 @@ const HomePage = () => {
                         <Col xs={12} md={4} className="p-2">
                             <div className="ticket_bg_dark text_white d-flex flex-column h-100">
                                 <div className="p-4">
-                                    <h3>{t('GROUP')}</h3>
-                                    <br/>
+                                    <h2 style={{fontWeight: '700'}} className={'mb-4'}>{t('GROUP')}</h2>
                                     <div>{t('BOOK_GROUP')}</div>
                                     <span style={{display: 'flex', alignItems: 'center'}} className="mt-2">
                                         <h2 style={{marginRight: '8px', color: '#FCC044'}}>25%</h2></span>
                                     <br/>
-                                    <span className="mt-2">* - {t('PRICE_5')}</span>
-                                    <br/>
-                                    <span className="mt-2">* - {t('PRICE_6')}</span>
-                                    <br/>
-                                    <span className="mt-2">* - {t('PRICE_7')}</span>
+                                    <div className="mt-2 mb-4">* {t('PRICE_5')}</div>
+                                    <div className="mt-2 mb-4">* {t('PRICE_6')}</div>
+                                    <div className="mt-2">* {t('PRICE_7')}</div>
                                 </div>
                                 <div className="d-flex justify-content-center mt-auto">
                                     <Button className="mb-2" style={{
@@ -733,7 +726,7 @@ const HomePage = () => {
 
                         {reviews?.slice(0, 3).map((item) => (
                             <Col xs={12} md={4} key={item.id} className={'mt-4'}>
-                                <Card className={'bg_light_green p-4 text-center color_green'}>
+                                <Card className={'bg_light_green p-4 text-center color_green border-0'}>
                                     <div className={'d-flex align-items-center justify-content-center'}>
                                         <img src="/quotes.svg" alt={'quotes'} width={'24px'} className={'img-fluid'}/>
                                     </div>

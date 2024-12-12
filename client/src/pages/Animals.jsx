@@ -56,14 +56,14 @@ const Animals = () => {
     const totalPages = Math.ceil((filteredAnimals?.length || 0) / itemsPerPage);
 
     return (<>
-            {/*<div className={"bg_banner"}>*/}
-            {/*    <div className="bg_banner_green height_280">*/}
-            {/*        &nbsp;*/}
-            {/*    </div>*/}
-            {/*</div>*/}
-            <div>
-                <img src={'/zoo_banners_1.jpg'} className={'width_height_250'}/>
+
+            <div className={"bg_banner_animals"}>
+                <div className={'pt-5 pb-5'}>&nbsp;</div>
+                <div className="bg_banner_green height_280_no_mob">
+                    &nbsp;
+                </div>
             </div>
+
             <div className="mt-4 text-center d-flex justify-content-center align-items-center mb-4 color_green">
                 <span className="d-flex align-items-center">
                     <Link to="/" className="d-flex align-items-center">
@@ -78,7 +78,7 @@ const Animals = () => {
                     &nbsp;&#62;&nbsp; <Link to="/animals">{t('ANIMALS')}</Link>
                 </span>
             </div>
-            <Row className={'margin_top_40'}>
+            <Row className={'margin_top_40 color_green'}>
                 <div className="text-center mb-4">
                     <Button
                         variant="outline-success"
@@ -98,22 +98,24 @@ const Animals = () => {
                         </Button>
                     ))}
                 </div>
-                <div className={'container mt-5'}>
+                <div className={'container mt-5 color_green'}>
                     <Row>
                         {currentAnimals?.map((animal) => (
                             <Col xs={12} md={4} key={animal.id}> {/* Changed to 4 for 3 items per row */}
                                 <Link to={`/animals/${animal.id}`}
                                       style={{textDecoration: 'none'}}> {/* Wrap Card with Link */}
-                                    <Card className={'bg_light_green mb-2'}>
+                                    <Card className={'bg_green mb-3 color_green'}>
                                         <div className={'bg_green'}>
                                             <Card.Img variant="top"
                                                       src={`${import.meta.env.VITE_URL}/${animal.img_1}`} alt="animal"
                                                       className={'img-fluid'}
                                                       style={{height: '230px'}}
                                             />
+                                            {/*<div style={{height: 'auto', fontWeight: 700, fontSize: '20px', color: 'white'}}>{animal[`name_${language}`]}</div>*/}
+
                                         </div>
                                         <Card.Footer>
-                                            <p style={{height: '60px'}}>{animal[`name_${language}`]}</p>
+                                            <div style={{fontWeight: 700, fontSize: '20px', color: 'white'}}>{animal[`name_${language}`]}</div>
                                         </Card.Footer>
                                     </Card>
                                 </Link>
@@ -130,25 +132,24 @@ const Animals = () => {
             />
             <br/>
             <div className={'container mt-5'}>
-                <h2 className={'text-center'}>{t('BUY_TICKET')}</h2>
-                <p className={'text-center'}>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.
-                    Velit officia consequat duis enim velit mollit.</p>
+                <h2 className={'color_green mb-4 text-center'} style={{fontWeight: 'bold', fontSize: '32px'}}>{t('BUY_TICKET')}</h2>
+                <div className={'text-center color_green'}>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.
+                    Velit officia consequat duis enim velit mollit.
+                </div>
 
                 <Row className="mt-4 d-flex align-items-stretch">
                     <Col xs={12} md={4} className="p-2">
                         <div className="color_green ticket_bg d-flex flex-column h-100">
                             <div className="p-4">
-                                <h3>{t('ADULTS')}</h3>
-                                <br/>
-                                {t('PRICE')}
+                                <h2 style={{fontWeight: '700'}} className={'mb-4'}>{t('ADULTS')}</h2>
+                                <span style={{fontWeight: '700'}}>{t('PRICE')}</span>
                                 <span style={{display: 'flex', alignItems: 'center'}} className="mt-2">
-        <h2 style={{marginRight: '8px'}}>30</h2>
-                                    {t('LEI')}/{t('HUMAN')}
-    </span>
+                    <h2 style={{marginRight: '8px', fontWeight: '700'}}>30&nbsp;
+                        {t('LEI')}</h2>/{t('HUMAN')}
+                </span>
                                 <br/>
-                                <span className="mt-2">* - {t('PRICE_1')}</span>
-                                <br/>
-                                <span className="mt-2">* - {t('PRICE_2')}</span>
+                                <div className="mt-2 mb-4">* {t('PRICE_1')}</div>
+                                <div className="mt-2">* {t('PRICE_2')}</div>
                                 <br/>
                             </div>
                             <div className="d-flex justify-content-center mt-auto">
@@ -160,17 +161,15 @@ const Animals = () => {
                     <Col xs={12} md={4} className="p-2">
                         <div className="color_green d-flex flex-column h-100 ticket_bg">
                             <div className="p-4">
-                                <h3>{t('CHILD')}</h3>
-                                <br/>
-                                {t('PRICE')}
+                                <h2 style={{fontWeight: '700'}} className={'mb-4'}>{t('CHILD')}</h2>
+                                <span style={{fontWeight: '700'}}>{t('PRICE')}</span>
                                 <span style={{display: 'flex', alignItems: 'center'}} className="mt-2">
-        <h2 style={{marginRight: '8px'}}>30</h2>
-                                    {t('LEI')}/{t('CHILD_1')}
-    </span>
+                    <h2 style={{marginRight: '8px', fontWeight: '700'}}>15&nbsp;
+                        {t('LEI')}</h2>/{t('CHILD_1')}
+                </span>
                                 <br/>
-                                <span className="mt-2">* - {t('PRICE_3')}</span>
-                                <br/>
-                                <span className="mt-2">* - {t('PRICE_4')}</span>
+                                <div className="mt-2 mb-4">* {t('PRICE_3')}</div>
+                                <div className="mt-2">* {t('PRICE_4')}</div>
                                 <br/>
                             </div>
                             <div className="d-flex justify-content-center mt-auto">
@@ -182,27 +181,26 @@ const Animals = () => {
                     <Col xs={12} md={4} className="p-2">
                         <div className="ticket_bg_dark text_white d-flex flex-column h-100">
                             <div className="p-4">
-                                <h3>{t('GROUP')}</h3>
-                                <br/>
-                                <p>{t('BOOK_GROUP')}</p>
+                                <h2 style={{fontWeight: '700'}} className={'mb-4'}>{t('GROUP')}</h2>
+                                <div>{t('BOOK_GROUP')}</div>
                                 <span style={{display: 'flex', alignItems: 'center'}} className="mt-2">
-                                    <h2 style={{marginRight: '8px', color: '#FCC044'}}>25%</h2>
-                                </span>
+                                        <h2 style={{marginRight: '8px', color: '#FCC044'}}>25%</h2></span>
                                 <br/>
-                                <span className="mt-2">* - {t('PRICE_5')}</span>
-                                <br/>
-                                <span className="mt-2">* - {t('PRICE_6')}</span>
-                                <br/>
-                                <span className="mt-2">* - {t('PRICE_7')}</span>
+                                <div className="mt-2 mb-4">* {t('PRICE_5')}</div>
+                                <div className="mt-2 mb-4">* {t('PRICE_6')}</div>
+                                <div className="mt-2">* {t('PRICE_7')}</div>
                             </div>
                             <div className="d-flex justify-content-center mt-auto">
-                                <Button className="mb-2"
-                                        style={{backgroundColor: '#FCC044', border: 'none'}}>{t('BUY_TICKET')}</Button>
+                                <Button className="mb-2" style={{
+                                    backgroundColor: '#FCC044',
+                                    border: 'none'
+                                }}>{t('BUY_TICKET')}</Button>
                             </div>
                         </div>
                         <br/>
                     </Col>
-                </Row><br/>
+                </Row>
+                <br/>
                 {/* Use the subscribe form component */}
                 <SubscribeNewsForm/>
             </div>

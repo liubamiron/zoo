@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import {fetchTenderById, fetchTypeTenderData, updateTenderData} from "../../utils/apiCalls.js";
 import {useParams} from "react-router-dom";
-import {Button, Col, Form, Row} from "react-bootstrap";
+import {Button, Col, Form, Row, Alert} from "react-bootstrap";
 
 function TenderEdit() {
     const {id} = useParams();
@@ -17,6 +17,10 @@ function TenderEdit() {
     const [file, setFile] = useState('');
     const [typeTenders, setTypeTenders] = useState([]);
     const [selectedTypeTender, setSelectedTypeTender] = useState('');
+
+    const [successMessage, setSuccessMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
         const getTypeTenders = async () => {
@@ -51,6 +55,18 @@ function TenderEdit() {
 
     const handleTenderUpdate = async (event) => {
         event.preventDefault();
+
+        // Reset messages
+        setSuccessMessage('');
+        setErrorMessage('');
+
+        // Validation
+        if (!titleRO || !titleRU || !titleEN || !selectedTypeTender) {
+            setErrorMessage('Please fill in all required fields.');
+            return;
+        }
+
+        setIsSubmitting(true);
         const formData = new FormData();
         formData.append('title_ru', titleRU);
         formData.append('title_ro', titleRO);
@@ -63,9 +79,12 @@ function TenderEdit() {
 
         try {
             const response = await updateTenderData(id, formData);
-            console.log('Success:', response);
+            setSuccessMessage('Tender updated successfully!');
         } catch (error) {
+            setErrorMessage('Error updating tender. Please try again.');
             console.error('Error updating tender:', error);
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -80,7 +99,11 @@ function TenderEdit() {
 
     return (
         <div>
-            <h1>Edit Tender {id}</h1>
+            <span> Edit Tender : <strong>{titleRO}</strong></span>
+
+            {successMessage && <Alert variant="success">{successMessage}</Alert>}
+            {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
+
             <Form onSubmit={handleTenderUpdate}>
                 <Row className="mt-4">
                     <Col>
@@ -91,6 +114,7 @@ function TenderEdit() {
                                 value={titleRO}
                                 onChange={(event) => setTitleRO(event.target.value)}
                                 placeholder="Enter title ro"
+                                required
                             />
                         </Form.Group>
                     </Col>
@@ -102,6 +126,7 @@ function TenderEdit() {
                                 value={titleRU}
                                 onChange={(event) => setTitleRU(event.target.value)}
                                 placeholder="Enter title RU"
+                                required
                             />
                         </Form.Group>
                     </Col>
@@ -113,6 +138,7 @@ function TenderEdit() {
                                 value={titleEN}
                                 onChange={(event) => setTitleEN(event.target.value)}
                                 placeholder="Enter title EN"
+                                required
                             />
                         </Form.Group>
                     </Col>
@@ -155,7 +181,8 @@ function TenderEdit() {
                 <Row className="mt-4">
                     <Col xs={6}>
                         {file && (
-                            <a href={`${import.meta.env.VITE_URL}/${file}`} target="_blank" rel="noreferrer" style={{ color: 'green' }}>
+                            <a href={`${import.meta.env.VITE_URL}/${file}`} target="_blank" rel="noreferrer"
+                               style={{color: 'green'}}>
                                 Click to view uploaded pdf_file
                             </a>
                         )}
@@ -165,11 +192,11 @@ function TenderEdit() {
                     <Col xs={6}>
                         <Form.Group controlId="pdf_file">
                             <Form.Label>Pdf URL</Form.Label>
-                            <Form.Control type="file" onChange={handlePdfChange} />
+                            <Form.Control type="file" onChange={handlePdfChange}/>
                         </Form.Group>
                     </Col>
                 </Row>
-                <Row>
+                <Row className="mt-4">
                     <Col>
                         <Form.Group controlId="type_tenders" className="mb-4">
                             <Form.Label>Select Type Tender</Form.Label>
@@ -177,6 +204,7 @@ function TenderEdit() {
                                 as="select"
                                 onChange={handleTypeTenderChange}
                                 value={selectedTypeTender}
+                                required
                             >
                                 <option value="">Select Type</option>
                                 {typeTenders.map((item) => (
@@ -188,8 +216,8 @@ function TenderEdit() {
                         </Form.Group>
                     </Col>
                 </Row>
-                <Button type="submit" variant="primary">
-                    Submit
+                <Button type="submit" variant="primary" disabled={isSubmitting}>
+                    {isSubmitting ? 'Submitting...' : 'Submit'}
                 </Button>
             </Form>
         </div>

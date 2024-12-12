@@ -36,7 +36,7 @@ function ReviewsPage() {
     return (
         <div>
             <div className={"bg_banner"}>
-                <div className="bg_banner_green height_280">
+                <div className="bg_banner_green height_330">
                     &nbsp;
                 </div>
             </div>

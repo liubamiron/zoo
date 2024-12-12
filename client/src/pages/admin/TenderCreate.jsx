@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
 import { createTenderData, fetchTypeTenderData } from "../../utils/apiCalls.js";
-import { Button, Col, Form, Row } from "react-bootstrap";
+import { Button, Col, Form, Row, Alert } from "react-bootstrap"; // Import Alert for the success message
 
 function TenderCreate() {
     const [titleRU, setTitleRU] = useState('');
     const [titleRO, setTitleRO] = useState('');
     const [titleEN, setTitleEN] = useState('');
-
     const [descriptionRU, setDescriptionRU] = useState('');
     const [descriptionRO, setDescriptionRO] = useState('');
     const [descriptionEN, setDescriptionEN] = useState('');
-
     const [pdf, setPdf] = useState('');
     const [typeTenders, setTypeTenders] = useState([]);
-    const [selectedTypeTender, setSelectedTypeTender] = useState(''); // For single select
+    const [selectedTypeTender, setSelectedTypeTender] = useState('');
+    const [successMessage, setSuccessMessage] = useState(''); // State for success message
+    const [errorMessage, setErrorMessage] = useState(''); // State for error message
 
     useEffect(() => {
         const getTypeTenders = async () => {
@@ -29,20 +29,27 @@ function TenderCreate() {
 
     const handleTenderCreate = async (event) => {
         event.preventDefault();
+        setErrorMessage(''); // Clear any previous error
+        setSuccessMessage(''); // Clear any previous success
+
+        if (!titleRO || !titleRU || !titleEN) {
+            setErrorMessage('Please fill in all title fields.');
+            return;
+        }
+        if (!selectedTypeTender) {
+            setErrorMessage('Please select a tender type.');
+            return;
+        }
 
         const formData = new FormData();
-        // Append text fields to formData
         formData.append('title_ru', titleRU);
         formData.append('title_ro', titleRO);
         formData.append('title_en', titleEN);
         formData.append('description_ru', descriptionRU);
         formData.append('description_ro', descriptionRO);
         formData.append('description_en', descriptionEN);
-
-        // Append selected tender (single select)
         formData.append('typeTenderId', selectedTypeTender);
 
-        // Append file to formData if it exists
         if (pdf) {
             formData.append('pdf_file', pdf);
         }
@@ -50,8 +57,8 @@ function TenderCreate() {
         try {
             const response = await createTenderData(formData);
             if (response) {
-                console.log('Tender created successfully:', response);
-                // Optionally clear form fields or show a success message
+                setSuccessMessage('Tender created successfully!');
+                // Clear form fields
                 setTitleRU('');
                 setTitleRO('');
                 setTitleEN('');
@@ -59,26 +66,36 @@ function TenderCreate() {
                 setDescriptionRO('');
                 setDescriptionEN('');
                 setPdf('');
-                setSelectedTypeTender(''); // Clear selected tender
+                setSelectedTypeTender('');
             }
         } catch (error) {
             console.error('Error while creating tender:', error);
+            setErrorMessage('An error occurred while creating the tender. Please try again.');
         }
     };
 
     const handlePdfChange = (e) => {
         const selectedFile = e.target.files[0];
         setPdf(selectedFile);
-        console.log('Selected PDF file:', selectedFile);
     };
 
     const handleTypeTenderChange = (e) => {
-        setSelectedTypeTender(e.target.value); // Update state with selected tender type
+        setSelectedTypeTender(e.target.value);
     };
 
     return (
         <div>
             <h2>Tender Create</h2>
+            {successMessage && (
+                <Alert variant="success" onClose={() => setSuccessMessage('')} dismissible>
+                    {successMessage}
+                </Alert>
+            )}
+            {errorMessage && (
+                <Alert variant="danger" onClose={() => setErrorMessage('')} dismissible>
+                    {errorMessage}
+                </Alert>
+            )}
             <Form onSubmit={handleTenderCreate}>
                 <Row className="mt-4">
                     <Col>
@@ -87,7 +104,7 @@ function TenderCreate() {
                             type="text"
                             value={titleRO}
                             onChange={(event) => setTitleRO(event.target.value)}
-                            placeholder="Enter title ro"
+                            placeholder="Enter title RO"
                         />
                     </Col>
                     <Col>
@@ -159,14 +176,14 @@ function TenderCreate() {
                         </Form.Group>
                     </Col>
                 </Row>
-                <Row>
+                <Row className={'mt-4'}>
                     <Col>
                         <Form.Group controlId="type_tenders" className="mb-4">
                             <Form.Label>Select Type Tender</Form.Label>
                             <Form.Control
                                 as="select"
                                 onChange={handleTypeTenderChange}
-                                value={selectedTypeTender} // Set value to the selected type
+                                value={selectedTypeTender}
                             >
                                 <option value="">Select Type</option>
                                 {typeTenders.map((item) => (

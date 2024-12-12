@@ -70,7 +70,7 @@ const About = () => {
     return (
         <div>
             <div className={"bg_banner"}>
-                <div className="bg_banner_green height_280">
+                <div className="bg_banner_green height_330">
                     &nbsp;
                 </div>
             </div>
@@ -82,7 +82,7 @@ const About = () => {
                         </Link>&nbsp;&#62;&nbsp;<Link to={'/about'}>{t('ABOUT_ZOO')}</Link>
                     </span>
             </div>
-            <div className="container">
+            <div className="container color_green">
                 <h1 className={'text-center margin_top_85_40 color_green f_montserrat f_size_42'}>{t('ABOUT_ZOO')}</h1>
                 <Row className={'margin_top_40'}>
                     <Col xs={12} md={6}>
@@ -94,8 +94,10 @@ const About = () => {
                     </Col>
                     <Col  xs={12} md={6}>
                         <div className={"m-4"}>
-                            <h1 className={'text-center mt-4'}>{t('TITLE_ABOUT')}</h1>
+                            <h2 className={'mt-4'} style={{fontWeight: '700'}}>{t('TITLE_ABOUT')}</h2>
                             <p className={'margin_top_85_40 lh_27'}>{t('ABOUT_2')}</p>
+                            <br/>
+
                             <div className={'d-flex text-center justify-content-center'}>
                                 <Button className={'mt-3 lh_27 '}
                                         variant={'outline-success'}>{t('OUR_HISTORY')}</Button>
@@ -127,7 +129,7 @@ const About = () => {
                     <Row className={'margin_top_40'}>
                         <Col sx={12} md={6}>
                             <div className={"m-4"}>
-                                <h1 className={'text-center'}>{t('CHISINAU_ZOO_TITLE')}</h1>
+                                <h1 className={'text-center'} style={{fontWeight: '800'}}>{t('CHISINAU_ZOO_TITLE')}</h1>
                                 <p className={'margin_top_40 lh_27 f_size_18'}>{t('ABOUT_3')}</p>
                                 <br/>
                                 <br/>
@@ -148,20 +150,20 @@ const About = () => {
                                         <h5 className={'color_green'}><img src={'/icons/evernote2.svg'} alt={"icon"}
                                                                            className={'img-fluid'}/>
                                             &nbsp;&nbsp;{totalAnimals}</h5>
-                                        {t('ALL_ANIMALS')}
+                                        <span className={'fw-bolder'}>{t('ALL_ANIMALS')}</span>
                                     </Col>
                                     <Col md={4} xs={4}>
                                         <h5 className={'color_green'}><img src={'/icons/users.svg'} alt={"icon"}
                                                                            className={'img-fluid'}/>
                                             &nbsp;&nbsp;{nrType}</h5>
-                                        {t('TYPE_ANIMALS')}
+                                        <span className={'fw-bolder'}>{t('TYPE_ANIMALS')}</span>
 
                                     </Col>
                                     <Col md={4} xs={4}>
                                         <h5 className={'color_green'}><img src={'/icons/user-friends.svg'}
                                                                            alt={"icon"} className={'img-fluid'}/>
                                             &nbsp;{disappearingAnimalsCount}</h5>
-                                        <span>{t('DISAPPEARING_ANIMALS')}</span>
+                                        <span className={'fw-bolder'}>{t('DISAPPEARING_ANIMALS')}</span>
                                     </Col>
                                 </Row>
                             </div>
@@ -201,7 +203,7 @@ const About = () => {
                                     <Col xs={12} md={4} key={animal.id}>
                                         <SwiperSlide key={`slide-${animal.id}`}>
                                             <Link to={`/animals/${animal.id}`}>
-                                                <Card className={'bg_light_green'}>
+                                                <Card className={'bg_light_green color_green border-0'}>
                                                     <Card.Img variant="top"
                                                               src={`${import.meta.env.VITE_URL}/${animal.img_1}`}
                                                               alt="animal"
@@ -227,7 +229,7 @@ const About = () => {
 
                     {reviews?.slice(0, 3).map((item) => (
                         <Col xs={12} md={4} key={item.id}>
-                            <Card className={'bg_light_green p-4 text-center'}>
+                            <Card className={'bg_light_green p-4 text-center border-0'}>
                                 <div className={'d-flex align-items-center justify-content-center'}>
                                     <img src="/quotes.svg" alt={'quotes'} width={'24px'} className={'img-fluid'}/>
                                 </div>

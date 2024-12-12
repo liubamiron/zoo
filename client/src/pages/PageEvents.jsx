@@ -69,9 +69,12 @@ function PageEvents() {
     const totalPages = Math.ceil(filteredEvents.length / eventsPerPage);
 
     return (
-        <div>
-            <div className={"bg_banner"}>
-                <div className="bg_banner_green height_280">&nbsp;</div>
+        <div className={'color_green'}>
+            <div className={"bg_banner_events"}>
+                <div className={'pt-5 pb-5'}>&nbsp;</div>
+                <div className="bg_banner_green height_280_no_mob">
+                    &nbsp;
+                </div>
             </div>
             <div className="mt-4 text-center d-flex justify-content-center align-items-center mb-4 color_green">
                 <span className="d-flex align-items-center">
