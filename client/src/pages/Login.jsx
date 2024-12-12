@@ -58,7 +58,7 @@ const Login = () => {
     return (
         <>
             <div className={"bg_banner"}>
-                <div className="bg_banner_green height_330">
+                <div className="bg_banner_green height_420_300">
                     &nbsp;
                 </div>
             </div>

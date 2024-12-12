@@ -76,6 +76,10 @@
     height: 330px;
 }
 
+.height_420_300 {
+    height: 420px;
+}
+
 .height_280_no_mob {
     height: 330px;
 }
@@ -580,6 +584,10 @@
 
     .height_280_no_mob {
         height: auto;
+    }
+
+    .height_420_300 {
+        height: 300px;
     }
 }
 
